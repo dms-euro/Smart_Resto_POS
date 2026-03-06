@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warasa · lengkap | menu, reservasi, kontak</title>
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Boxicons CDN -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f7f3eb] text-stone-800 antialiased">
+
+    <!-- ========== HEADER (sama persis dengan beranda) ========== -->
+    <header class="border-b border-[#d9c9b4] bg-[#fefcf7] shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class='bx bx-restaurant text-4xl text-[#5f7b5a]'></i>
+                <span class="font-semibold text-2xl tracking-tight text-[#634832]">Warasa</span>
+                <span class="ml-1 text-xs self-end mb-1 text-[#5f7b5a] font-medium">by tradisi</span>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-[#4d3e30] font-medium">
+                <a href="#" class="hover:text-[#2b5e2b] transition">Beranda</a>
+                <a href="#" class="border-b-2 border-[#8f6f50] pb-1 text-[#634832]">Menu</a>
+                <a href="#" class="hover:text-[#2b5e2b] transition">Reservasi</a>
+                <a href="#" class="hover:text-[#2b5e2b] transition">Kontak</a>
+            </nav>
+            <button class="md:hidden text-[#5f4a36] border border-[#c9b59f] p-2 rounded-lg bg-white/60">
+                <i class='bx bx-menu text-2xl'></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== MAIN CONTENT (halaman yang diminta: menu, detail, reservasi, kontak) ========== -->
+    <!-- Karena diminta "lanjutkan kehalaman berikutnya", kita tampilkan semua dalam satu alur scroll -->
+
+    <!-- ===== 1. HALAMAN MENU (dengan kategori) ===== -->
+    <section class="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8" id="menu">
+        <div class="text-center mb-16">
+            <span
+                class="text-[#5f7b5a] font-semibold tracking-wider text-sm uppercase bg-[#dfd2c0] px-4 py-1.5 rounded-full inline-block mb-4">
+                <i class='bx bx-food-menu mr-1'></i> sajian istimewa
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold text-[#4d3e2f]">Menu <span class="text-[#886b4b]">lengkap</span>
+            </h2>
+            <p class="text-lg text-stone-600 max-w-2xl mx-auto mt-4">Nikmati berbagai hidangan tradisional dengan
+                sentuhan modern, cocok untuk keluarga dan anak muda.</p>
+        </div>
+
+        <!-- Kategori: Makanan, Minuman, Paket Keluarga -->
+        <div class="flex flex-wrap justify-center gap-3 mb-16">
+            <button
+                class="bg-[#2f5e3a] text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 shadow-md"><i
+                    class='bx bx-bowl-hot'></i> Makanan</button>
+            <button
+                class="bg-white text-[#5f4530] border-2 border-[#c9b59f] px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-[#f5ede1] transition"><i
+                    class='bx bx-drink'></i> Minuman</button>
+            <button
+                class="bg-white text-[#5f4530] border-2 border-[#c9b59f] px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-[#f5ede1] transition"><i
+                    class='bx bx-group'></i> Paket Keluarga</button>
+        </div>
+
+        <!-- Grid Menu (masing-masing kategori diwakili, tapi sesuai brief kita tampilkan semua) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Makanan 1 -->
+            <div
+                class="bg-[#fefcf7] rounded-3xl shadow-xl overflow-hidden border border-[#dfcfbb] hover:shadow-2xl transition group cursor-pointer">
+                <div class="h-56 overflow-hidden bg-[#a58d71]">
+                    <img src="https://images.unsplash.com/photo-1603891128011-7c3f5c5d94a0?q=80&w=1974&auto=format&fit=crop"
+                        alt="Nasi Liwet"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-[#5f4530]">Nasi Liwet Komplet</h3>
+                        <span class="bg-[#ecd7b9] text-[#6b4d33] font-bold py-1 px-3 rounded-full text-sm">Rp 79k</span>
+                    </div>
+                    <p class="text-stone-600 mt-2 mb-4">Nasi gurih dengan suwir ayam, telur balado, lalapan, sambal
+                        terasi.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#527a4c] flex items-center gap-1 text-sm"><i class='bx bx-check-circle'></i>
+                            Tersedia</span>
+                        <span class="text-[#af7e4c] font-medium text-sm flex items-center gap-1"><i
+                                class='bx bx-dish'></i> Makanan</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Makanan 2 -->
+            <div
+                class="bg-[#fefcf7] rounded-3xl shadow-xl overflow-hidden border border-[#dfcfbb] hover:shadow-2xl transition group cursor-pointer">
+                <div class="h-56 overflow-hidden bg-[#a58d71]">
+                    <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1964&auto=format&fit=crop"
+                        alt="Mie Goreng"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-[#5f4530]">Mie Goreng Bakso</h3>
+                        <span class="bg-[#ecd7b9] text-[#6b4d33] font-bold py-1 px-3 rounded-full text-sm">Rp 55k</span>
+                    </div>
+                    <p class="text-stone-600 mt-2 mb-4">Mie kenyal, bakso sapi homemade, sayur hijau, bawang goreng.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#527a4c] flex items-center gap-1 text-sm"><i class='bx bx-check-circle'></i>
+                            Tersedia</span>
+                        <span class="text-[#af7e4c] font-medium text-sm flex items-center gap-1"><i
+                                class='bx bx-dish'></i> Makanan</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Makanan 3 -->
+            <div
+                class="bg-[#fefcf7] rounded-3xl shadow-xl overflow-hidden border border-[#dfcfbb] hover:shadow-2xl transition group cursor-pointer">
+                <div class="h-56 overflow-hidden bg-[#a58d71]">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop"
+                        alt="Iga Bakar"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-[#5f4530]">Iga Bakar Madu</h3>
+                        <span class="bg-[#ecd7b9] text-[#6b4d33] font-bold py-1 px-3 rounded-full text-sm">Rp
+                            125k</span>
+                    </div>
+                    <p class="text-stone-600 mt-2 mb-4">Iga sapi empuk dengan glaze madu, kentang wedges, sambal matah.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#b33f3f] flex items-center gap-1 text-sm"><i class='bx bx-x-circle'></i>
+                            Habis</span>
+                        <span class="text-[#af7e4c] font-medium text-sm flex items-center gap-1"><i
+                                class='bx bx-dish'></i> Makanan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minuman 1 -->
+            <div
+                class="bg-[#fefcf7] rounded-3xl shadow-xl overflow-hidden border border-[#dfcfbb] hover:shadow-2xl transition group cursor-pointer">
+                <div class="h-56 overflow-hidden bg-[#a58d71]">
+                    <img src="https://images.unsplash.com/photo-1621263764928-df1444c970e0?q=80&w=1974&auto=format&fit=crop"
+                        alt="Es Cendol"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-[#5f4530]">Es Cendol Gula Aren</h3>
+                        <span class="bg-[#ecd7b9] text-[#6b4d33] font-bold py-1 px-3 rounded-full text-sm">Rp 28k</span>
+                    </div>
+                    <p class="text-stone-600 mt-2 mb-4">Cendol lembut dengan gula aren asli dan santan segar.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#527a4c] flex items-center gap-1 text-sm"><i class='bx bx-check-circle'></i>
+                            Tersedia</span>
+                        <span class="text-[#af7e4c] font-medium text-sm flex items-center gap-1"><i
+                                class='bx bx-drink'></i> Minuman</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Minuman 2 -->
+            <div
+                class="bg-[#fefcf7] rounded-3xl shadow-xl overflow-hidden border border-[#dfcfbb] hover:shadow-2xl transition group cursor-pointer">
+                <div class="h-56 overflow-hidden bg-[#a58d71]">
+                    <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?q=80&w=1974&auto=format&fit=crop"
+                        alt="Wedang Jahe"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-[#5f4530]">Wedang Jahe Merah</h3>
+                        <span class="bg-[#ecd7b9] text-[#6b4d33] font-bold py-1 px-3 rounded-full text-sm">Rp 22k</span>
+                    </div>
+                    <p class="text-stone-600 mt-2 mb-4">Jahe merah asli dengan madu, serai, dan daun pandan.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#527a4c] flex items-center gap-1 text-sm"><i class='bx bx-check-circle'></i>
+                            Tersedia</span>
+                        <span class="text-[#af7e4c] font-medium text-sm flex items-center gap-1"><i
+                                class='bx bx-drink'></i> Minuman</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paket Keluarga 1 -->
+            <div
+                class="bg-[#fefcf7] rounded-3xl shadow-xl overflow-hidden border border-[#dfcfbb] hover:shadow-2xl transition group cursor-pointer">
+                <div class="h-56 overflow-hidden bg-[#a58d71]">
+                    <img src="https://images.unsplash.com/photo-1515664069236-68a74c10b976?q=80&w=1974&auto=format&fit=crop"
+                        alt="Paket Keluarga"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-[#5f4530]">Paket Bahagia (4-6 org)</h3>
+                        <span class="bg-[#ecd7b9] text-[#6b4d33] font-bold py-1 px-3 rounded-full text-sm">Rp
+                            299k</span>
+                    </div>
+                    <p class="text-stone-600 mt-2 mb-4">Nasi liwet, ayam bakar, mie goreng, 4 es teh, krupuk.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#527a4c] flex items-center gap-1 text-sm"><i class='bx bx-check-circle'></i>
+                            Tersedia</span>
+                        <span class="text-[#af7e4c] font-medium text-sm flex items-center gap-1"><i
+                                class='bx bx-group'></i> Paket</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 2. DETAIL MENU (contoh detail menu, karena merupakan halaman terpisah, kita tampilkan sebagai preview) ===== -->
+    <section class="bg-[#e7dbcd] py-16 border-y border-[#b39673]" id="detail-menu">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span
+                    class="text-[#5f7b5a] font-semibold tracking-wider text-sm uppercase bg-white px-4 py-1.5 rounded-full inline-block mb-4">
+                    <i class='bx bx-detail mr-1'></i> detail menu
+                </span>
+                <h2 class="text-4xl md:text-5xl font-bold text-[#4d3e2f]">Nasi <span class="text-[#886b4b]">Liwet
+                        Komplet</span></h2>
+            </div>
+
+            <div class="bg-[#fbf5ea] rounded-4xl shadow-2xl overflow-hidden grid md:grid-cols-2">
+                <!-- Foto besar -->
+                <div class="h-80 md:h-full">
+                    <img src="https://images.unsplash.com/photo-1603891128011-7c3f5c5d94a0?q=80&w=1974&auto=format&fit=crop"
+                        alt="Nasi Liwet Detail" class="w-full h-full object-cover">
+                </div>
+                <!-- Deskripsi lengkap -->
+                <div class="p-10">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-3xl font-bold text-[#5f4530]">Rp 79.000</h3>
+                        <span
+                            class="bg-[#2d6130] text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-1"><i
+                                class='bx bx-check-circle'></i> Tersedia</span>
+                    </div>
+
+                    <div class="space-y-4 text-stone-700">
+                        <p class="leading-relaxed"><span class="font-bold text-[#634832]">Deskripsi lengkap:</span> Nasi
+                            liwet khas Solo yang dimasak dengan santan, daun salam, dan serai. Disajikan dengan suwir
+                            ayam kampung, telur balado pedas manis, tahu-tempe bacem, lalapan segar (timun, kemangi,
+                            selada), dan sambal terasi pilihan. Cocok untuk 2-3 orang.</p>
+
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+                            <div class="bg-[#f5ede1] p-4 rounded-xl">
+                                <span class="text-[#886b4b] font-semibold flex items-center gap-1"><i
+                                        class='bx bx-bowl-rice'></i> Bahan utama</span>
+                                <p class="text-sm mt-1">Beras pera, ayam kampung, telur, tahu tempe</p>
+                            </div>
+                            <div class="bg-[#f5ede1] p-4 rounded-xl">
+                                <span class="text-[#886b4b] font-semibold flex items-center gap-1"><i
+                                        class='bx bx-pepper'></i> Level pedas</span>
+                                <p class="text-sm mt-1">Bisa dipilih (1-5)</p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-[#c5af99] pt-4 mt-4">
+                            <p class="font-semibold text-[#634832] flex items-center gap-2"><i
+                                    class='bx bx-info-circle'></i> Informasi tambahan:</p>
+                            <ul class="list-disc list-inside text-sm text-stone-600 ml-2 mt-2">
+                                <li>Estimasi persiapan 20-25 menit</li>
+                                <li>Mengandung santan (dapat diganti dengan low-fat atas permintaan)</li>
+                                <li>Menu best seller sejak 2018</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- aksi (kembali ke menu atau reservasi) -->
+                    <div class="flex gap-4 mt-8">
+                        <a href="#"
+                            class="bg-[#2f5e3a] hover:bg-[#234d2c] text-white font-semibold px-6 py-3 rounded-xl flex items-center gap-2"><i
+                                class='bx bx-cart-add'></i> Pesan sekarang</a>
+                        <a href="#"
+                            class="border-2 border-[#9b7f64] text-[#634832] hover:bg-[#9b7f64] hover:text-white font-semibold px-6 py-3 rounded-xl flex items-center gap-2 transition"><i
+                                class='bx bx-calendar-check'></i> Reservasi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 3. RESERVASI ONLINE (halaman penuh) ===== -->
+    <section class="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8" id="reservasi">
+        <div class="text-center mb-16">
+            <span
+                class="text-[#5f7b5a] font-semibold tracking-wider text-sm uppercase bg-[#dfd2c0] px-4 py-1.5 rounded-full inline-block mb-4">
+                <i class='bx bx-calendar-check mr-1'></i> booking meja
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold text-[#4d3e2f]">Reservasi <span
+                    class="text-[#886b4b]">online</span></h2>
+            <p class="text-lg text-stone-600 max-w-2xl mx-auto mt-4">Isi formulir di bawah untuk memastikan tempat duduk
+                favorit Anda.</p>
+        </div>
+
+        <div class="max-w-3xl mx-auto bg-[#fefcf7] rounded-4xl shadow-2xl border border-[#dfcfbb] p-8 md:p-12">
+            <form class="space-y-6">
+                <!-- Nama & No HP -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-[#5b4a38] mb-2 flex items-center gap-2"><i
+                                class='bx bx-user text-[#5f7b5a]'></i> Nama lengkap *</label>
+                        <input type="text" placeholder="Contoh: Budi Santoso"
+                            class="w-full border border-[#bc9f83] rounded-xl p-4 bg-[#fdfaf5] focus:ring-2 focus:ring-[#698a5c] outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#5b4a38] mb-2 flex items-center gap-2"><i
+                                class='bx bx-phone text-[#5f7b5a]'></i> Nomor HP/WA *</label>
+                        <input type="tel" placeholder="081234567890"
+                            class="w-full border border-[#bc9f83] rounded-xl p-4 bg-[#fdfaf5] focus:ring-2 focus:ring-[#698a5c] outline-none">
+                    </div>
+                </div>
+
+                <!-- Jumlah orang & Tanggal -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-[#5b4a38] mb-2 flex items-center gap-2"><i
+                                class='bx bx-group text-[#5f7b5a]'></i> Jumlah orang *</label>
+                        <select
+                            class="w-full border border-[#bc9f83] rounded-xl p-4 bg-[#fdfaf5] focus:ring-2 focus:ring-[#698a5c] outline-none">
+                            <option>1 orang</option>
+                            <option>2 orang</option>
+                            <option>3-4 orang</option>
+                            <option>5-8 orang</option>
+                            <option>> 8 orang (hubungi kami)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#5b4a38] mb-2 flex items-center gap-2"><i
+                                class='bx bx-calendar text-[#5f7b5a]'></i> Tanggal *</label>
+                        <input type="date"
+                            class="w-full border border-[#bc9f83] rounded-xl p-4 bg-[#fdfaf5] focus:ring-2 focus:ring-[#698a5c] outline-none">
+                    </div>
+                </div>
+
+                <!-- Jam & Catatan -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-[#5b4a38] mb-2 flex items-center gap-2"><i
+                                class='bx bx-time-five text-[#5f7b5a]'></i> Jam reservasi *</label>
+                        <input type="time"
+                            class="w-full border border-[#bc9f83] rounded-xl p-4 bg-[#fdfaf5] focus:ring-2 focus:ring-[#698a5c] outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#5b4a38] mb-2 flex items-center gap-2"><i
+                                class='bx bx-note text-[#5f7b5a]'></i> Catatan tambahan</label>
+                        <input type="text" placeholder="Meja dekat jendela / request kursi bayi dll"
+                            class="w-full border border-[#bc9f83] rounded-xl p-4 bg-[#fdfaf5] focus:ring-2 focus:ring-[#698a5c] outline-none">
+                    </div>
+                </div>
+
+                <!-- Tombol submit -->
+                <button
+                    class="w-full bg-[#9f7e5c] hover:bg-[#8b6947] text-white font-bold py-5 rounded-xl text-lg transition shadow-md border border-[#efdeb0] mt-4 flex items-center justify-center gap-3">
+                    <i class='bx bx-send text-xl'></i> Kirim permintaan reservasi
+                </button>
+                <p class="text-xs text-stone-500 text-center mt-4">*Data reservasi akan langsung masuk ke dashboard
+                    admin dan kami konfirmasi via WhatsApp maksimal 1x24 jam.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- ===== 4. HALAMAN KONTAK (google maps, wa, ig) ===== -->
+    <section class="bg-[#e7dbcd] py-16 border-y border-[#b39673]" id="kontak">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span
+                    class="text-[#5f7b5a] font-semibold tracking-wider text-sm uppercase bg-white px-4 py-1.5 rounded-full inline-block mb-4">
+                    <i class='bx bx-map-pin mr-1'></i> temukan kami
+                </span>
+                <h2 class="text-4xl md:text-5xl font-bold text-[#4d3e2f]">Kontak & <span
+                        class="text-[#886b4b]">Lokasi</span></h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-start">
+                <!-- Google Maps Embed (besar) -->
+                <div class="md:col-span-2 bg-[#fefcf7] p-2 rounded-3xl shadow-inner border border-[#bca98e]">
+                    <div class="rounded-2xl overflow-hidden h-96 w-full bg-[#a7b89b]">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.269085194542!2d110.406644!3d-7.759844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a599b999b4f9d%3A0xc3a123c293fecd8c!2sYogyakarta!5e0!3m2!1sid!2sid!4v1712345678901!5m2!1sid!2sid"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" class="rounded-2xl"></iframe>
+                    </div>
+                </div>
+
+                <!-- Info kontak -->
+                <div class="bg-[#fffbf5] rounded-3xl p-8 shadow-xl border border-[#c8b297] flex flex-col gap-6">
+                    <h3 class="text-3xl font-bold text-[#4a3b2a] flex items-center gap-3">
+                        <i class='bx bx-chat text-4xl text-[#5f7b5a]'></i> Hubungi kami
+                    </h3>
+                    <div class="space-y-6 text-stone-700">
+                        <a href="#"
+                            class="flex items-center gap-4 text-lg hover:text-[#3f703f] transition border-b border-[#dacbbc] pb-4">
+                            <span class="bg-[#b3a689] p-3 rounded-full text-white"><i
+                                    class='bx bxl-whatsapp text-xl'></i></span>
+                            <div>
+                                <span class="font-medium block">+62 812-3456-7890</span>
+                                <span class="text-sm text-stone-500">WhatsApp (fast response)</span>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="flex items-center gap-4 text-lg hover:text-[#3f703f] transition border-b border-[#dacbbc] pb-4">
+                            <span class="bg-[#b3a689] p-3 rounded-full text-white"><i
+                                    class='bx bxl-instagram text-xl'></i></span>
+                            <div>
+                                <span class="font-medium block">@warasa.traditional</span>
+                                <span class="text-sm text-stone-500">Instagram • update menu</span>
+                            </div>
+                        </a>
+                        <div class="flex items-center gap-4 text-lg">
+                            <span class="bg-[#b3a689] p-3 rounded-full text-white"><i
+                                    class='bx bx-map text-xl'></i></span>
+                            <div>
+                                <span class="font-medium block">Jl. Rasa No. 10, Yogyakarta</span>
+                                <span class="text-sm text-stone-500">Buka Selasa-Minggu, 15.00-22.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- jam operasional -->
+                    <div class="mt-4 bg-[#f5ede1] p-4 rounded-xl">
+                        <p class="font-semibold text-[#634832] flex items-center gap-2"><i class='bx bx-time-five'></i>
+                            Jam operasional:</p>
+                        <p class="text-sm mt-2">Selasa - Jumat: 16.00 - 22.00<br>Sabtu - Minggu: 15.00 - 23.00<br>Senin
+                            tutup (libur)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER (sama dengan beranda) ========== -->
+    <footer class="bg-[#4f4236] text-[#f0e0cf] border-t-8 border-[#5b8c4e]">
+        <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <i class='bx bx-restaurant text-4xl text-[#e7d7c0]'></i>
+                    <span class="font-bold text-2xl text-[#e7d7c0]">Warasa</span>
+                    <span class="bg-[#365a30] text-white text-xs px-3 py-1 rounded-full">sejak 2010</span>
+                </div>
+                <p class="text-[#cfbba4] text-sm flex items-center gap-2">
+                    <i class='bx bx-leaf'></i> modern dengan hati tradisional — khusus keluarga & anak muda
+                </p>
+                <div class="flex gap-6 text-2xl text-[#b5d0a8]">
+                    <i class='bx bx-leaf'></i>
+                    <i class='bx bxs-tree'></i>
+                    <i class='bx bx-pepper'></i>
+                </div>
+            </div>
+            <div
+                class="border-t border-[#8b7561] mt-8 pt-6 text-center text-[#cfbba4] text-sm flex items-center justify-center gap-2">
+                <i class='bx bx-copyright'></i> 2025 Warasa · seluruh rasa dilindungi daun pisang
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
