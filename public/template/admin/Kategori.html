@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warasa · Admin Kategori</title>
+    <!-- Tailwind + DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.css" rel="stylesheet" type="text/css" />
+    <!-- Boxicons CDN -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-base-200">
+
+    <!-- Container dengan sidebar -->
+    <div class="drawer lg:drawer-open">
+        <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+
+        <!-- Konten Utama -->
+        <div class="drawer-content flex flex-col">
+
+            <!-- Navbar (untuk mobile) -->
+            <div class="navbar bg-base-100 shadow-md lg:hidden">
+                <div class="flex-none">
+                    <label for="my-drawer-2" class="btn btn-square btn-ghost">
+                        <i class='bx bx-menu text-2xl'></i>
+                    </label>
+                </div>
+                <div class="flex-1">
+                    <a class="btn btn-ghost text-xl">
+                        <i class='bx bx-restaurant text-[#5f7b5a]'></i>
+                        Warasa Admin
+                    </a>
+                </div>
+                <div class="flex-none gap-2">
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full bg-[#f5ede1] flex items-center justify-center">
+                                <i class='bx bx-user-circle text-2xl text-[#5f7b5a]'></i>
+                            </div>
+                        </div>
+                        <ul tabindex="0"
+                            class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                            <li><a>Profil</a></li>
+                            <li><a>Pengaturan</a></li>
+                            <li><a>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Konten Halaman -->
+            <div class="p-4 md:p-6 lg:p-8">
+
+                <!-- Header dengan judul dan tombol tambah -->
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-base-content flex items-center gap-2">
+                            <i class='bx bx-category text-primary'></i>
+                            Manajemen Kategori
+                        </h1>
+                        <p class="text-base-content/70 mt-1">Kelola kategori menu makanan dan minuman</p>
+                    </div>
+
+                    <!-- Tombol Tambah (modal) -->
+                    <button class="btn btn-primary" onclick="document.getElementById('modal_tambah').showModal()">
+                        <i class='bx bx-plus-circle'></i>
+                        Tambah Kategori
+                    </button>
+                </div>
+
+                <!-- Statistik Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
+                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
+                        <div class="stat-figure text-primary">
+                            <i class='bx bx-category text-2xl'></i>
+                        </div>
+                        <div class="stat-title text-xs">Total Kategori</div>
+                        <div class="stat-value text-2xl md:text-3xl">8</div>
+                    </div>
+                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
+                        <div class="stat-figure text-primary">
+                            <i class='bx bx-bowl-hot text-2xl'></i>
+                        </div>
+                        <div class="stat-title text-xs">Makanan</div>
+                        <div class="stat-value text-2xl md:text-3xl">4</div>
+                    </div>
+                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
+                        <div class="stat-figure text-primary">
+                            <i class='bx bx-drink text-2xl'></i>
+                        </div>
+                        <div class="stat-title text-xs">Minuman</div>
+                        <div class="stat-value text-2xl md:text-3xl">3</div>
+                    </div>
+                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
+                        <div class="stat-figure text-primary">
+                            <i class='bx bx-group text-2xl'></i>
+                        </div>
+                        <div class="stat-title text-xs">Paket</div>
+                        <div class="stat-value text-2xl md:text-3xl">1</div>
+                    </div>
+                </div>
+
+                <!-- Tabel Kategori (Responsif) -->
+                <div class="bg-base-100 rounded-box shadow-xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="table table-zebra">
+                            <!-- head -->
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Icon</th>
+                                    <th>Nama Kategori</th>
+                                    <th class="hidden md:table-cell">Deskripsi</th>
+                                    <th>Menu</th>
+                                    <th>Status</th>
+                                    <th class="hidden lg:table-cell">Dibuat</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Makanan -->
+                                <tr>
+                                    <td class="font-mono text-xs">#K001</td>
+                                    <td><i class='bx bx-bowl-hot text-xl text-primary'></i></td>
+                                    <td class="font-medium">Makanan</td>
+                                    <td class="hidden md:table-cell max-w-xs truncate">Hidangan utama, lauk-pauk, dan
+                                        makanan berat</td>
+                                    <td><span class="badge badge-soft badge-primary">12</span></td>
+                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
+                                    <td class="hidden lg:table-cell">12 Jan 2025</td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-xs btn-ghost text-info"
+                                                onclick="showDetail('Makanan')">
+                                                <i class='bx bx-show text-lg'></i>
+                                            </button>
+                                            <button class="btn btn-xs btn-ghost text-warning"
+                                                onclick="openEditModal('#K001', 'Makanan', 'bx-bowl-hot', 'Hidangan utama, lauk-pauk, dan makanan berat', 'Aktif')">
+                                                <i class='bx bx-edit-alt text-lg'></i>
+                                            </button>
+                                            <button class="btn btn-xs btn-ghost text-error"
+                                                onclick="confirmDelete('#K001', 'Makanan')">
+                                                <i class='bx bx-trash text-lg'></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Minuman -->
+                                <tr>
+                                    <td class="font-mono text-xs">#K002</td>
+                                    <td><i class='bx bx-drink text-xl text-primary'></i></td>
+                                    <td class="font-medium">Minuman</td>
+                                    <td class="hidden md:table-cell max-w-xs truncate">Minuman panas, dingin,
+                                        tradisional, dan modern</td>
+                                    <td><span class="badge badge-soft badge-primary">8</span></td>
+                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
+                                    <td class="hidden lg:table-cell">12 Jan 2025</td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-xs btn-ghost text-info"><i
+                                                    class='bx bx-show text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-warning"><i
+                                                    class='bx bx-edit-alt text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-error"><i
+                                                    class='bx bx-trash text-lg'></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Paket Keluarga -->
+                                <tr>
+                                    <td class="font-mono text-xs">#K003</td>
+                                    <td><i class='bx bx-group text-xl text-primary'></i></td>
+                                    <td class="font-medium">Paket Keluarga</td>
+                                    <td class="hidden md:table-cell max-w-xs truncate">Paket hemat untuk 4-6 orang,
+                                        cocok untuk keluarga</td>
+                                    <td><span class="badge badge-soft badge-primary">5</span></td>
+                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
+                                    <td class="hidden lg:table-cell">15 Jan 2025</td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-xs btn-ghost text-info"><i
+                                                    class='bx bx-show text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-warning"><i
+                                                    class='bx bx-edit-alt text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-error"><i
+                                                    class='bx bx-trash text-lg'></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Makanan Ringan -->
+                                <tr>
+                                    <td class="font-mono text-xs">#K004</td>
+                                    <td><i class='bx bx-baguette text-xl text-primary'></i></td>
+                                    <td class="font-medium">Makanan Ringan</td>
+                                    <td class="hidden md:table-cell max-w-xs truncate">Camilan, gorengan, dan appetizer
+                                    </td>
+                                    <td><span class="badge badge-soft badge-primary">6</span></td>
+                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
+                                    <td class="hidden lg:table-cell">20 Jan 2025</td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-xs btn-ghost text-info"><i
+                                                    class='bx bx-show text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-warning"><i
+                                                    class='bx bx-edit-alt text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-error"><i
+                                                    class='bx bx-trash text-lg'></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Dessert (nonaktif) -->
+                                <tr>
+                                    <td class="font-mono text-xs">#K005</td>
+                                    <td><i class='bx bx-cake text-xl text-primary'></i></td>
+                                    <td class="font-medium">Dessert</td>
+                                    <td class="hidden md:table-cell max-w-xs truncate">Pencuci mulut, kue tradisional,
+                                        es krim</td>
+                                    <td><span class="badge badge-soft badge-primary">3</span></td>
+                                    <td><span class="badge badge-soft badge-warning">Nonaktif</span></td>
+                                    <td class="hidden lg:table-cell">25 Jan 2025</td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-xs btn-ghost text-info"><i
+                                                    class='bx bx-show text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-warning"><i
+                                                    class='bx bx-edit-alt text-lg'></i></button>
+                                            <button class="btn btn-xs btn-ghost text-error"><i
+                                                    class='bx bx-trash text-lg'></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Footer tabel dengan pagination -->
+                    <div class="flex justify-between items-center p-4 border-t border-base-200">
+                        <span class="text-sm text-base-content/70">1-5 dari 8 kategori</span>
+                        <div class="join">
+                            <button class="join-item btn btn-sm" disabled>«</button>
+                            <button class="join-item btn btn-sm btn-active">1</button>
+                            <button class="join-item btn btn-sm">2</button>
+                            <button class="join-item btn btn-sm">»</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="drawer-side">
+            <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+            <div class="bg-base-100 text-base-content min-h-full w-80 p-4">
+
+                <!-- Logo Sidebar -->
+                <div class="flex items-center gap-2 px-4 py-6">
+                    <i class='bx bx-restaurant text-3xl text-primary'></i>
+                    <span class="font-bold text-xl">Warasa Admin</span>
+                </div>
+
+                <!-- Menu Sidebar -->
+                <ul class="menu p-2 w-full gap-1">
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-dashboard text-xl'></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-calendar-check text-xl'></i>
+                            Reservasi
+                        </a>
+                    </li>
+                    <li class="menu-title">
+                        <span>Menu Management</span>
+                    </li>
+                    <li class="active">
+                        <a class="active">
+                            <i class='bx bx-category text-xl'></i>
+                            Kategori
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-dish text-xl'></i>
+                            Daftar Menu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-package text-xl'></i>
+                            Paket Keluarga
+                        </a>
+                    </li>
+                    <li class="menu-title">
+                        <span>Lainnya</span>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-bar-chart-alt-2 text-xl'></i>
+                            Laporan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class='bx bx-cog text-xl'></i>
+                            Pengaturan
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Profil di sidebar bawah -->
+                <div class="absolute bottom-4 left-4 right-4">
+                    <div class="flex items-center gap-3 p-3 bg-base-200 rounded-box">
+                        <div class="avatar placeholder">
+                            <div class="bg-primary text-primary-content rounded-full w-10">
+                                <span>A</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-semibold">Admin Warasa</p>
+                            <p class="text-xs text-base-content/70">admin@warasa.com</p>
+                        </div>
+                        <button class="btn btn-circle btn-ghost btn-sm">
+                            <i class='bx bx-log-out'></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TAMBAH KATEGORI (CREATE) -->
+    <dialog id="modal_tambah" class="modal">
+        <div class="modal-box w-11/12 max-w-lg">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="font-bold text-lg flex items-center gap-2 mb-4">
+                <i class='bx bx-plus-circle text-primary'></i>
+                Tambah Kategori Baru
+            </h3>
+
+            <div class="space-y-4">
+                <!-- ID Kategori (readonly) -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text flex items-center gap-1">
+                            <i class='bx bx-hash'></i> ID Kategori
+                        </span>
+                    </label>
+                    <input type="text" value="#K007 (otomatis)" class="input input-bordered w-full bg-base-200"
+                        disabled />
+                </div>
+
+                <!-- Nama Kategori -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text flex items-center gap-1">
+                            <i class='bx bx-category'></i> Nama Kategori *
+                        </span>
+                    </label>
+                    <input type="text" placeholder="Contoh: Makanan Pembuka" class="input input-bordered w-full" />
+                </div>
+
+                <!-- Icon -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text flex items-center gap-1">
+                            <i class='bx bx-star'></i> Icon
+                        </span>
+                    </label>
+                    <select class="select select-bordered w-full">
+                        <option value="bx-bowl-hot">🍲 Makanan (bx-bowl-hot)</option>
+                        <option value="bx-drink">🥤 Minuman (bx-drink)</option>
+                        <option value="bx-group">👥 Paket Keluarga (bx-group)</option>
+                        <option value="bx-baguette">🥖 Makanan Ringan (bx-baguette)</option>
+                        <option value="bx-cake">🍰 Dessert (bx-cake)</option>
+                        <option value="bx-pepper">🌶️ Sambal (bx-pepper)</option>
+                    </select>
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text flex items-center gap-1">
+                            <i class='bx bx-note'></i> Deskripsi
+                        </span>
+                    </label>
+                    <textarea class="textarea textarea-bordered h-24" placeholder="Jelaskan kategori ini..."></textarea>
+                </div>
+
+                <!-- Status -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text flex items-center gap-1">
+                            <i class='bx bx-toggle-left'></i> Status
+                        </span>
+                    </label>
+                    <select class="select select-bordered w-full">
+                        <option value="aktif">Aktif</option>
+                        <option value="nonaktif">Nonaktif</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost">Batal</button>
+                </form>
+                <button class="btn btn-primary" onclick="alert('Kategori berhasil ditambahkan (simulasi)')">
+                    <i class='bx bx-save'></i>
+                    Simpan
+                </button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+    <!-- MODAL EDIT KATEGORI (UPDATE) -->
+    <dialog id="modal_edit" class="modal">
+        <div class="modal-box w-11/12 max-w-lg">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="font-bold text-lg flex items-center gap-2 mb-4">
+                <i class='bx bx-edit-alt text-warning'></i>
+                Edit Kategori
+            </h3>
+
+            <div class="space-y-4">
+                <!-- ID Kategori -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">ID Kategori</span>
+                    </label>
+                    <input type="text" id="edit_id" value="#K001" class="input input-bordered w-full bg-base-200"
+                        disabled />
+                </div>
+
+                <!-- Nama Kategori -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Nama Kategori *</span>
+                    </label>
+                    <input type="text" id="edit_nama" value="Makanan" class="input input-bordered w-full" />
+                </div>
+
+                <!-- Icon -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Icon</span>
+                    </label>
+                    <select id="edit_icon" class="select select-bordered w-full">
+                        <option value="bx-bowl-hot">🍲 Makanan (bx-bowl-hot)</option>
+                        <option value="bx-drink">🥤 Minuman (bx-drink)</option>
+                        <option value="bx-group">👥 Paket Keluarga (bx-group)</option>
+                        <option value="bx-baguette">🥖 Makanan Ringan (bx-baguette)</option>
+                        <option value="bx-cake">🍰 Dessert (bx-cake)</option>
+                        <option value="bx-pepper">🌶️ Sambal (bx-pepper)</option>
+                    </select>
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Deskripsi</span>
+                    </label>
+                    <textarea id="edit_deskripsi"
+                        class="textarea textarea-bordered h-24">Hidangan utama, lauk-pauk, dan makanan berat</textarea>
+                </div>
+
+                <!-- Status -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Status</span>
+                    </label>
+                    <select id="edit_status" class="select select-bordered w-full">
+                        <option value="Aktif">Aktif</option>
+                        <option value="Nonaktif">Nonaktif</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost">Batal</button>
+                </form>
+                <button class="btn btn-warning" onclick="alert('Kategori berhasil diupdate (simulasi)')">
+                    <i class='bx bx-save'></i>
+                    Update
+                </button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+    <!-- MODAL DETAIL KATEGORI (READ) -->
+    <dialog id="modal_detail" class="modal">
+        <div class="modal-box w-11/12 max-w-lg">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="font-bold text-lg flex items-center gap-2 mb-4">
+                <i class='bx bx-show text-info'></i>
+                Detail Kategori
+            </h3>
+
+            <div class="flex items-center gap-4 pb-4 border-b border-base-200">
+                <div class="bg-base-200 p-4 rounded-full">
+                    <i class='bx bx-category text-4xl text-primary' id="detail_icon"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-base-content/70">ID Kategori</p>
+                    <p class="font-mono font-medium" id="detail_id">#K001</p>
+                </div>
+            </div>
+
+            <div class="space-y-3 mt-4">
+                <div>
+                    <p class="text-sm text-base-content/70">Nama Kategori</p>
+                    <p class="font-bold text-xl" id="detail_nama">Makanan</p>
+                </div>
+                <div>
+                    <p class="text-sm text-base-content/70">Deskripsi</p>
+                    <p class="text-base" id="detail_deskripsi">Hidangan utama, lauk-pauk, dan makanan berat</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-base-content/70">Jumlah Menu</p>
+                        <p class="font-semibold" id="detail_jumlah">12 menu</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-base-content/70">Status</p>
+                        <p id="detail_status"><span class="badge badge-success">Aktif</span></p>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-sm text-base-content/70">Dibuat</p>
+                    <p id="detail_dibuat">12 Jan 2025</p>
+                </div>
+            </div>
+
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn">Tutup</button>
+                </form>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+    <!-- MODAL KONFIRMASI HAPUS (DELETE) -->
+    <dialog id="modal_hapus" class="modal">
+        <div class="modal-box w-11/12 max-w-md">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <div class="text-center">
+                <div class="text-6xl text-error mb-4">
+                    <i class='bx bx-error-circle'></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Hapus Kategori</h3>
+                <p class="text-base-content/70 mb-4" id="hapus_message">Kategori <span class="font-bold"
+                        id="hapus_nama">Makanan</span> (ID: <span id="hapus_id">#K001</span>) akan dihapus.</p>
+                <p class="text-sm text-error mb-6">*Menu dalam kategori ini akan dipindahkan ke "Tanpa Kategori"</p>
+            </div>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost">Batal</button>
+                </form>
+                <button class="btn btn-error"
+                    onclick="alert('Kategori berhasil dihapus (simulasi)'); document.getElementById('modal_hapus').close();">
+                    <i class='bx bx-trash'></i>
+                    Hapus
+                </button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+    <!-- JavaScript untuk interaksi modal -->
+    <script>
+        // Fungsi untuk membuka modal detail
+        function showDetail(nama) {
+            document.getElementById('detail_id').innerText = '#K001';
+            document.getElementById('detail_nama').innerText = nama;
+            document.getElementById('detail_deskripsi').innerText = 'Deskripsi lengkap untuk kategori ' + nama;
+            document.getElementById('detail_jumlah').innerText = '12 menu';
+            document.getElementById('detail_status').innerHTML = '<span class="badge badge-success">Aktif</span>';
+            document.getElementById('detail_dibuat').innerText = '12 Jan 2025';
+            document.getElementById('detail_icon').className = 'bx bx-category text-4xl text-primary';
+            document.getElementById('modal_detail').showModal();
+        }
+
+        // Fungsi untuk membuka modal edit dengan data
+        function openEditModal(id, nama, icon, deskripsi, status) {
+            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_nama').value = nama;
+            document.getElementById('edit_deskripsi').value = deskripsi;
+
+            // Set select icon
+            const iconSelect = document.getElementById('edit_icon');
+            for (let i = 0; i < iconSelect.options.length; i++) {
+                if (iconSelect.options[i].value === icon) {
+                    iconSelect.selectedIndex = i;
+                    break;
+                }
+            }
+
+            // Set select status
+            const statusSelect = document.getElementById('edit_status');
+            for (let i = 0; i < statusSelect.options.length; i++) {
+                if (statusSelect.options[i].value === status) {
+                    statusSelect.selectedIndex = i;
+                    break;
+                }
+            }
+
+            document.getElementById('modal_edit').showModal();
+        }
+
+        // Fungsi untuk konfirmasi hapus
+        function confirmDelete(id, nama) {
+            document.getElementById('hapus_id').innerText = id;
+            document.getElementById('hapus_nama').innerText = nama;
+            document.getElementById('hapus_message').innerHTML = `Kategori <span class="font-bold">${nama}</span> (ID: ${id}) akan dihapus.`;
+            document.getElementById('modal_hapus').showModal();
+        }
+    </script>
+</body>
+
+</html>

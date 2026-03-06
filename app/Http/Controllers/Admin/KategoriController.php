@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class KategoriController extends Controller
 {
@@ -12,15 +14,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $data = Kategori::all();
+        return view('admin.kategori', compact('data'));
     }
 
     /**
@@ -28,7 +23,14 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'nama_kategori' => 'required',
+            'deskripsi' => 'nullable',
+        ]);
+
+        $data = Kategori::create($validate);
+
+        return redirect()->back()->with('success', 'Kategori berhasil ditambahkan.');
     }
 
     /**
@@ -36,15 +38,16 @@ class KategoriController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $kategori = Kategori::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        if (!$kategori) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori tidak ditemukan.',
+            ], 404);
+        }
+
+        return redirect()->back()->with('success', 'Kategori berhasil diambil.');
     }
 
     /**
@@ -52,7 +55,23 @@ class KategoriController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $kategori = Kategori::findOrFail($id);
+
+        if (!$kategori) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori tidak ditemukan.',
+            ], 404);
+        }
+
+        $validate = $request->validate([
+            'nama_kategori' => 'required',
+            'deskripsi' => 'nullable',
+        ]);
+
+        $kategori->update($validate);
+
+        return redirect()->back()->with('success', 'Kategori berhasil diperbarui.');
     }
 
     /**
@@ -60,6 +79,13 @@ class KategoriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $kategori = Kategori::findOrFail($id);
+
+        if (!$kategori) {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+        }
+
+        $kategori->delete();
+        return redirect()->back()->with('success', 'Kategori berhasil dihapus.');
     }
 }
