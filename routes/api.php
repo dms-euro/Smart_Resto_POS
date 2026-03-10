@@ -15,14 +15,14 @@ Route::get('/user', function (Request $request) {
 // Kategori API Routes
 Route::get('/kategori', [KategoriController::class, 'index']);
 Route::post('/kategori', [KategoriController::class, 'store']);
-Route::post('/kategori/{id}', [KategoriController::class, 'show']);
+Route::get('/kategori/{id}', [KategoriController::class, 'show']);
 Route::put('/kategori/{id}', [KategoriController::class, 'update']);
 Route::delete('/kategori/{id}', [KategoriController::class, 'destroy']);
 
 // Menu API Routes
 Route::get('/menu', [MenuController::class, 'index']);
 Route::post('/menu', [MenuController::class, 'store']);
-Route::post('/menu/{id}', [MenuController::class, 'show']);
+Route::get('/menu/{id}', [MenuController::class, 'show']);
 Route::put('/menu/{id}', [MenuController::class, 'update']);
 Route::delete('/menu/{id}', [MenuController::class, 'destroy']);
 
@@ -36,13 +36,13 @@ Route::delete('/reservasi/{id}', [ReservasiController::class, 'destroy']);
 // Transaksi API Routes
 Route::get('/transaksi', [TransaksiController::class, 'index']);
 Route::post('/transaksi', [TransaksiController::class, 'store']);
-Route::post('/transaksi/{id}', [TransaksiController::class, 'show']);
+Route::get('/transaksi/{id}', [TransaksiController::class, 'show']);
 Route::put('/transaksi/{id}', [TransaksiController::class, 'update']);
 Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy']);
 
 // TransaksiDetail API Routes
 Route::get('/detail-transaksi', [DetailTranasksiController::class, 'index']);
 Route::post('/detail-transaksi', [DetailTranasksiController::class, 'store']);
-Route::post('/detail-transaksi/{id}', [DetailTranasksiController::class, 'show']);
+Route::get('/detail-transaksi/{id}', [DetailTranasksiController::class, 'show']);
 Route::put('/detail-transaksi/{id}', [DetailTranasksiController::class, 'update']);
 Route::delete('/detail-transaksi/{id}', [   DetailTranasksiController::class, 'destroy']);

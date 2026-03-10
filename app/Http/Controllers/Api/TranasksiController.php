@@ -26,29 +26,39 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required',
-            'tanggal' => 'required|date',
-            'total' => 'required|numeric',
-            'bayar' => 'required|numeric'
-        ]);
+        try {
 
-        $kembali = $request->bayar - $request->total;
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'taggal' => 'required|date',
+                'total' => 'required|numeric',
+                'bayar' => 'required|numeric'
+            ]);
 
-        $transaksi = Transaksi::create([
-            'kode_transaksi' => 'TRX-' . time(),
-            'user_id' => $request->user_id,
-            'tanggal' => $request->tanggal,
-            'total' => $request->total,
-            'bayar' => $request->bayar,
-            'kembali' => $kembali
-        ]);
+            $kembali = $request->bayar - $request->total;
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Transaksi berhasil',
-            'data' => $transaksi
-        ], 201);
+            $transaksi = Transaksi::create([
+                'kode_transaksi' => 'TRX-' . time(),
+                'user_id' => $request->user_id,
+                'tanggal' => $request->tanggal,
+                'total' => $request->total,
+                'bayar' => $request->bayar,
+                'kembali' => $kembali
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Transaksi berhasil',
+                'data' => $transaksi
+            ], 201);
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
 

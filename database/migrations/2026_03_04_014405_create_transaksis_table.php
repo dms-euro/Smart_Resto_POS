@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_transaksi')->unique();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->date('taggal');
+            $table->date('tanggal');
             $table->decimal('total', 10, 2);
             $table->decimal('bayar', 10, 2);
             $table->decimal('kembali', 10, 2);
