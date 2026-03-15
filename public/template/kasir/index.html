@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Warasa · Kasir POS Tablet</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Flowbite CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- html2pdf untuk cetak struk -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta name="theme-color" content="#5f7b5a">
+  <style>
+    /* Untuk tampilan cetak struk */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #struk-print, #struk-print * {
+        visibility: visible;
+      }
+      #struk-print {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 80mm; /* Lebar struk thermal 80mm */
+        padding: 5mm;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        background: white;
+        color: black;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#f3eee6] font-sans antialiased">
+
+  <!-- Header Kasir dengan Navigasi 3 Halaman -->
+  <nav class="bg-[#4f4236] border-b border-[#8b7561] px-4 py-2 fixed top-0 left-0 w-full z-20 shadow-md">
+    <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto">
+      <div class="flex items-center gap-2">
+        <span class="bg-[#5f7b5a] text-white p-2 rounded-xl">
+          <i class='bx bx-cart text-xl'></i>
+        </span>
+        <span class="self-center text-lg md:text-xl font-semibold whitespace-nowrap text-[#f0e0cf]">Warasa · Kasir</span>
+      </div>
+
+      <!-- Navigasi 3 Halaman (Tablet Friendly) -->
+      <div class="flex items-center gap-1 md:gap-2 overflow-x-auto pb-1">
+        <button onclick="showPage('dashboard')" id="nav-dashboard" class="px-3 py-2 rounded-lg text-sm md:text-base font-medium transition flex items-center gap-1 bg-[#5f7b5a] text-white">
+          <i class='bx bx-home-alt'></i> <span class="hidden xs:inline">Dashboard</span>
+        </button>
+        <button onclick="showPage('transaksi')" id="nav-transaksi" class="px-3 py-2 rounded-lg text-sm md:text-base font-medium transition flex items-center gap-1 bg-white text-[#4f4236] hover:bg-[#f5ede1]">
+          <i class='bx bx-cart-add'></i> <span class="hidden xs:inline">Transaksi</span>
+        </button>
+        <button onclick="showPage('riwayat')" id="nav-riwayat" class="px-3 py-2 rounded-lg text-sm md:text-base font-medium transition flex items-center gap-1 bg-white text-[#4f4236] hover:bg-[#f5ede1]">
+          <i class='bx bx-history'></i> <span class="hidden xs:inline">Riwayat</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-[#f0e0cf] text-sm hidden md:block"><i class='bx bx-user-circle text-lg align-middle'></i> Kasir</span>
+        <button class="text-[#f0e0cf] bg-[#5f7b5a] hover:bg-[#4d6848] p-2 rounded-lg transition" onclick="alertLogout()">
+          <i class='bx bx-log-out text-xl'></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Area (berubah sesuai halaman) -->
+  <div class="pt-20 pb-8 px-3 md:px-4 max-w-7xl mx-auto" id="main-content">
+    <!-- Halaman akan diisi oleh JavaScript -->
+  </div>
+
+  <!-- Struk Tersembunyi untuk Cetak -->
+  <div id="struk-print" style="display: none;"></div>
+
+  <script>
+    // ==================== DATA GLOBAL ====================
+    let menuData = [
+      { id: 1, nama: 'Nasi Liwet Komplet', kategori: 'makanan', harga: 79000, stok: 23, icon: 'bxs-bowl-hot', tersedia: true },
+      { id: 2, nama: 'Mie Goreng Bakso', kategori: 'makanan', harga: 55000, stok: 15, icon: 'bxs-bowl-rice', tersedia: true },
+      { id: 3, nama: 'Iga Bakar Madu', kategori: 'makanan', harga: 125000, stok: 0, icon: 'bxs-dish', tersedia: false },
+      { id: 4, nama: 'Es Cendol', kategori: 'minuman', harga: 28000, stok: 42, icon: 'bxs-drink', tersedia: true },
+      { id: 5, nama: 'Wedang Jahe', kategori: 'minuman', harga: 22000, stok: 38, icon: 'bxs-coffee', tersedia: true },
+      { id: 6, nama: 'Jus Alpukat', kategori: 'minuman', harga: 25000, stok: 17, icon: 'bxs-drink', tersedia: true },
+      { id: 7, nama: 'Paket Bahagia', kategori: 'paket', harga: 299000, stok: 8, icon: 'bxs-group', tersedia: true },
+      { id: 8, nama: 'Paket Keluarga', kategori: 'paket', harga: 425000, stok: 5, icon: 'bxs-group', tersedia: true },
+    ];
+
+    // Riwayat transaksi disimpan di localStorage
+    let riwayatTransaksi = JSON.parse(localStorage.getItem('riwayatKasir')) || [];
+    let cart = [];
+    let currentFilter = 'all';
+    let currentUang = 0;
+
+    // ==================== NAVIGASI ====================
+    window.showPage = function(page) {
+      // Update active nav
+      document.getElementById('nav-dashboard').classList.remove('bg-[#5f7b5a]', 'text-white');
+      document.getElementById('nav-dashboard').classList.add('bg-white', 'text-[#4f4236]');
+      document.getElementById('nav-transaksi').classList.remove('bg-[#5f7b5a]', 'text-white');
+      document.getElementById('nav-transaksi').classList.add('bg-white', 'text-[#4f4236]');
+      document.getElementById('nav-riwayat').classList.remove('bg-[#5f7b5a]', 'text-white');
+      document.getElementById('nav-riwayat').classList.add('bg-white', 'text-[#4f4236]');
+
+      if (page === 'dashboard') {
+        document.getElementById('nav-dashboard').classList.remove('bg-white', 'text-[#4f4236]');
+        document.getElementById('nav-dashboard').classList.add('bg-[#5f7b5a]', 'text-white');
+        renderDashboard();
+      } else if (page === 'transaksi') {
+        document.getElementById('nav-transaksi').classList.remove('bg-white', 'text-[#4f4236]');
+        document.getElementById('nav-transaksi').classList.add('bg-[#5f7b5a]', 'text-white');
+        renderTransaksi();
+      } else if (page === 'riwayat') {
+        document.getElementById('nav-riwayat').classList.remove('bg-white', 'text-[#4f4236]');
+        document.getElementById('nav-riwayat').classList.add('bg-[#5f7b5a]', 'text-white');
+        renderRiwayat();
+      }
+    };
+
+    // ==================== HALAMAN DASHBOARD ====================
+    function renderDashboard() {
+      // Hitung ringkasan hari ini (simulasi dari riwayat hari ini)
+      const today = new Date().toLocaleDateString('id-ID');
+      const todayTransactions = riwayatTransaksi.filter(t => {
+        const tgl = new Date(t.waktu).toLocaleDateString('id-ID');
+        return tgl === today;
+      });
+
+      const totalPenjualan = todayTransactions.reduce((sum, t) => sum + t.total, 0);
+      const totalTransaksi = todayTransactions.length;
+      const totalItem = todayTransactions.reduce((sum, t) => sum + t.items.reduce((s,i) => s + i.qty, 0), 0);
+
+      const html = `
+        <div class="space-y-6">
+          <h2 class="text-2xl md:text-3xl font-bold text-[#4d3e2f] flex items-center gap-2">
+            <i class='bx bx-home-alt text-[#5f7b5a]'></i> Dashboard Kasir
+          </h2>
+
+          <!-- Ringkasan Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-[#886b4b]">Total Penjualan</p>
+                  <p class="text-2xl font-bold text-[#4d3e2f] mt-1">Rp ${totalPenjualan.toLocaleString()}</p>
+                </div>
+                <div class="bg-[#f5ede1] p-3 rounded-full">
+                  <i class='bx bx-credit-card text-2xl text-[#5f7b5a]'></i>
+                </div>
+              </div>
+              <p class="text-xs text-stone-500 mt-2">Hari ini</p>
+            </div>
+
+            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-[#886b4b]">Transaksi</p>
+                  <p class="text-2xl font-bold text-[#4d3e2f] mt-1">${totalTransaksi}</p>
+                </div>
+                <div class="bg-[#f5ede1] p-3 rounded-full">
+                  <i class='bx bx-receipt text-2xl text-[#5f7b5a]'></i>
+                </div>
+              </div>
+              <p class="text-xs text-stone-500 mt-2">Hari ini</p>
+            </div>
+
+            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-[#886b4b]">Item Terjual</p>
+                  <p class="text-2xl font-bold text-[#4d3e2f] mt-1">${totalItem}</p>
+                </div>
+                <div class="bg-[#f5ede1] p-3 rounded-full">
+                  <i class='bx bx-dish text-2xl text-[#5f7b5a]'></i>
+                </div>
+              </div>
+              <p class="text-xs text-stone-500 mt-2">Hari ini</p>
+            </div>
+
+            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-[#886b4b]">Menu Tersedia</p>
+                  <p class="text-2xl font-bold text-[#4d3e2f] mt-1">${menuData.filter(m => m.stok > 0).length}</p>
+                </div>
+                <div class="bg-[#f5ede1] p-3 rounded-full">
+                  <i class='bx bx-food-menu text-2xl text-[#5f7b5a]'></i>
+                </div>
+              </div>
+              <p class="text-xs text-stone-500 mt-2">Dari ${menuData.length} menu</p>
+            </div>
+          </div>
+
+          <!-- Menu Stok Menipis -->
+          <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-5">
+            <h3 class="font-bold text-[#4d3e2f] flex items-center gap-2 mb-4">
+              <i class='bx bx-error-circle text-[#b48b5a]'></i> Stok Menipis (< 10)
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              ${menuData.filter(m => m.stok > 0 && m.stok < 10).map(m => `
+                <div class="flex items-center justify-between bg-[#f5ede1] p-3 rounded-xl">
+                  <span class="font-medium">${m.nama}</span>
+                  <span class="bg-[#b48b5a] text-white px-3 py-1 rounded-full text-sm">Stok ${m.stok}</span>
+                </div>
+              `).join('') || '<p class="text-stone-500">Semua stok aman</p>'}
+            </div>
+          </div>
+
+          <!-- Transaksi Terakhir -->
+          <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-5">
+            <h3 class="font-bold text-[#4d3e2f] flex items-center gap-2 mb-4">
+              <i class='bx bx-time-five text-[#5f7b5a]'></i> 5 Transaksi Terakhir
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="min-w-full">
+                <thead class="bg-[#f5ede1]">
+                  <tr>
+                    <th class="px-4 py-2 text-left text-sm">Waktu</th>
+                    <th class="px-4 py-2 text-left text-sm">Item</th>
+                    <th class="px-4 py-2 text-left text-sm">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${riwayatTransaksi.slice(-5).reverse().map(t => `
+                    <tr class="border-b border-[#f0e0cf]">
+                      <td class="px-4 py-2 text-sm">${new Date(t.waktu).toLocaleTimeString('id-ID')}</td>
+                      <td class="px-4 py-2 text-sm">${t.items.reduce((s,i) => s + i.qty, 0)} item</td>
+                      <td class="px-4 py-2 text-sm font-medium">Rp ${t.total.toLocaleString()}</td>
+                    </tr>
+                  `).join('') || '<tr><td colspan="3" class="text-center py-4 text-stone-500">Belum ada transaksi</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('main-content').innerHTML = html;
+    }
+
+    // ==================== HALAMAN TRANSAKSI ====================
+    function renderTransaksi() {
+      const html = `
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
+          <!-- KIRI: Daftar Menu (2/4 di desktop) -->
+          <div class="lg:col-span-2 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h2 class="text-xl md:text-2xl font-bold text-[#4d3e2f] flex items-center gap-2">
+                <i class='bx bx-food-menu text-[#5f7b5a]'></i> Pilih Menu
+              </h2>
+              <div class="flex gap-1 overflow-x-auto pb-1 max-w-full">
+                <button class="filter-btn bg-[#2f5e3a] text-white px-3 py-1.5 rounded-full text-sm whitespace-nowrap" onclick="filterMenu('all')">Semua</button>
+                <button class="filter-btn bg-white border border-[#c9b59f] text-[#5f4530] px-3 py-1.5 rounded-full text-sm whitespace-nowrap hover:bg-[#f5ede1]" onclick="filterMenu('makanan')">Makanan</button>
+                <button class="filter-btn bg-white border border-[#c9b59f] text-[#5f4530] px-3 py-1.5 rounded-full text-sm whitespace-nowrap hover:bg-[#f5ede1]" onclick="filterMenu('minuman')">Minuman</button>
+                <button class="filter-btn bg-white border border-[#c9b59f] text-[#5f4530] px-3 py-1.5 rounded-full text-sm whitespace-nowrap hover:bg-[#f5ede1]" onclick="filterMenu('paket')">Paket</button>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3" id="menuContainer"></div>
+            <p id="menuEmpty" class="text-center text-stone-500 py-8 hidden">Tidak ada menu tersedia</p>
+          </div>
+
+          <!-- KANAN: Keranjang + Numpad -->
+          <div class="lg:col-span-2 space-y-4">
+            <!-- Keranjang -->
+            <div class="bg-[#fefcf7] rounded-2xl shadow-xl border border-[#dfcfbb] p-4">
+              <h3 class="text-lg md:text-xl font-bold text-[#4d3e2f] flex items-center gap-2 pb-3 border-b border-[#dfcfbb]">
+                <i class='bx bx-cart text-[#5f7b5a]'></i> Keranjang
+                <span class="bg-[#5f7b5a] text-white text-xs px-2 py-1 rounded-full ml-auto" id="itemCount">0</span>
+              </h3>
+              <div id="cartItems" class="space-y-3 my-4 max-h-48 overflow-y-auto pr-1">
+                <div class="text-center text-stone-400 py-6 text-sm">Belum ada item</div>
+              </div>
+              <div class="flex justify-between items-center text-base md:text-lg font-bold text-[#4d3e2f] py-3 border-t border-[#dfcfbb]">
+                <span>Total</span>
+                <span id="totalHarga">Rp 0</span>
+              </div>
+            </div>
+
+            <!-- Pembayaran + Numpad -->
+            <div class="bg-[#fefcf7] rounded-2xl shadow-xl border border-[#dfcfbb] p-4">
+              <h3 class="font-bold text-[#4d3e2f] mb-3 flex items-center gap-2">
+                <i class='bx bx-credit-card text-[#5f7b5a]'></i> Pembayaran
+              </h3>
+
+              <!-- Display Uang Bayar -->
+              <div class="mb-3">
+                <label class="block text-sm text-stone-600 mb-1">Uang Bayar</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-3 text-stone-500">Rp</span>
+                  <input type="text" id="uangBayarDisplay" readonly value="0" class="w-full pl-10 pr-4 py-3 bg-[#f5ede1] border border-[#bc9f83] rounded-xl text-right text-xl font-bold text-[#2f5e3a] outline-none">
+                </div>
+              </div>
+
+              <!-- Numpad untuk Tablet -->
+              <div class="grid grid-cols-3 gap-2 mb-4">
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('1')">1</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('2')">2</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('3')">3</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('4')">4</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('5')">5</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('6')">6</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('7')">7</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('8')">8</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('9')">9</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('00')">00</button>
+                <button class="bg-[#f5ede1] hover:bg-[#e7dbcd] text-[#4d3e2f] font-bold py-4 rounded-xl text-xl transition" onclick="numpadInput('0')">0</button>
+                <button class="bg-[#b48b5a] hover:bg-[#9e764b] text-white font-bold py-4 rounded-xl text-xl transition" onclick="numpadClear()">C</button>
+              </div>
+
+              <!-- Kembalian & Tombol -->
+              <div class="flex justify-between items-center text-sm mb-4 p-3 bg-[#f5ede1] rounded-xl">
+                <span class="font-medium text-stone-700">Kembalian</span>
+                <span class="font-bold text-xl text-[#2f5e3a]" id="kembalian">Rp 0</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <button class="bg-[#9f7e5c] hover:bg-[#8b6947] text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-1 text-sm" onclick="batalTransaksi()">
+                  <i class='bx bx-x-circle'></i> Batal
+                </button>
+                <button class="bg-[#2f5e3a] hover:bg-[#234d2c] text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-1 text-sm shadow-md" onclick="prosesBayar()">
+                  <i class='bx bx-check-circle'></i> Bayar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('main-content').innerHTML = html;
+
+      // Render menu dan cart setelah halaman terload
+      renderMenu();
+      renderCart();
+    }
+
+    // ==================== FUNGSI TRANSAKSI ====================
+    function renderMenu() {
+      const container = document.getElementById('menuContainer');
+      const emptyMsg = document.getElementById('menuEmpty');
+      if (!container) return;
+
+      let filtered = menuData;
+      if (currentFilter !== 'all') {
+        filtered = menuData.filter(m => m.kategori === currentFilter);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyMsg?.classList.remove('hidden');
+      } else {
+        emptyMsg?.classList.add('hidden');
+        let html = '';
+        filtered.forEach(menu => {
+          html += `
+            <div class="bg-white rounded-xl border ${menu.stok > 0 ? 'border-[#dfcfbb] hover:shadow-md cursor-pointer' : 'border-red-200 bg-red-50 opacity-70'} p-2 transition"
+                 onclick="${menu.stok > 0 ? `tambahKeCart(${menu.id})` : 'showStokHabis()'}">
+              <div class="aspect-square bg-[#f5ede1] rounded-lg flex items-center justify-center text-3xl text-[#5f7b5a] mb-2">
+                <i class='bx ${menu.icon}'></i>
+              </div>
+              <p class="font-semibold text-sm truncate text-[#5f4530]">${menu.nama}</p>
+              <p class="text-xs text-stone-500 mb-1">Rp ${menu.harga.toLocaleString()}</p>
+              <div class="flex items-center justify-between text-xs">
+                <span class="${menu.stok > 0 ? 'text-[#527a4c]' : 'text-red-500'}">${menu.stok > 0 ? 'Stok ' + menu.stok : 'Habis'}</span>
+                <i class='bx bx-plus-circle text-[#2f5e3a] text-lg'></i>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      }
+    }
+
+    window.filterMenu = function(filter) {
+      currentFilter = filter;
+
+      // Update active filter button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-[#2f5e3a]', 'text-white');
+        btn.classList.add('bg-white', 'text-[#5f4530]', 'border', 'border-[#c9b59f]');
+      });
+      event.target.classList.remove('bg-white', 'text-[#5f4530]', 'border', 'border-[#c9b59f]');
+      event.target.classList.add('bg-[#2f5e3a]', 'text-white');
+
+      renderMenu();
+    };
+
+    window.tambahKeCart = function(id) {
+      const menu = menuData.find(m => m.id === id);
+      if (!menu || menu.stok <= 0) {
+        Swal.fire({ icon: 'error', title: 'Stok habis', toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
+        return;
+      }
+
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        if (existing.qty >= menu.stok) {
+          Swal.fire({ icon: 'warning', text: 'Stok tidak mencukupi', toast: true, position: 'top-end', timer: 1500 });
+          return;
+        }
+        existing.qty += 1;
+      } else {
+        cart.push({ id: menu.id, nama: menu.nama, harga: menu.harga, qty: 1 });
+      }
+      renderCart();
+      Swal.fire({ icon: 'success', title: 'Ditambahkan', text: menu.nama, toast: true, position: 'top-end', timer: 1200 });
+    };
+
+    function renderCart() {
+      const cartDiv = document.getElementById('cartItems');
+      const totalSpan = document.getElementById('totalHarga');
+      const itemCount = document.getElementById('itemCount');
+
+      if (!cartDiv) return;
+
+      if (cart.length === 0) {
+        cartDiv.innerHTML = '<div class="text-center text-stone-400 py-6 text-sm">Belum ada item</div>';
+        if (totalSpan) totalSpan.innerText = 'Rp 0';
+        if (itemCount) itemCount.innerText = '0';
+        return;
+      }
+
+      let html = '';
+      let total = 0;
+      let count = 0;
+      cart.forEach((item) => {
+        total += item.harga * item.qty;
+        count += item.qty;
+        html += `
+          <div class="flex items-start gap-2 border-b border-[#f0e0cf] pb-2">
+            <div class="flex-1">
+              <p class="font-medium text-sm text-[#5f4530]">${item.nama}</p>
+              <p class="text-xs text-stone-500">Rp ${item.harga.toLocaleString()} x ${item.qty}</p>
+            </div>
+            <div class="flex items-center gap-1">
+              <button class="text-[#b48b5a] hover:text-[#9e764b]" onclick="ubahQty(${item.id}, -1)"><i class='bx bx-minus-circle'></i></button>
+              <span class="text-sm w-5 text-center">${item.qty}</span>
+              <button class="text-[#2f5e3a] hover:text-[#234d2c]" onclick="ubahQty(${item.id}, 1)"><i class='bx bx-plus-circle'></i></button>
+              <button class="text-red-500 hover:text-red-700 ml-1" onclick="hapusItem(${item.id})"><i class='bx bx-trash'></i></button>
+            </div>
+          </div>
+        `;
+      });
+      cartDiv.innerHTML = html;
+      if (totalSpan) totalSpan.innerText = 'Rp ' + total.toLocaleString();
+      if (itemCount) itemCount.innerText = count;
+      hitungKembalian();
+    }
+
+    window.ubahQty = function(id, delta) {
+      const idx = cart.findIndex(i => i.id === id);
+      if (idx === -1) return;
+      const menu = menuData.find(m => m.id === id);
+      const newQty = cart[idx].qty + delta;
+      if (newQty < 1) {
+        cart.splice(idx, 1);
+      } else {
+        if (menu && newQty > menu.stok) {
+          Swal.fire({ icon: 'warning', text: 'Melebihi stok', toast: true, position: 'top-end', timer: 1500 });
+          return;
+        }
+        cart[idx].qty = newQty;
+      }
+      renderCart();
+    };
+
+    window.hapusItem = function(id) {
+      cart = cart.filter(i => i.id !== id);
+      renderCart();
+    };
+
+    window.numpadInput = function(angka) {
+      let display = document.getElementById('uangBayarDisplay');
+      if (!display) return;
+      let current = display.value.replace(/[^0-9]/g, '');
+      if (current === '0') current = '';
+      let newValue = current + angka;
+      newValue = newValue.replace(/^0+/, '') || '0';
+      display.value = newValue;
+      currentUang = parseInt(newValue) || 0;
+      hitungKembalian();
+    };
+
+    window.numpadClear = function() {
+      let display = document.getElementById('uangBayarDisplay');
+      if (display) {
+        display.value = '0';
+        currentUang = 0;
+        hitungKembalian();
+      }
+    };
+
+    window.hitungKembalian = function() {
+      const total = cart.reduce((sum, i) => sum + (i.harga * i.qty), 0);
+      const kembalian = currentUang - total;
+      const el = document.getElementById('kembalian');
+      if (el) el.innerText = 'Rp ' + (kembalian >= 0 ? kembalian.toLocaleString() : '0');
+      return kembalian;
+    };
+
+    window.prosesBayar = function() {
+      if (cart.length === 0) {
+        Swal.fire({ icon: 'warning', title: 'Keranjang kosong', toast: true, position: 'top-end', timer: 2000 });
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + (i.harga * i.qty), 0);
+      if (currentUang < total) {
+        Swal.fire({ icon: 'error', title: 'Uang kurang', toast: true, position: 'top-end', timer: 2000 });
+        return;
+      }
+
+      // Kurangi stok
+      cart.forEach(item => {
+        const menu = menuData.find(m => m.id === item.id);
+        if (menu) menu.stok -= item.qty;
+      });
+
+      // Simpan ke riwayat
+      const transaksi = {
+        id: Date.now(),
+        waktu: new Date().toISOString(),
+        items: [...cart],
+        total: total,
+        bayar: currentUang,
+        kembalian: currentUang - total
+      };
+      riwayatTransaksi.push(transaksi);
+      localStorage.setItem('riwayatKasir', JSON.stringify(riwayatTransaksi));
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Transaksi berhasil',
+        text: `Kembalian: Rp ${(currentUang - total).toLocaleString()}`,
+        confirmButtonColor: '#2f5e3a'
+      }).then(() => {
+        cart = [];
+        renderCart();
+        numpadClear();
+        renderMenu();
+      });
+    };
+
+    window.batalTransaksi = function() {
+      if (cart.length === 0) return;
+      Swal.fire({
+        title: 'Batalkan transaksi?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#9f7e5c',
+        confirmButtonText: 'Ya, batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          cart = [];
+          renderCart();
+          numpadClear();
+        }
+      });
+    };
+
+    window.showStokHabis = function() {
+      Swal.fire({ icon: 'error', text: 'Menu sedang habis', toast: true, position: 'top-end', timer: 1500 });
+    };
+
+    // ==================== HALAMAN RIWAYAT ====================
+    function renderRiwayat() {
+      const html = `
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#4d3e2f] flex items-center gap-2">
+              <i class='bx bx-history text-[#5f7b5a]'></i> Riwayat Transaksi
+            </h2>
+            <button class="bg-[#5f7b5a] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2" onclick="refreshRiwayat()">
+              <i class='bx bx-refresh'></i> Refresh
+            </button>
+          </div>
+
+          <div class="bg-[#fefcf7] rounded-2xl shadow-xl border border-[#dfcfbb] overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-[#dfcfbb]">
+                <thead class="bg-[#f5ede1]">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-[#634832] uppercase tracking-wider">Waktu</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-[#634832] uppercase tracking-wider">Item</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-[#634832] uppercase tracking-wider">Total</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-[#634832] uppercase tracking-wider">Bayar</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-[#634832] uppercase tracking-wider">Kembali</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-[#634832] uppercase tracking-wider">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-[#dfcfbb]">
+                  ${riwayatTransaksi.slice().reverse().map(t => `
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm">${new Date(t.waktu).toLocaleString('id-ID')}</td>
+                      <td class="px-6 py-4 text-sm">
+                        ${t.items.map(i => `${i.nama} x${i.qty}`).join(', ')}
+                      </td>
+                      <td class="px-6 py-4 text-sm font-medium">Rp ${t.total.toLocaleString()}</td>
+                      <td class="px-6 py-4 text-sm">Rp ${t.bayar.toLocaleString()}</td>
+                      <td class="px-6 py-4 text-sm">Rp ${t.kembalian.toLocaleString()}</td>
+                      <td class="px-6 py-4 text-sm">
+                        <button class="text-[#2f5e3a] hover:text-[#234d2c]" onclick="cetakStrukDariRiwayat(${t.id})">
+                          <i class='bx bx-printer text-xl'></i>
+                        </button>
+                      </td>
+                    </tr>
+                  `).join('') || '<tr><td colspan="6" class="text-center py-8 text-stone-500">Belum ada transaksi</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('main-content').innerHTML = html;
+    }
+
+    window.refreshRiwayat = function() {
+      riwayatTransaksi = JSON.parse(localStorage.getItem('riwayatKasir')) || [];
+      renderRiwayat();
+    };
+
+    // ==================== CETAK STRUK ====================
+    window.cetakStruk = function() {
+      if (cart.length === 0) {
+        Swal.fire({ icon: 'warning', text: 'Tidak ada transaksi', toast: true, position: 'top-end' });
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + (i.harga * i.qty), 0);
+      const struk = document.getElementById('struk-print');
+      struk.style.display = 'block';
+      struk.innerHTML = `
+        <div style="font-family: 'Courier New', monospace; width: 80mm; padding: 2mm; font-size: 12px;">
+          <h2 style="text-align: center; font-size: 16px; font-weight: bold;">WARASA RESTO</h2>
+          <p style="text-align: center; font-size: 11px;">Jl. Rasa No.10 Yogyakarta</p>
+          <p style="text-align: center; font-size: 11px;">${new Date().toLocaleString('id-ID')}</p>
+          <p style="text-align: center; font-size: 11px;">Kasir: Admin</p>
+          <hr style="border-top: 1px dashed black;">
+          <table style="width: 100%; font-size: 11px;">
+            ${cart.map(item => `
+              <tr>
+                <td>${item.nama} x${item.qty}</td>
+                <td style="text-align: right;">Rp ${(item.harga * item.qty).toLocaleString()}</td>
+              </tr>
+            `).join('')}
+          </table>
+          <hr style="border-top: 1px dashed black;">
+          <table style="width: 100%; font-size: 11px; font-weight: bold;">
+            <tr><td>Total</td><td style="text-align: right;">Rp ${total.toLocaleString()}</td></tr>
+            <tr><td>Bayar</td><td style="text-align: right;">Rp ${currentUang.toLocaleString()}</td></tr>
+            <tr><td>Kembali</td><td style="text-align: right;">Rp ${(currentUang - total).toLocaleString()}</td></tr>
+          </table>
+          <hr style="border-top: 1px dashed black;">
+          <p style="text-align: center; font-size: 11px;">Terima kasih, selamat menikmati!</p>
+        </div>
+      `;
+
+      window.print();
+      struk.style.display = 'none';
+    };
+
+    window.cetakStrukDariRiwayat = function(id) {
+      const transaksi = riwayatTransaksi.find(t => t.id === id);
+      if (!transaksi) return;
+
+      const struk = document.getElementById('struk-print');
+      struk.style.display = 'block';
+      struk.innerHTML = `
+        <div style="font-family: 'Courier New', monospace; width: 80mm; padding: 2mm; font-size: 12px;">
+          <h2 style="text-align: center; font-size: 16px; font-weight: bold;">WARASA RESTO</h2>
+          <p style="text-align: center; font-size: 11px;">Jl. Rasa No.10 Yogyakarta</p>
+          <p style="text-align: center; font-size: 11px;">${new Date(transaksi.waktu).toLocaleString('id-ID')}</p>
+          <p style="text-align: center; font-size: 11px;">Kasir: Admin</p>
+          <hr style="border-top: 1px dashed black;">
+          <table style="width: 100%; font-size: 11px;">
+            ${transaksi.items.map(item => `
+              <tr>
+                <td>${item.nama} x${item.qty}</td>
+                <td style="text-align: right;">Rp ${(item.harga * item.qty).toLocaleString()}</td>
+              </tr>
+            `).join('')}
+          </table>
+          <hr style="border-top: 1px dashed black;">
+          <table style="width: 100%; font-size: 11px; font-weight: bold;">
+            <tr><td>Total</td><td style="text-align: right;">Rp ${transaksi.total.toLocaleString()}</td></tr>
+            <tr><td>Bayar</td><td style="text-align: right;">Rp ${transaksi.bayar.toLocaleString()}</td></tr>
+            <tr><td>Kembali</td><td style="text-align: right;">Rp ${transaksi.kembalian.toLocaleString()}</td></tr>
+          </table>
+          <hr style="border-top: 1px dashed black;">
+          <p style="text-align: center; font-size: 11px;">Terima kasih, selamat menikmati!</p>
+        </div>
+      `;
+
+      window.print();
+      struk.style.display = 'none';
+    };
+
+    // ==================== LOGOUT ====================
+    window.alertLogout = function() {
+      Swal.fire({
+        title: 'Keluar?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#5f7b5a',
+        confirmButtonText: 'Ya, logout'
+      });
+    };
+
+    // ==================== INISIALISASI ====================
+    // Tampilkan halaman dashboard pertama kali
+    showPage('dashboard');
+  </script>
+
+  <!-- Flowbite JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+</body>
+</html> 
