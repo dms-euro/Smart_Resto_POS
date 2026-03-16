@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_kategori');
             $table->text('deskripsi')->nullable();
+            $table->enum('icon', ['makanan', 'minuman', 'camilan'])->default('makanan');
             $table->timestamps();
         });
     }

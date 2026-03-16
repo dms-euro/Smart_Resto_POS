@@ -14,8 +14,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $data = Kategori::all();
-        return view('admin.kategori', compact('data'));
+        $kategori = Kategori::all();
+        return view('admin.kategori', compact('kategori'));
     }
 
     /**
@@ -24,8 +24,9 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'nama_kategori' => 'required',
-            'deskripsi' => 'nullable',
+            'nama_kategori' => 'required|string',
+            'deskripsi' => 'nullable|string',
+            'icon' => 'required|in:makanan,minuman,camilan',
         ]);
 
         $data = Kategori::create($validate);
@@ -64,10 +65,11 @@ class KategoriController extends Controller
             ], 404);
         }
 
-        $validate = $request->validate([
-            'nama_kategori' => 'required',
-            'deskripsi' => 'nullable',
-        ]);
+            $validate = $request->validate([
+                'nama_kategori' => 'nullable|string',
+                'deskripsi' => 'nullable|string',
+                'icon' => 'nullable|in:makanan,minuman,camilan',
+            ]);
 
         $kategori->update($validate);
 

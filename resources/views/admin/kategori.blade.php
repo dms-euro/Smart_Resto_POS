@@ -1,158 +1,340 @@
 @extends('layouts.app')
-@section('tiltle', 'Kategori | Dapur Nusantara')
+@section('tiltle', 'Kategori | Warung Daun')
 @section('content')
-
-    <!-- ========== HALAMAN MANAJEMEN KATEGORI ========== -->
-    <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-
-        <!-- Judul Halaman & Tombol Tambah -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+    <div>
+        <!-- header -->
+        <div class="flex flex-wrap items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl md:text-4xl font-bold text-[#4d3e2f] flex items-center gap-3">
-                    <i class='bx bx-category text-[#5f7b5a]'></i>
-                    Manajemen Kategori
+                <h1 class="text-3xl font-bold text-[#3d332b] flex items-center gap-3">
+                    <i class='bx bxs-category-alt text-[#7aa57a]'></i> Manajemen Kategori
+                    <span class="text-sm bg-[#e0d6cc] text-[#4a3f37] px-3 py-1 rounded-full font-normal">4
+                        kategori</span>
                 </h1>
-                <p class="text-stone-600 mt-2">Kelola kategori menu (Makanan, Minuman, Paket Keluarga, dll.)</p>
+                <p class="text-[#8b7a6b] mt-1 flex items-center gap-2">
+                    <i class='bx bx-category text-[#7aa57a]'></i> Kelola kategori menu makanan & minuman
+                </p>
             </div>
-
-            <!-- Tombol Tambah Kategori (Create) -->
-            <button onclick="document.getElementById('modalTambah').classList.remove('hidden')"
-                class="bg-[#2f5e3a] hover:bg-[#234d2c] text-white font-semibold px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg transition">
-                <i class='bx bx-plus-circle text-xl'></i>
-                Tambah Kategori Baru
+            <!-- Tombol Tambah Kategori -->
+            <button data-modal-target="addCategoryModal" data-modal-toggle="addCategoryModal"
+                class="bg-[#7aa57a] text-white rounded-full px-6 py-2.5 text-sm shadow-md flex items-center gap-2 hover:bg-[#689268] transition-colors mt-4 sm:mt-0">
+                <i class='bx bx-plus-circle'></i> Tambah Kategori Baru
             </button>
         </div>
 
-        <!-- Statistik Kategori (ringkasan) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-[#886b4b] font-medium">Total Kategori</p>
-                        <p class="text-3xl font-bold text-[#4d3e2f] mt-2">8</p>
-                    </div>
-                    <div class="bg-[#f5ede1] p-4 rounded-full">
-                        <i class='bx bx-category text-3xl text-[#5f7b5a]'></i>
-                    </div>
+        <!-- STATISTIK KATEGORI (ringkasan) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Total Kategori</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">4</p>
+                    <span class="text-xs text-green-800 bg-green-100 px-2 py-0.5 rounded-full mt-2 inline-block">Aktif
+                        semua</span>
+                </div>
+                <div class="w-14 h-14 bg-[#f0ebe6] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                    <i class='bx bx-category'></i>
                 </div>
             </div>
-            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-[#886b4b] font-medium">Makanan</p>
-                        <p class="text-3xl font-bold text-[#4d3e2f] mt-2">4</p>
-                    </div>
-                    <div class="bg-[#f5ede1] p-4 rounded-full">
-                        <i class='bx bx-bowl-hot text-3xl text-[#5f7b5a]'></i>
-                    </div>
+            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Makanan</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">48</p>
+                    <span class="text-xs text-[#7aa57a] bg-green-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
+                </div>
+                <div class="w-14 h-14 bg-[#e9f0e9] rounded-full flex items-center justify-center text-3xl text-[#6f9e6f]">
+                    <i class='bx bxs-bowl-hot'></i>
                 </div>
             </div>
-            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-[#886b4b] font-medium">Minuman</p>
-                        <p class="text-3xl font-bold text-[#4d3e2f] mt-2">3</p>
-                    </div>
-                    <div class="bg-[#f5ede1] p-4 rounded-full">
-                        <i class='bx bx-drink text-3xl text-[#5f7b5a]'></i>
-                    </div>
+            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Minuman</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">44</p>
+                    <span class="text-xs text-[#b48b5a] bg-amber-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
+                </div>
+                <div class="w-14 h-14 bg-[#f7ede2] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                    <i class='bx bxs-coffee'></i>
                 </div>
             </div>
-            <div class="bg-[#fefcf7] rounded-2xl shadow-lg border border-[#dfcfbb] p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-[#886b4b] font-medium">Paket Keluarga</p>
-                        <p class="text-3xl font-bold text-[#4d3e2f] mt-2">1</p>
-                    </div>
-                    <div class="bg-[#f5ede1] p-4 rounded-full">
-                        <i class='bx bx-group text-3xl text-[#5f7b5a]'></i>
-                    </div>
+            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Snack</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">34</p>
+                    <span class="text-xs text-[#8e6943] bg-amber-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
+                </div>
+                <div class="w-14 h-14 bg-[#f7ede2] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                    <i class='bx bxs-cake'></i>
                 </div>
             </div>
         </div>
 
-        <!-- Tabel Daftar Kategori (Read) -->
-        <div class="bg-[#fefcf7] rounded-3xl shadow-xl border border-[#dfcfbb] overflow-hidden">
-            <div class="p-6 border-b border-[#dfcfbb] bg-[#f5ede1] flex justify-between items-center">
-                <h3 class="text-xl font-bold text-[#4d3e2f] flex items-center gap-2">
-                    <i class='bx bx-list-ul text-[#5f7b5a]'></i>
-                    Daftar Kategori Menu
-                </h3>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm text-stone-600">Total: 8 kategori</span>
-                </div>
-            </div>
-
+        <!-- TABEL KATEGORI -->
+        <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-[#faf3ea]">
-                        <tr class="text-left text-sm font-semibold text-[#634832]">
-                            <th class="px-6 py-4">ID</th>
-                            <th class="px-6 py-4">Nama Kategori</th>
-                            <th class="px-6 py-4">Icon</th>
-                            <th class="px-6 py-4">Deskripsi</th>
-                            <th class="px-6 py-4">Jumlah Menu</th>
-                            <th class="px-6 py-4">Status</th>
-                            <th class="px-6 py-4">Dibuat</th>
-                            <th class="px-6 py-4 text-center">Aksi (CRUD)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-[#dfcfbb]">
-                        @foreach ($data as $k)
-                            <tr class="hover:bg-[#faf3ea] transition">
-                                <td class="px-6 py-4 font-mono text-sm">#{{ $k->id }}</td>
-                                <td class="px-6 py-4 font-medium text-[#5f4530]">{{ $k->nama_kategori }}</td>
-                                <td class="px-6 py-4"><i class='bx {{ $k->icon }} text-2xl text-[#5f7b5a]'></i></td>
-                                <td class="px-6 py-4">{{ $k->deskripsi }}</td>
-                                <td class="px-6 py-4">
-                                    <span class="bg-[#f5ede1] px-3 py-1 rounded-full text-sm">12 menu</span>
+                @foreach ($kategori as $kategori)
+                    <table class="w-full text-sm">
+                        <thead class="bg-[#f8f5f2] text-[#6b5b4c] border-b border-[#e0d3c7]">
+                            <tr>
+                                <th class="text-left py-4 px-6 font-medium">Icon</th>
+                                <th class="text-left py-4 px-6 font-medium">Nama Kategori</th>
+                                <th class="text-left py-4 px-6 font-medium">Deskripsi</th>
+                                <th class="text-left py-4 px-6 font-medium">Jumlah Menu</th>
+                                <th class="text-left py-4 px-6 font-medium">Status</th>
+                                <th class="text-left py-4 px-6 font-medium">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#f0e7df]">
+                            <!-- row 1: Makanan -->
+                            <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                <td class="py-4 px-6">
+                                    <div
+                                        class="w-10 h-10 bg-[#e9f0e9] rounded-lg flex items-center justify-center text-[#6f9e6f] text-xl">
+                                        <i class='bx bxs-bowl-hot'></i>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4"><span
-                                        class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Aktif</span>
+                                <td class="py-4 px-6 font-medium text-[#3d332b]">Makanan Utama</td>
+                                <td class="py-4 px-6">Nasi, lauk, sayur, dan hidangan utama</td>
+                                <td class="py-4 px-6">48 menu</td>
+                                <td class="py-4 px-6"><span
+                                        class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
                                 </td>
-                                <td class="px-6 py-4 text-sm">12 Jan 2025</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center justify-center gap-3">
-                                        <!-- Detail (Read) -->
-                                        <button onclick="showDetail('Makanan')"
-                                            class="text-blue-600 hover:text-blue-800 transition" title="Detail">
-                                            <i class='bx bx-show text-xl'></i>
+                                <td class="py-4 px-6">
+                                    <div class="flex gap-2">
+                                        <button data-modal-target="editCategoryModal" data-modal-toggle="editCategoryModal"
+                                            onclick="populateEditCategory(1)"
+                                            class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                            <i class='bx bxs-edit'></i>
                                         </button>
-                                        <!-- Edit (Update) -->
-                                        <button
-                                            onclick="openEditModal('K001', 'Makanan', 'bx-bowl-hot', 'Hidangan utama, lauk-pauk, dan makanan berat', 'Aktif')"
-                                            class="text-[#b48b5a] hover:text-[#9e764b] transition" title="Edit">
-                                            <i class='bx bx-edit-alt text-xl'></i>
-                                        </button>
-                                        <!-- Delete -->
-                                        <button onclick="confirmDelete('#K001', 'Makanan')"
-                                            class="text-red-600 hover:text-red-800 transition" title="Hapus">
-                                            <i class='bx bx-trash text-xl'></i>
+                                        <button onclick="confirmDeleteCategory(1)"
+                                            class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                            <i class='bx bxs-trash'></i>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            <!-- row 2: Minuman -->
+                            <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                <td class="py-4 px-6">
+                                    <div
+                                        class="w-10 h-10 bg-[#f7ede2] rounded-lg flex items-center justify-center text-[#b48b5a] text-xl">
+                                        <i class='bx bxs-coffee'></i>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 font-medium text-[#3d332b]">Minuman</td>
+                                <td class="py-4 px-6">Kopi, teh, jus, minuman tradisional</td>
+                                <td class="py-4 px-6">44 menu</td>
+                                <td class="py-4 px-6"><span
+                                        class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                </td>
+                                <td class="py-4 px-6">
+                                    <div class="flex gap-2">
+                                        <button data-modal-target="editCategoryModal" data-modal-toggle="editCategoryModal"
+                                            onclick="populateEditCategory(2)"
+                                            class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                            <i class='bx bxs-edit'></i>
+                                        </button>
+                                        <button onclick="confirmDeleteCategory(2)"
+                                            class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                            <i class='bx bxs-trash'></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- row 3: Snack -->
+                            <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                <td class="py-4 px-6">
+                                    <div
+                                        class="w-10 h-10 bg-[#f7ede2] rounded-lg flex items-center justify-center text-[#b48b5a] text-xl">
+                                        <i class='bx bxs-cake'></i>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 font-medium text-[#3d332b]">Snack & Jajanan</td>
+                                <td class="py-4 px-6">Gorengan, kue tradisional, camilan</td>
+                                <td class="py-4 px-6">34 menu</td>
+                                <td class="py-4 px-6"><span
+                                        class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                </td>
+                                <td class="py-4 px-6">
+                                    <div class="flex gap-2">
+                                        <button data-modal-target="editCategoryModal" data-modal-toggle="editCategoryModal"
+                                            onclick="populateEditCategory(3)"
+                                            class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                            <i class='bx bxs-edit'></i>
+                                        </button>
+                                        <button onclick="confirmDeleteCategory(3)"
+                                            class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                            <i class='bx bxs-trash'></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- row 4: Sushi (contoh kategori tidak aktif) -->
+                            <tr class="hover:bg-[#fcf9f7] transition-colors opacity-80">
+                                <td class="py-4 px-6">
+                                    <div
+                                        class="w-10 h-10 bg-[#e0d6cc] rounded-lg flex items-center justify-center text-[#8b7a6b] text-xl">
+                                        <i class='bx bxs-sushi'></i>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 font-medium text-[#3d332b]">Sushi & Jepang</td>
+                                <td class="py-4 px-6">Menu fusion Jepang (coming soon)</td>
+                                <td class="py-4 px-6">0 menu</td>
+                                <td class="py-4 px-6"><span
+                                        class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs">Tidak
+                                        Aktif</span></td>
+                                <td class="py-4 px-6">
+                                    <div class="flex gap-2">
+                                        <button data-modal-target="editCategoryModal"
+                                            data-modal-toggle="editCategoryModal" onclick="populateEditCategory(4)"
+                                            class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                            <i class='bx bxs-edit'></i>
+                                        </button>
+                                        <button onclick="confirmDeleteCategory(4)"
+                                            class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                            <i class='bx bxs-trash'></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                @endforeach
             </div>
-
-            <!-- Footer Tabel (Pagination) -->
+            <!-- pagination -->
             <div
-                class="p-6 border-t border-[#dfcfbb] bg-[#faf3ea] flex flex-col sm:flex-row justify-between items-center gap-4">
-                <span class="text-sm text-stone-600">Menampilkan 1 - 6 dari 8 kategori</span>
+                class="flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
+                <span>Menampilkan 1-4 dari 4 kategori</span>
                 <div class="flex gap-2">
-                    <button
-                        class="px-4 py-2 border border-[#bc9f83] rounded-lg bg-white text-[#634832] hover:bg-[#f5ede1] transition disabled:opacity-50"
-                        disabled>
-                        <i class='bx bx-chevron-left'></i> Prev
+                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
+                        <i class='bx bx-chevron-left text-xs'></i>
+                    </span>
+                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-[#7aa57a] text-white">1</span>
+                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
+                        <i class='bx bx-chevron-right text-xs'></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD KATEGORI -->
+    <div id="addCategoryModal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                    <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                        <i class='bx bx-category-plus text-[#7aa57a]'></i> Tambah Kategori
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                        data-modal-hide="addCategoryModal">
+                        <i class='bx bx-x text-xl'></i>
                     </button>
-                    <button class="px-4 py-2 bg-[#2f5e3a] text-white rounded-lg hover:bg-[#234d2c] transition">1</button>
-                    <button
-                        class="px-4 py-2 border border-[#bc9f83] rounded-lg bg-white text-[#634832] hover:bg-[#f5ede1] transition">2</button>
-                    <button
-                        class="px-4 py-2 border border-[#bc9f83] rounded-lg bg-white text-[#634832] hover:bg-[#f5ede1] transition">Next
-                        <i class='bx bx-chevron-right'></i></button>
+                </div>
+                <div class="p-4 md:p-5">
+                    <form action="{{ route('kategori.store') }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Kategori <span
+                                    class="text-red-400">*</span></label>
+                            <input type="text" name="nama_kategori" id="nama_kategori"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                placeholder="contoh: Makanan" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
+                            <textarea rows="3" name="deskripsi" id="deskripsi"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                placeholder="Deskripsi kategori..." required></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori Icon</label>
+                            <div class="relative">
+                                <select name="icon" id="icon"
+                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30 focus:border-[#7aa57a] outline-none appearance-none transition-all cursor-pointer text-[#5f4d40]"
+                                    required>
+                                    <option value="makanan">🍲 Makanan</option>
+                                    <option value="minuman">☕ Minuman</option>
+                                    <option value="camilan">🍰 Camilan</option>
+                                </select>
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-[#5f4d40]">
+                                    <i class='bx bx-chevron-down text-xl'></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 mt-6">
+                            <button type="button" data-modal-hide="addCategoryModal"
+                                class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                            <button type="submit"
+                                class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                <i class='bx bx-check-circle'></i> Simpan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOWBITE MODAL: EDIT KATEGORI -->
+    <div id="editCategoryModal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                    <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                        <i class='bx bxs-edit text-[#7aa57a]'></i> Edit Kategori
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                        data-modal-hide="editCategoryModal">
+                        <i class='bx bx-x text-xl'></i>
+                    </button>
+                </div>
+                <div class="p-4 md:p-5">
+                    <form action="{{ route('kategori.update', ['id' => $kategori->id]) }}" method="POST"
+                        class="space-y-4">
+                        @csrf
+                        @method('PUT')
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Kategori <span
+                                    class="text-red-400">*</span></label>
+                            <input type="text" name="nama_kategori" id="nama_kategori"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                value="{{ $kategori->nama_kategori }}" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
+                            <textarea rows="3" name="deskripsi" id="deskripsi"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                required>{{ $kategori->deskripsi }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori Icon</label>
+                            <div class="relative">
+                                <select name="icon" id="icon"
+                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30 focus:border-[#7aa57a] outline-none appearance-none transition-all cursor-pointer text-[#5f4d40]"
+                                    required>
+                                    <option value="" disabled>Pilih Icon</option>
+                                    <option value="makanan" {{ $kategori->icon == 'makanan' ? 'selected' : '' }}>🍲 Makanan</option>
+                                    <option value="minuman" {{ $kategori->icon == 'minuman' ? 'selected' : '' }}>☕ Minuman</option>
+                                    <option value="camilan" {{ $kategori->icon == 'camilan' ? 'selected' : '' }}>🍰 Camilan</option>
+                                </select>
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-[#5f4d40]">
+                                    <i class='bx bx-chevron-down text-xl'></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 mt-6">
+                            <button type="button" data-modal-hide="addCategoryModal"
+                                class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                            <button type="submit"
+                                class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                <i class='bx bx-check-circle'></i> Simpan
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

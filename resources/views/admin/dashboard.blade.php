@@ -1,0 +1,262 @@
+@extends('layouts.app')
+@section('title', 'Dashboard | Warung Daun')
+@section('content')
+    <div>
+        <!-- header dengan aksen hijau segar -->
+        <div class="flex flex-wrap items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-[#3d332b] flex items-center gap-3"><i
+                        class="fa-solid fa-tree text-[#7aa57a]"></i> Dashboard <span
+                        class="text-sm bg-[#e0d6cc] text-[#4a3f37] px-3 py-1 rounded-full font-normal">admin</span>
+                </h1>
+                <p class="text-[#8b7a6b] mt-1 flex items-center gap-2"><i class="fa-regular fa-calendar text-[#7aa57a]"></i>
+                    15 Maret 2026 · rekap hari ini</p>
+            </div>
+            <div class="flex gap-2 mt-4 sm:mt-0">
+                <span
+                    class="bg-white shadow-sm border border-[#ddd0c4] rounded-full px-5 py-2 text-[#5f4d40] text-sm flex items-center gap-2"><i
+                        class="fa-regular fa-bell text-[#7aa57a]"></i> 5 pesanan baru</span>
+                <span
+                    class="bg-[#7aa57a] text-white rounded-full px-5 py-2 text-sm shadow-md flex items-center gap-2 hover:bg-[#689268] transition-colors"><i
+                        class="fa-regular fa-circle-plus"></i> Tambah menu</span>
+            </div>
+        </div>
+
+        <!-- CARD STATISTIK (warna lebih lembut, aksen hijau dan krem) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <!-- total menu -->
+            <div
+                class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center hover:shadow-md transition">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Jumlah menu</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">126</p>
+                    <span class="text-xs text-green-800 bg-green-100 px-2 py-0.5 rounded-full mt-2 inline-block"><i
+                            class="fa-regular fa-arrow-up"></i> 12 baru</span>
+                </div>
+                <div class="w-14 h-14 bg-[#f0ebe6] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+            </div>
+            <!-- transaksi hari ini -->
+            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Transaksi hari ini</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">43</p>
+                    <span class="text-xs text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full mt-2 inline-block"><i
+                            class="fa-regular fa-clock"></i> 12 pending</span>
+                </div>
+                <div class="w-14 h-14 bg-[#e9f0e9] rounded-full flex items-center justify-center text-3xl text-[#6f9e6f]">
+                    <i class="fa-regular fa-receipt"></i>
+                </div>
+            </div>
+            <!-- pendapatan -->
+            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Pendapatan (today)</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">Rp 3,8jt</p>
+                    <span class="text-xs text-green-800 bg-green-100 px-2 py-0.5 rounded-full mt-2 inline-block"><i
+                            class="fa-regular fa-arrow-up"></i> +8%</span>
+                </div>
+                <div class="w-14 h-14 bg-[#f7ede2] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+            </div>
+            <!-- jumlah user -->
+            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wide">Pengguna aktif</p>
+                    <p class="text-3xl font-bold text-[#3d332b]">12</p>
+                    <span class="text-xs text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full mt-2 inline-block">3
+                        kasir online</span>
+                </div>
+                <div class="w-14 h-14 bg-[#e1f0e1] rounded-full flex items-center justify-center text-3xl text-[#6f9e6f]">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRAFIK + KATEGOPOP (dua kolom) dengan warna lembut -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- area grafik -->
+            <div class="lg:col-span-2 bg-white p-5 rounded-2xl shadow-sm border border-[#e5d9d0]">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-[#3d332b] flex items-center gap-2"><i
+                            class="fa-regular fa-chart-line text-[#7aa57a]"></i> Grafik Penjualan 7 Hari
+                        Terakhir</h2>
+                    <span class="bg-[#f8f5f2] px-3 py-1 rounded-full text-xs text-[#6b5b4c]"><i
+                            class="fa-regular fa-calendar"></i> 9–15 Mar 2026</span>
+                </div>
+                <!-- bar chart warna pastel -->
+                <div class="h-44 flex items-end gap-3 mt-6">
+                    <div class="w-1/6 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#a7c4a7] rounded-t-md h-20"></div><span
+                            class="text-xs text-gray-600">Sen</span><span
+                            class="text-xs font-medium text-gray-700">1,2jt</span>
+                    </div>
+                    <div class="w-1/6 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#b5d0b5] rounded-t-md h-24"></div><span
+                            class="text-xs text-gray-600">Sel</span><span class="text-xs font-medium">1,8jt</span>
+                    </div>
+                    <div class="w-1/6 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#cfb695] rounded-t-md h-16"></div><span
+                            class="text-xs text-gray-600">Rab</span><span class="text-xs font-medium">0,9jt</span>
+                    </div>
+                    <div class="w-1/6 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#c2a885] rounded-t-md h-28"></div><span
+                            class="text-xs text-gray-600">Kam</span><span class="text-xs font-medium">2,1jt</span>
+                    </div>
+                    <div class="w-1/6 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#a7c4a7] rounded-t-md h-32"></div><span
+                            class="text-xs text-gray-600">Jum</span><span class="text-xs font-medium">2,4jt</span>
+                    </div>
+                    <div class="w-1/6 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#b5d0b5] rounded-t-md h-24"></div><span
+                            class="text-xs text-gray-600">Sab</span><span class="text-xs font-medium">1,7jt</span>
+                    </div>
+                    <div class="w-1/6 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#cfb695] rounded-t-md h-18"></div><span
+                            class="text-xs text-gray-600">Min</span><span class="text-xs font-medium">1,3jt</span>
+                    </div>
+                </div>
+                <p class="text-right text-xs text-gray-400 mt-4 italic">* data statis · warna pelengkap hijau
+                    pastel & krem</p>
+            </div>
+            <!-- kategori populer & ringkasan -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-[#e5d9d0]">
+                <h2 class="text-lg font-semibold text-[#3d332b] mb-4 flex items-center gap-2"><i
+                        class="fa-regular fa-rectangle-ad text-[#b48b5a]"></i> Kategori populer</h2>
+                <ul class="space-y-3">
+                    <li class="flex justify-between items-center border-b border-dashed border-[#e0d3c7] pb-2">
+                        <span><i class="fa-regular fa-bowl-food text-[#7aa57a] mr-2"></i>Makanan utama</span>
+                        <span class="font-medium text-[#3d332b]">48 menu</span>
+                    </li>
+                    <li class="flex justify-between items-center border-b border-dashed border-[#e0d3c7] pb-2">
+                        <span><i class="fa-regular fa-mug-saucer text-[#b48b5a] mr-2"></i>Minuman tradisi</span>
+                        <span class="font-medium text-[#3d332b]">23 menu</span>
+                    </li>
+                    <li class="flex justify-between items-center border-b border-dashed border-[#e0d3c7] pb-2">
+                        <span><i class="fa-regular fa-cake text-[#7aa57a] mr-2"></i>Jajanan pasar</span> <span
+                            class="font-medium text-[#3d332b]">18 menu</span>
+                    </li>
+                    <li class="flex justify-between items-center border-b border-dashed border-[#e0d3c7] pb-2">
+                        <span><i class="fa-regular fa-martini-glass text-[#b48b5a] mr-2"></i>Kopi & teh</span>
+                        <span class="font-medium text-[#3d332b]">21 menu</span>
+                    </li>
+                </ul>
+                <div class="mt-5 flex items-center justify-between bg-[#f8f5f2] p-3 rounded-xl">
+                    <span class="text-sm text-gray-700"><i class="fa-regular fa-store mr-1"></i> Total
+                        menu</span>
+                    <span class="font-bold text-xl text-[#3d6e3d]">126</span>
+                </div>
+                <!-- status menu soft -->
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <div class="bg-green-50 p-2 rounded-lg text-center"><span
+                            class="text-xs text-green-800">Tersedia</span><span
+                            class="block font-bold text-green-900">92</span></div>
+                    <div class="bg-amber-50 p-2 rounded-lg text-center"><span
+                            class="text-xs text-amber-800">Habis</span><span
+                            class="block font-bold text-amber-900">34</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABEL TRANSAKSI (soft, easy on eyes) -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-[#e5d9d0]">
+            <div class="flex flex-wrap items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-[#3d332b] flex items-center gap-2"><i
+                        class="fa-regular fa-clock-rotate-left text-[#7aa57a]"></i> 10 Transaksi Terakhir</h2>
+                <div class="flex gap-2 text-sm">
+                    <span
+                        class="bg-[#f8f5f2] px-4 py-2 rounded-full flex items-center gap-2 border border-[#d9cdc0] text-[#5f4d40] hover:bg-[#f0e9e2] transition-colors cursor-default"><i
+                            class="fa-regular fa-filter text-[#7aa57a]"></i> Filter tanggal</span>
+                    <span
+                        class="bg-[#7aa57a] text-white px-4 py-2 rounded-full flex items-center gap-2 shadow-sm hover:bg-[#689268] transition-colors cursor-default"><i
+                            class="fa-regular fa-file-export"></i> Export</span>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="text-[#6b5b4c] border-b border-[#e0d3c7]">
+                        <tr>
+                            <th class="text-left py-3 px-2 font-medium">ID</th>
+                            <th class="text-left py-3 px-2">Tanggal</th>
+                            <th class="text-left py-3 px-2">Pelanggan</th>
+                            <th class="text-left py-3 px-2">Total</th>
+                            <th class="text-left py-3 px-2">Status</th>
+                            <th class="text-left py-3 px-2">Kasir</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#f0e7df]">
+                        <tr class="hover:bg-[#fcf9f7] transition-colors">
+                            <td class="py-3 px-2 font-mono text-[#5f4d40]">#TRX-782</td>
+                            <td>15 Mar 2026, 11:20</td>
+                            <td>Budi (dine in)</td>
+                            <td class="font-medium">Rp 185.000</td>
+                            <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">selesai</span>
+                            </td>
+                            <td>Dewi</td>
+                        </tr>
+                        <tr class="hover:bg-[#fcf9f7]">
+                            <td class="py-3 px-2 font-mono">#TRX-781</td>
+                            <td>15 Mar 2026, 10:45</td>
+                            <td>Anita</td>
+                            <td class="font-medium">Rp 94.500</td>
+                            <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">selesai</span>
+                            </td>
+                            <td>Rama</td>
+                        </tr>
+                        <tr class="hover:bg-[#fcf9f7]">
+                            <td class="py-3 px-2 font-mono">#TRX-780</td>
+                            <td>15 Mar 2026, 09:30</td>
+                            <td>Kelompok 4</td>
+                            <td class="font-medium">Rp 424.000</td>
+                            <td><span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs">pending</span>
+                            </td>
+                            <td>Admin</td>
+                        </tr>
+                        <tr class="hover:bg-[#fcf9f7]">
+                            <td class="py-3 px-2 font-mono">#TRX-779</td>
+                            <td>14 Mar 2026, 18:15</td>
+                            <td>Pak RT</td>
+                            <td class="font-medium">Rp 650.000</td>
+                            <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">selesai</span>
+                            </td>
+                            <td>Dewi</td>
+                        </tr>
+                        <tr class="hover:bg-[#fcf9f7]">
+                            <td class="py-3 px-2 font-mono">#TRX-778</td>
+                            <td>14 Mar 2026, 15:20</td>
+                            <td>Online (gofood)</td>
+                            <td class="font-medium">Rp 130.200</td>
+                            <td><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">diproses</span>
+                            </td>
+                            <td>Kasir 2</td>
+                        </tr>
+                        <tr class="hover:bg-[#fcf9f7]">
+                            <td class="py-3 px-2 font-mono">#TRX-777</td>
+                            <td>14 Mar 2026, 12:10</td>
+                            <td>Rina</td>
+                            <td class="font-medium">Rp 267.000</td>
+                            <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">selesai</span>
+                            </td>
+                            <td>Dewi</td>
+                        </tr>
+                        <tr class="hover:bg-[#fcf9f7]">
+                            <td class="py-3 px-2 font-mono">#TRX-776</td>
+                            <td>14 Mar 2026, 09:45</td>
+                            <td>Andi</td>
+                            <td class="font-medium">Rp 78.500</td>
+                            <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">selesai</span>
+                            </td>
+                            <td>Rama</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-between items-center mt-4 text-sm text-[#8b7a6b]">
+                <span><i class="fa-regular fa-receipt mr-1"></i> 43 transaksi hari ini · 7 ditampilkan</span>
+                <span class="bg-[#f8f5f2] px-4 py-1 rounded-full border border-[#d9cdc0]">1-7 dari 43</span>
+            </div>
+        </div>
+    </div>
+@endsection

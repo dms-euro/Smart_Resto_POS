@@ -29,6 +29,7 @@ class KategoriController extends Controller
         $validate = $request->validate([
             'nama_kategori' => 'required',
             'deskripsi' => 'nullable',
+            'icon' => 'required|in:makanan,minuman,camilan',
         ]);
 
         $data = Kategori::create($validate);
@@ -78,6 +79,7 @@ class KategoriController extends Controller
         $validate = $request->validate([
             'nama_kategori' => 'required',
             'deskripsi' => 'nullable',
+            'icon' => 'required|in:makanan,minuman,camilan',
         ]);
 
         $kategori->update($validate);

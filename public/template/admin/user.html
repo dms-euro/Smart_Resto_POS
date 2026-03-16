@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen User · Warung Daun | POS Restoran</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Flowbite CSS & JS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <!-- Box Icons CDN Resmi (v2.1.0) -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8f5f2;
+        }
+
+        /* Pastikan icon boxicons punya ukuran yang pas */
+        .bx {
+            font-size: 1.25rem;
+            vertical-align: middle;
+        }
+
+        .bx-xs {
+            font-size: 1rem;
+        }
+
+        .bx-sm {
+            font-size: 1.125rem;
+        }
+
+        .bx-md {
+            font-size: 1.375rem;
+        }
+
+        .bx-lg {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="text-gray-700 antialiased">
+
+    <!-- LAYOUT ADMIN -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- SIDEBAR -->
+        <aside class="w-72 bg-[#3d332b] text-[#e6ddd4] shadow-xl hidden md:block flex-shrink-0">
+            <div class="p-6 border-b border-[#7c6b5a]/40">
+                <div class="flex items-center gap-3">
+                    <!-- BoxIcon: leaf -->
+                    <i class='bx bx-leaf text-[#8fb08c] text-3xl'></i>
+                    <span class="text-2xl font-semibold tracking-wide text-white">Warung <span
+                            class="text-[#bdd6bd]">Daun</span></span>
+                </div>
+                <p class="text-xs text-[#cfc5b8] mt-1 ml-1">modern indonesian taste</p>
+            </div>
+            <nav class="p-5 space-y-2">
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-dashboard'></i> Dashboard
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 bg-[#7a9f7a]/30 text-white rounded-xl border-l-4 border-[#9fc99f] font-medium">
+                    <i class='bx bxs-user-account'></i> Manajemen User
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-category'></i> Kategori
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-food-menu'></i> Menu
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-report'></i> Laporan Transaksi
+                </a>
+            </nav>
+            <div class="absolute bottom-6 left-6 text-[#bba891] text-sm flex items-center gap-2">
+                <i class='bx bxs-user-circle text-xl'></i> <span>Admin · Warung Daun</span>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
+            <div>
+                <!-- header -->
+                <div class="flex flex-wrap items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-[#3d332b] flex items-center gap-3">
+                            <i class='bx bxs-group text-[#7aa57a]'></i> Manajemen User
+                            <span class="text-sm bg-[#e0d6cc] text-[#4a3f37] px-3 py-1 rounded-full font-normal">12
+                                aktif</span>
+                        </h1>
+                        <p class="text-[#8b7a6b] mt-1 flex items-center gap-2">
+                            <i class='bx bx-user-plus text-[#7aa57a]'></i> Kelola role admin / kasir / manager
+                        </p>
+                    </div>
+                    <!-- Tombol Tambah User (trigger Flowbite modal) -->
+                    <button data-modal-target="addUserModal" data-modal-toggle="addUserModal"
+                        class="bg-[#7aa57a] text-white rounded-full px-6 py-2.5 text-sm shadow-md flex items-center gap-2 hover:bg-[#689268] transition-colors mt-4 sm:mt-0">
+                        <i class='bx bx-plus-circle'></i> Tambah User Baru
+                    </button>
+                </div>
+
+                <!-- FILTER -->
+                <div class="flex flex-wrap gap-3 mb-6 items-center justify-between">
+                    <div class="flex gap-2">
+                        <span
+                            class="bg-white border border-[#ddd0c4] rounded-full px-5 py-2 text-sm flex items-center gap-2">
+                            <i class='bx bx-filter-alt text-[#7aa57a]'></i> Semua Role
+                        </span>
+                        <span
+                            class="bg-white border border-[#ddd0c4] rounded-full px-5 py-2 text-sm flex items-center gap-2">
+                            <i class='bx bx-chevron-down text-xs'></i> Status
+                        </span>
+                    </div>
+                    <div class="relative">
+                        <i class='bx bx-search absolute left-4 top-3 text-[#8b7a6b] text-sm'></i>
+                        <input type="text" placeholder="Cari user..."
+                            class="pl-10 pr-5 py-2 rounded-full border border-[#ddd0c4] bg-white text-sm w-64 focus:outline-none focus:ring-2 focus:ring-[#7aa57a]/30">
+                    </div>
+                </div>
+
+                <!-- TABEL USER -->
+                <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-[#f8f5f2] text-[#6b5b4c] border-b border-[#e0d3c7]">
+                                <tr>
+                                    <th class="text-left py-4 px-6 font-medium">Nama</th>
+                                    <th class="text-left py-4 px-6 font-medium">Email</th>
+                                    <th class="text-left py-4 px-6 font-medium">Role</th>
+                                    <th class="text-left py-4 px-6 font-medium">Status</th>
+                                    <th class="text-left py-4 px-6 font-medium">Terdaftar</th>
+                                    <th class="text-left py-4 px-6 font-medium">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#f0e7df]">
+                                <!-- row 1 -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 bg-[#e0d6cc] rounded-full flex items-center justify-center text-[#5f4d40]">
+                                                <i class='bx bxs-user-circle'></i>
+                                            </div>
+                                            <span class="font-medium text-[#3d332b]">Dewi Lestari</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6">dewi@warungdaun.id</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-[#e9f0e9] text-[#2d5a2d] px-3 py-1 rounded-full text-xs font-medium">Admin</span>
+                                    </td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                    </td>
+                                    <td class="py-4 px-6">1 Mar 2024</td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editUserModal" data-modal-toggle="editUserModal"
+                                                onclick="populateEditModal(1)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
+                                            </button>
+                                            <button onclick="confirmDelete(1)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- row 2 -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 bg-[#e0d6cc] rounded-full flex items-center justify-center text-[#5f4d40]">
+                                                <i class='bx bxs-user-circle'></i>
+                                            </div>
+                                            <span class="font-medium text-[#3d332b]">Rama Putra</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6">rama@warungdaun.id</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-[#f7ede2] text-[#8e6943] px-3 py-1 rounded-full text-xs font-medium">Kasir</span>
+                                    </td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                    </td>
+                                    <td class="py-4 px-6">15 Feb 2024</td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editUserModal" data-modal-toggle="editUserModal"
+                                                onclick="populateEditModal(2)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
+                                            </button>
+                                            <button onclick="confirmDelete(2)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- row 3 -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 bg-[#e0d6cc] rounded-full flex items-center justify-center text-[#5f4d40]">
+                                                <i class='bx bxs-user-circle'></i>
+                                            </div>
+                                            <span class="font-medium text-[#3d332b]">Siti Nurhaliza</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6">siti@warungdaun.id</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-[#e6d9cb] text-[#6b5b4c] px-3 py-1 rounded-full text-xs font-medium">Manager</span>
+                                    </td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                    </td>
+                                    <td class="py-4 px-6">10 Jan 2024</td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editUserModal" data-modal-toggle="editUserModal"
+                                                onclick="populateEditModal(3)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
+                                            </button>
+                                            <button onclick="confirmDelete(3)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- row 4 (nonaktif) -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors opacity-80">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 bg-[#e0d6cc] rounded-full flex items-center justify-center text-[#5f4d40]">
+                                                <i class='bx bxs-user-circle'></i>
+                                            </div>
+                                            <span class="font-medium text-[#3d332b]">Budi Santoso</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6">budi@warungdaun.id</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-[#f7ede2] text-[#8e6943] px-3 py-1 rounded-full text-xs font-medium">Kasir</span>
+                                    </td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs">Nonaktif</span>
+                                    </td>
+                                    <td class="py-4 px-6">20 Mar 2024</td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editUserModal" data-modal-toggle="editUserModal"
+                                                onclick="populateEditModal(4)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
+                                            </button>
+                                            <button onclick="confirmDelete(4)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- pagination -->
+                    <div
+                        class="flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
+                        <span>Menampilkan 1-4 dari 12 user</span>
+                        <div class="flex gap-2">
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
+                                <i class='bx bx-chevron-left text-xs'></i>
+                            </span>
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-[#7aa57a] text-white">1</span>
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">2</span>
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">3</span>
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
+                                <i class='bx bx-chevron-right text-xs'></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- FOOTER -->
+            <div class="mt-8 text-sm text-[#8b7a6b] flex justify-between items-center border-t border-[#e0d3c7] pt-5">
+                <span><i class='bx bx-leaf text-[#7aa57a] mr-1'></i> Warung Daun · Manajemen User</span>
+                <span><i class='bx bx-time'></i> Terakhir sinkron: 15 Mar 2026 14:30</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- FLOWBITE MODAL: ADD USER -->
+    <div id="addUserModal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                    <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                        <i class='bx bx-user-plus text-[#7aa57a]'></i> Tambah User Baru
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                        data-modal-hide="addUserModal">
+                        <i class='bx bx-x text-xl'></i>
+                    </button>
+                </div>
+                <div class="p-4 md:p-5">
+                    <form onsubmit="event.preventDefault(); saveUser('add');" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Lengkap <span
+                                    class="text-red-400">*</span></label>
+                            <input type="text"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30 focus:border-[#7aa57a] outline-none"
+                                placeholder="contoh: Dewi Lestari">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Email</label>
+                            <input type="email"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                placeholder="user@warungdaun.id">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Password <span
+                                    class="text-red-400">*</span></label>
+                            <input type="password"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                placeholder="min. 6 karakter">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-sm font-medium text-[#5f4d40] mb-1">Role</label>
+                                <select
+                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                    <option>Admin</option>
+                                    <option selected>Kasir</option>
+                                    <option>Manager</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#5f4d40] mb-1">Status</label>
+                                <select
+                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                    <option selected>Aktif</option>
+                                    <option>Nonaktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 mt-6">
+                            <button type="button" data-modal-hide="addUserModal"
+                                class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                            <button type="submit"
+                                class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                <i class='bx bx-check-circle'></i> Simpan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOWBITE MODAL: EDIT USER -->
+    <div id="editUserModal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                    <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                        <i class='bx bxs-edit text-[#7aa57a]'></i> Edit User
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                        data-modal-hide="editUserModal">
+                        <i class='bx bx-x text-xl'></i>
+                    </button>
+                </div>
+                <div class="p-4 md:p-5">
+                    <form onsubmit="event.preventDefault(); updateUser();" class="space-y-4">
+                        <input type="hidden" id="editUserId">
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Lengkap</label>
+                            <input type="text" id="editName"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                value="Dewi Lestari">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Email</label>
+                            <input type="email" id="editEmail"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                value="dewi@warungdaun.id">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Role</label>
+                            <select id="editRole"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                <option>Admin</option>
+                                <option>Kasir</option>
+                                <option>Manager</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Status</label>
+                            <select id="editStatus"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                <option>Aktif</option>
+                                <option>Nonaktif</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-end gap-3 mt-6">
+                            <button type="button" data-modal-hide="editUserModal"
+                                class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                            <button type="submit"
+                                class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                <i class='bx bx-check-circle'></i> Perbarui
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Flowbite JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+
+    <script>
+        // Populate edit modal dengan data sesuai user
+        function populateEditModal(userId) {
+            document.getElementById('editUserId').value = userId;
+            if (userId === 1) {
+                document.getElementById('editName').value = 'Dewi Lestari';
+                document.getElementById('editEmail').value = 'dewi@warungdaun.id';
+                document.getElementById('editRole').value = 'Admin';
+                document.getElementById('editStatus').value = 'Aktif';
+            } else if (userId === 2) {
+                document.getElementById('editName').value = 'Rama Putra';
+                document.getElementById('editEmail').value = 'rama@warungdaun.id';
+                document.getElementById('editRole').value = 'Kasir';
+                document.getElementById('editStatus').value = 'Aktif';
+            } else if (userId === 3) {
+                document.getElementById('editName').value = 'Siti Nurhaliza';
+                document.getElementById('editEmail').value = 'siti@warungdaun.id';
+                document.getElementById('editRole').value = 'Manager';
+                document.getElementById('editStatus').value = 'Aktif';
+            } else {
+                document.getElementById('editName').value = 'Budi Santoso';
+                document.getElementById('editEmail').value = 'budi@warungdaun.id';
+                document.getElementById('editRole').value = 'Kasir';
+                document.getElementById('editStatus').value = 'Nonaktif';
+            }
+        }
+
+        // Simpan user (simulasi)
+        function saveUser(type) {
+            // Tutup modal via Flowbite (manual trigger)
+            const modal = document.getElementById('addUserModal');
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'User ditambahkan',
+                text: 'User baru berhasil disimpan (demo)',
+                timer: 2000,
+                showConfirmButton: false,
+                background: '#f8f5f2',
+                customClass: { popup: 'rounded-2xl' }
+            });
+        }
+
+        function updateUser() {
+            // Tutup modal edit
+            const modal = document.getElementById('editUserModal');
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'User diperbarui',
+                text: 'Data user berhasil diupdate (demo)',
+                timer: 2000,
+                showConfirmButton: false,
+                background: '#f8f5f2'
+            });
+        }
+
+        function confirmDelete(userId) {
+            Swal.fire({
+                title: 'Hapus user?',
+                text: "User akan dihapus permanen!",
+                icon: 'warning',
+                iconColor: '#2E7D32', // Hijau Daun untuk icon
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                background: '#f8f5f2', // Background krem lembut
+
+                // INI KUNCINYA: Styling via Tailwind Classes
+                customClass: {
+                    popup: 'rounded-[20px] border-2 border-[#5D4037]', // Coklat Kayu border
+                    title: 'text-[#5D4037] font-bold',
+                    htmlContainer: 'text-gray-600',
+                    confirmButton: 'bg-[#5D4037] hover:bg-[#4a332c] text-white px-6 py-2 rounded-lg mx-2 border-0',
+                    cancelButton: 'bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded-lg mx-2 border-0'
+                },
+                // Matikan style bawaan tombol agar class Tailwind kita tidak tabrakan
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Terhapus!',
+                        text: 'User berhasil dihapus (demo).',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        background: '#f8f5f2'
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,652 +1,522 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warasa · Admin Kategori</title>
-    <!-- Tailwind + DaisyUI -->
+    <title>Manajemen Kategori · Warung Daun | POS Restoran</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.css" rel="stylesheet" type="text/css" />
-    <!-- Boxicons CDN -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
-        rel="stylesheet">
+    <!-- Flowbite CSS & JS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <!-- Box Icons CDN Resmi -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8f5f2;
+        }
+
+        .bx {
+            font-size: 1.25rem;
+            vertical-align: middle;
         }
     </style>
 </head>
 
-<body class="bg-base-200">
+<body class="text-gray-700 antialiased">
 
-    <!-- Container dengan sidebar -->
-    <div class="drawer lg:drawer-open">
-        <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-
-        <!-- Konten Utama -->
-        <div class="drawer-content flex flex-col">
-
-            <!-- Navbar (untuk mobile) -->
-            <div class="navbar bg-base-100 shadow-md lg:hidden">
-                <div class="flex-none">
-                    <label for="my-drawer-2" class="btn btn-square btn-ghost">
-                        <i class='bx bx-menu text-2xl'></i>
-                    </label>
+    <!-- LAYOUT ADMIN -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- SIDEBAR (sama persis) -->
+        <aside class="w-72 bg-[#3d332b] text-[#e6ddd4] shadow-xl hidden md:block flex-shrink-0">
+            <div class="p-6 border-b border-[#7c6b5a]/40">
+                <div class="flex items-center gap-3">
+                    <i class='bx bx-leaf text-[#8fb08c] text-3xl'></i>
+                    <span class="text-2xl font-semibold tracking-wide text-white">Warung <span
+                            class="text-[#bdd6bd]">Daun</span></span>
                 </div>
-                <div class="flex-1">
-                    <a class="btn btn-ghost text-xl">
-                        <i class='bx bx-restaurant text-[#5f7b5a]'></i>
-                        Warasa Admin
-                    </a>
-                </div>
-                <div class="flex-none gap-2">
-                    <div class="dropdown dropdown-end">
-                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                            <div class="w-10 rounded-full bg-[#f5ede1] flex items-center justify-center">
-                                <i class='bx bx-user-circle text-2xl text-[#5f7b5a]'></i>
-                            </div>
-                        </div>
-                        <ul tabindex="0"
-                            class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                            <li><a>Profil</a></li>
-                            <li><a>Pengaturan</a></li>
-                            <li><a>Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <p class="text-xs text-[#cfc5b8] mt-1 ml-1">modern indonesian taste</p>
             </div>
+            <nav class="p-5 space-y-2">
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-dashboard'></i> Dashboard
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-user-account'></i> Manajemen User
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 bg-[#7a9f7a]/30 text-white rounded-xl border-l-4 border-[#9fc99f] font-medium">
+                    <i class='bx bxs-category'></i> Kategori
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-food-menu'></i> Menu
+                </a>
+                <a href="#"
+                    class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
+                    <i class='bx bxs-report'></i> Laporan Transaksi
+                </a>
+            </nav>
+            <div class="absolute bottom-6 left-6 text-[#bba891] text-sm flex items-center gap-2">
+                <i class='bx bxs-user-circle text-xl'></i> <span>Admin · Warung Daun</span>
+            </div>
+        </aside>
 
-            <!-- Konten Halaman -->
-            <div class="p-4 md:p-6 lg:p-8">
-
-                <!-- Header dengan judul dan tombol tambah -->
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
+            <div>
+                <!-- header -->
+                <div class="flex flex-wrap items-center justify-between mb-8">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-base-content flex items-center gap-2">
-                            <i class='bx bx-category text-primary'></i>
-                            Manajemen Kategori
+                        <h1 class="text-3xl font-bold text-[#3d332b] flex items-center gap-3">
+                            <i class='bx bxs-category-alt text-[#7aa57a]'></i> Manajemen Kategori
+                            <span class="text-sm bg-[#e0d6cc] text-[#4a3f37] px-3 py-1 rounded-full font-normal">4
+                                kategori</span>
                         </h1>
-                        <p class="text-base-content/70 mt-1">Kelola kategori menu makanan dan minuman</p>
+                        <p class="text-[#8b7a6b] mt-1 flex items-center gap-2">
+                            <i class='bx bx-category text-[#7aa57a]'></i> Kelola kategori menu makanan & minuman
+                        </p>
                     </div>
-
-                    <!-- Tombol Tambah (modal) -->
-                    <button class="btn btn-primary" onclick="document.getElementById('modal_tambah').showModal()">
-                        <i class='bx bx-plus-circle'></i>
-                        Tambah Kategori
+                    <!-- Tombol Tambah Kategori -->
+                    <button data-modal-target="addCategoryModal" data-modal-toggle="addCategoryModal"
+                        class="bg-[#7aa57a] text-white rounded-full px-6 py-2.5 text-sm shadow-md flex items-center gap-2 hover:bg-[#689268] transition-colors mt-4 sm:mt-0">
+                        <i class='bx bx-plus-circle'></i> Tambah Kategori Baru
                     </button>
                 </div>
 
-                <!-- Statistik Cards -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
-                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
-                        <div class="stat-figure text-primary">
-                            <i class='bx bx-category text-2xl'></i>
+                <!-- STATISTIK KATEGORI (ringkasan) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                    <div
+                        class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Total Kategori</p>
+                            <p class="text-3xl font-bold text-[#3d332b]">4</p>
+                            <span
+                                class="text-xs text-green-800 bg-green-100 px-2 py-0.5 rounded-full mt-2 inline-block">Aktif
+                                semua</span>
                         </div>
-                        <div class="stat-title text-xs">Total Kategori</div>
-                        <div class="stat-value text-2xl md:text-3xl">8</div>
+                        <div
+                            class="w-14 h-14 bg-[#f0ebe6] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                            <i class='bx bx-category'></i>
+                        </div>
                     </div>
-                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
-                        <div class="stat-figure text-primary">
-                            <i class='bx bx-bowl-hot text-2xl'></i>
+                    <div
+                        class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Makanan</p>
+                            <p class="text-3xl font-bold text-[#3d332b]">48</p>
+                            <span
+                                class="text-xs text-[#7aa57a] bg-green-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
                         </div>
-                        <div class="stat-title text-xs">Makanan</div>
-                        <div class="stat-value text-2xl md:text-3xl">4</div>
+                        <div
+                            class="w-14 h-14 bg-[#e9f0e9] rounded-full flex items-center justify-center text-3xl text-[#6f9e6f]">
+                            <i class='bx bxs-bowl-hot'></i>
+                        </div>
                     </div>
-                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
-                        <div class="stat-figure text-primary">
-                            <i class='bx bx-drink text-2xl'></i>
+                    <div
+                        class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Minuman</p>
+                            <p class="text-3xl font-bold text-[#3d332b]">44</p>
+                            <span
+                                class="text-xs text-[#b48b5a] bg-amber-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
                         </div>
-                        <div class="stat-title text-xs">Minuman</div>
-                        <div class="stat-value text-2xl md:text-3xl">3</div>
+                        <div
+                            class="w-14 h-14 bg-[#f7ede2] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                            <i class='bx bxs-coffee'></i>
+                        </div>
                     </div>
-                    <div class="stat bg-base-100 rounded-box shadow-md p-4">
-                        <div class="stat-figure text-primary">
-                            <i class='bx bx-group text-2xl'></i>
+                    <div
+                        class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Snack</p>
+                            <p class="text-3xl font-bold text-[#3d332b]">34</p>
+                            <span
+                                class="text-xs text-[#8e6943] bg-amber-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
                         </div>
-                        <div class="stat-title text-xs">Paket</div>
-                        <div class="stat-value text-2xl md:text-3xl">1</div>
+                        <div
+                            class="w-14 h-14 bg-[#f7ede2] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
+                            <i class='bx bxs-cake'></i>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tabel Kategori (Responsif) -->
-                <div class="bg-base-100 rounded-box shadow-xl overflow-hidden">
+                <!-- TABEL KATEGORI -->
+                <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="table table-zebra">
-                            <!-- head -->
-                            <thead>
+                        <table class="w-full text-sm">
+                            <thead class="bg-[#f8f5f2] text-[#6b5b4c] border-b border-[#e0d3c7]">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Icon</th>
-                                    <th>Nama Kategori</th>
-                                    <th class="hidden md:table-cell">Deskripsi</th>
-                                    <th>Menu</th>
-                                    <th>Status</th>
-                                    <th class="hidden lg:table-cell">Dibuat</th>
-                                    <th>Aksi</th>
+                                    <th class="text-left py-4 px-6 font-medium">Icon</th>
+                                    <th class="text-left py-4 px-6 font-medium">Nama Kategori</th>
+                                    <th class="text-left py-4 px-6 font-medium">Deskripsi</th>
+                                    <th class="text-left py-4 px-6 font-medium">Jumlah Menu</th>
+                                    <th class="text-left py-4 px-6 font-medium">Status</th>
+                                    <th class="text-left py-4 px-6 font-medium">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Makanan -->
-                                <tr>
-                                    <td class="font-mono text-xs">#K001</td>
-                                    <td><i class='bx bx-bowl-hot text-xl text-primary'></i></td>
-                                    <td class="font-medium">Makanan</td>
-                                    <td class="hidden md:table-cell max-w-xs truncate">Hidangan utama, lauk-pauk, dan
-                                        makanan berat</td>
-                                    <td><span class="badge badge-soft badge-primary">12</span></td>
-                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
-                                    <td class="hidden lg:table-cell">12 Jan 2025</td>
-                                    <td>
-                                        <div class="flex gap-1">
-                                            <button class="btn btn-xs btn-ghost text-info"
-                                                onclick="showDetail('Makanan')">
-                                                <i class='bx bx-show text-lg'></i>
+                            <tbody class="divide-y divide-[#f0e7df]">
+                                <!-- row 1: Makanan -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div
+                                            class="w-10 h-10 bg-[#e9f0e9] rounded-lg flex items-center justify-center text-[#6f9e6f] text-xl">
+                                            <i class='bx bxs-bowl-hot'></i>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 font-medium text-[#3d332b]">Makanan Utama</td>
+                                    <td class="py-4 px-6">Nasi, lauk, sayur, dan hidangan utama</td>
+                                    <td class="py-4 px-6">48 menu</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editCategoryModal"
+                                                data-modal-toggle="editCategoryModal" onclick="populateEditCategory(1)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
                                             </button>
-                                            <button class="btn btn-xs btn-ghost text-warning"
-                                                onclick="openEditModal('#K001', 'Makanan', 'bx-bowl-hot', 'Hidangan utama, lauk-pauk, dan makanan berat', 'Aktif')">
-                                                <i class='bx bx-edit-alt text-lg'></i>
-                                            </button>
-                                            <button class="btn btn-xs btn-ghost text-error"
-                                                onclick="confirmDelete('#K001', 'Makanan')">
-                                                <i class='bx bx-trash text-lg'></i>
+                                            <button onclick="confirmDeleteCategory(1)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- Minuman -->
-                                <tr>
-                                    <td class="font-mono text-xs">#K002</td>
-                                    <td><i class='bx bx-drink text-xl text-primary'></i></td>
-                                    <td class="font-medium">Minuman</td>
-                                    <td class="hidden md:table-cell max-w-xs truncate">Minuman panas, dingin,
-                                        tradisional, dan modern</td>
-                                    <td><span class="badge badge-soft badge-primary">8</span></td>
-                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
-                                    <td class="hidden lg:table-cell">12 Jan 2025</td>
-                                    <td>
-                                        <div class="flex gap-1">
-                                            <button class="btn btn-xs btn-ghost text-info"><i
-                                                    class='bx bx-show text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-warning"><i
-                                                    class='bx bx-edit-alt text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-error"><i
-                                                    class='bx bx-trash text-lg'></i></button>
+                                <!-- row 2: Minuman -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div
+                                            class="w-10 h-10 bg-[#f7ede2] rounded-lg flex items-center justify-center text-[#b48b5a] text-xl">
+                                            <i class='bx bxs-coffee'></i>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 font-medium text-[#3d332b]">Minuman</td>
+                                    <td class="py-4 px-6">Kopi, teh, jus, minuman tradisional</td>
+                                    <td class="py-4 px-6">44 menu</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editCategoryModal"
+                                                data-modal-toggle="editCategoryModal" onclick="populateEditCategory(2)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
+                                            </button>
+                                            <button onclick="confirmDeleteCategory(2)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- Paket Keluarga -->
-                                <tr>
-                                    <td class="font-mono text-xs">#K003</td>
-                                    <td><i class='bx bx-group text-xl text-primary'></i></td>
-                                    <td class="font-medium">Paket Keluarga</td>
-                                    <td class="hidden md:table-cell max-w-xs truncate">Paket hemat untuk 4-6 orang,
-                                        cocok untuk keluarga</td>
-                                    <td><span class="badge badge-soft badge-primary">5</span></td>
-                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
-                                    <td class="hidden lg:table-cell">15 Jan 2025</td>
-                                    <td>
-                                        <div class="flex gap-1">
-                                            <button class="btn btn-xs btn-ghost text-info"><i
-                                                    class='bx bx-show text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-warning"><i
-                                                    class='bx bx-edit-alt text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-error"><i
-                                                    class='bx bx-trash text-lg'></i></button>
+                                <!-- row 3: Snack -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div
+                                            class="w-10 h-10 bg-[#f7ede2] rounded-lg flex items-center justify-center text-[#b48b5a] text-xl">
+                                            <i class='bx bxs-cake'></i>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 font-medium text-[#3d332b]">Snack & Jajanan</td>
+                                    <td class="py-4 px-6">Gorengan, kue tradisional, camilan</td>
+                                    <td class="py-4 px-6">34 menu</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editCategoryModal"
+                                                data-modal-toggle="editCategoryModal" onclick="populateEditCategory(3)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
+                                            </button>
+                                            <button onclick="confirmDeleteCategory(3)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- Makanan Ringan -->
-                                <tr>
-                                    <td class="font-mono text-xs">#K004</td>
-                                    <td><i class='bx bx-baguette text-xl text-primary'></i></td>
-                                    <td class="font-medium">Makanan Ringan</td>
-                                    <td class="hidden md:table-cell max-w-xs truncate">Camilan, gorengan, dan appetizer
-                                    </td>
-                                    <td><span class="badge badge-soft badge-primary">6</span></td>
-                                    <td><span class="badge badge-success badge-sm">Aktif</span></td>
-                                    <td class="hidden lg:table-cell">20 Jan 2025</td>
-                                    <td>
-                                        <div class="flex gap-1">
-                                            <button class="btn btn-xs btn-ghost text-info"><i
-                                                    class='bx bx-show text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-warning"><i
-                                                    class='bx bx-edit-alt text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-error"><i
-                                                    class='bx bx-trash text-lg'></i></button>
+                                <!-- row 4: Sushi (contoh kategori tidak aktif) -->
+                                <tr class="hover:bg-[#fcf9f7] transition-colors opacity-80">
+                                    <td class="py-4 px-6">
+                                        <div
+                                            class="w-10 h-10 bg-[#e0d6cc] rounded-lg flex items-center justify-center text-[#8b7a6b] text-xl">
+                                            <i class='bx bxs-sushi'></i>
                                         </div>
                                     </td>
-                                </tr>
-                                <!-- Dessert (nonaktif) -->
-                                <tr>
-                                    <td class="font-mono text-xs">#K005</td>
-                                    <td><i class='bx bx-cake text-xl text-primary'></i></td>
-                                    <td class="font-medium">Dessert</td>
-                                    <td class="hidden md:table-cell max-w-xs truncate">Pencuci mulut, kue tradisional,
-                                        es krim</td>
-                                    <td><span class="badge badge-soft badge-primary">3</span></td>
-                                    <td><span class="badge badge-soft badge-warning">Nonaktif</span></td>
-                                    <td class="hidden lg:table-cell">25 Jan 2025</td>
-                                    <td>
-                                        <div class="flex gap-1">
-                                            <button class="btn btn-xs btn-ghost text-info"><i
-                                                    class='bx bx-show text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-warning"><i
-                                                    class='bx bx-edit-alt text-lg'></i></button>
-                                            <button class="btn btn-xs btn-ghost text-error"><i
-                                                    class='bx bx-trash text-lg'></i></button>
+                                    <td class="py-4 px-6 font-medium text-[#3d332b]">Sushi & Jepang</td>
+                                    <td class="py-4 px-6">Menu fusion Jepang (coming soon)</td>
+                                    <td class="py-4 px-6">0 menu</td>
+                                    <td class="py-4 px-6"><span
+                                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs">Tidak
+                                            Aktif</span></td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex gap-2">
+                                            <button data-modal-target="editCategoryModal"
+                                                data-modal-toggle="editCategoryModal" onclick="populateEditCategory(4)"
+                                                class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
+                                                <i class='bx bxs-edit'></i>
+                                            </button>
+                                            <button onclick="confirmDeleteCategory(4)"
+                                                class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
+                                                <i class='bx bxs-trash'></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Footer tabel dengan pagination -->
-                    <div class="flex justify-between items-center p-4 border-t border-base-200">
-                        <span class="text-sm text-base-content/70">1-5 dari 8 kategori</span>
-                        <div class="join">
-                            <button class="join-item btn btn-sm" disabled>«</button>
-                            <button class="join-item btn btn-sm btn-active">1</button>
-                            <button class="join-item btn btn-sm">2</button>
-                            <button class="join-item btn btn-sm">»</button>
+                    <!-- pagination -->
+                    <div
+                        class="flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
+                        <span>Menampilkan 1-4 dari 4 kategori</span>
+                        <div class="flex gap-2">
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
+                                <i class='bx bx-chevron-left text-xs'></i>
+                            </span>
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-[#7aa57a] text-white">1</span>
+                            <span
+                                class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
+                                <i class='bx bx-chevron-right text-xs'></i>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <!-- FOOTER -->
+            <div class="mt-8 text-sm text-[#8b7a6b] flex justify-between items-center border-t border-[#e0d3c7] pt-5">
+                <span><i class='bx bx-leaf text-[#7aa57a] mr-1'></i> Warung Daun · Manajemen Kategori</span>
+                <span><i class='bx bx-time'></i> Terakhir update: 16 Mar 2026 10:15</span>
+            </div>
+        </main>
+    </div>
 
-        <!-- Sidebar -->
-        <div class="drawer-side">
-            <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-            <div class="bg-base-100 text-base-content min-h-full w-80 p-4">
-
-                <!-- Logo Sidebar -->
-                <div class="flex items-center gap-2 px-4 py-6">
-                    <i class='bx bx-restaurant text-3xl text-primary'></i>
-                    <span class="font-bold text-xl">Warasa Admin</span>
+    <!-- FLOWBITE MODAL: ADD KATEGORI -->
+    <div id="addCategoryModal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                    <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                        <i class='bx bx-category-plus text-[#7aa57a]'></i> Tambah Kategori
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                        data-modal-hide="addCategoryModal">
+                        <i class='bx bx-x text-xl'></i>
+                    </button>
                 </div>
-
-                <!-- Menu Sidebar -->
-                <ul class="menu p-2 w-full gap-1">
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-dashboard text-xl'></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-calendar-check text-xl'></i>
-                            Reservasi
-                        </a>
-                    </li>
-                    <li class="menu-title">
-                        <span>Menu Management</span>
-                    </li>
-                    <li class="active">
-                        <a class="active">
-                            <i class='bx bx-category text-xl'></i>
-                            Kategori
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-dish text-xl'></i>
-                            Daftar Menu
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-package text-xl'></i>
-                            Paket Keluarga
-                        </a>
-                    </li>
-                    <li class="menu-title">
-                        <span>Lainnya</span>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-bar-chart-alt-2 text-xl'></i>
-                            Laporan
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-cog text-xl'></i>
-                            Pengaturan
-                        </a>
-                    </li>
-                </ul>
-
-                <!-- Profil di sidebar bawah -->
-                <div class="absolute bottom-4 left-4 right-4">
-                    <div class="flex items-center gap-3 p-3 bg-base-200 rounded-box">
-                        <div class="avatar placeholder">
-                            <div class="bg-primary text-primary-content rounded-full w-10">
-                                <span>A</span>
-                            </div>
+                <div class="p-4 md:p-5">
+                    <form onsubmit="event.preventDefault(); saveCategory();" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Kategori <span
+                                    class="text-red-400">*</span></label>
+                            <input type="text"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                placeholder="contoh: Makanan Pembuka">
                         </div>
-                        <div class="flex-1">
-                            <p class="font-semibold">Admin Warasa</p>
-                            <p class="text-xs text-base-content/70">admin@warasa.com</p>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
+                            <textarea rows="3"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                placeholder="Deskripsi kategori..."></textarea>
                         </div>
-                        <button class="btn btn-circle btn-ghost btn-sm">
-                            <i class='bx bx-log-out'></i>
-                        </button>
-                    </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Icon</label>
+                            <select
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                <option value="bxs-bowl-hot">🍲 Makanan</option>
+                                <option value="bxs-coffee">☕ Minuman</option>
+                                <option value="bxs-cake">🍰 Snack</option>
+                                <option value="bxs-sushi">🍣 Sushi</option>
+                                <option value="bxs-pizza">🍕 Pizza</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Status</label>
+                            <select
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                <option selected>Aktif</option>
+                                <option>Tidak Aktif</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-end gap-3 mt-6">
+                            <button type="button" data-modal-hide="addCategoryModal"
+                                class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                            <button type="submit"
+                                class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                <i class='bx bx-check-circle'></i> Simpan
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL TAMBAH KATEGORI (CREATE) -->
-    <dialog id="modal_tambah" class="modal">
-        <div class="modal-box w-11/12 max-w-lg">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <h3 class="font-bold text-lg flex items-center gap-2 mb-4">
-                <i class='bx bx-plus-circle text-primary'></i>
-                Tambah Kategori Baru
-            </h3>
-
-            <div class="space-y-4">
-                <!-- ID Kategori (readonly) -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text flex items-center gap-1">
-                            <i class='bx bx-hash'></i> ID Kategori
-                        </span>
-                    </label>
-                    <input type="text" value="#K007 (otomatis)" class="input input-bordered w-full bg-base-200"
-                        disabled />
+    <!-- FLOWBITE MODAL: EDIT KATEGORI -->
+    <div id="editCategoryModal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                    <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                        <i class='bx bxs-edit text-[#7aa57a]'></i> Edit Kategori
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                        data-modal-hide="editCategoryModal">
+                        <i class='bx bx-x text-xl'></i>
+                    </button>
                 </div>
-
-                <!-- Nama Kategori -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text flex items-center gap-1">
-                            <i class='bx bx-category'></i> Nama Kategori *
-                        </span>
-                    </label>
-                    <input type="text" placeholder="Contoh: Makanan Pembuka" class="input input-bordered w-full" />
+                <div class="p-4 md:p-5">
+                    <form onsubmit="event.preventDefault(); updateCategory();" class="space-y-4">
+                        <input type="hidden" id="editCategoryId">
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Kategori</label>
+                            <input type="text" id="editCategoryName"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                value="Makanan Utama">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
+                            <textarea id="editCategoryDesc" rows="3"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">Nasi, lauk, sayur, dan hidangan utama</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Icon</label>
+                            <select id="editCategoryIcon"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                <option value="bxs-bowl-hot">🍲 Makanan</option>
+                                <option value="bxs-coffee">☕ Minuman</option>
+                                <option value="bxs-cake">🍰 Snack</option>
+                                <option value="bxs-sushi">🍣 Sushi</option>
+                                <option value="bxs-pizza">🍕 Pizza</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Status</label>
+                            <select id="editCategoryStatus"
+                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">
+                                <option>Aktif</option>
+                                <option>Tidak Aktif</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-end gap-3 mt-6">
+                            <button type="button" data-modal-hide="editCategoryModal"
+                                class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                            <button type="submit"
+                                class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                <i class='bx bx-check-circle'></i> Perbarui
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <!-- Icon -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text flex items-center gap-1">
-                            <i class='bx bx-star'></i> Icon
-                        </span>
-                    </label>
-                    <select class="select select-bordered w-full">
-                        <option value="bx-bowl-hot">🍲 Makanan (bx-bowl-hot)</option>
-                        <option value="bx-drink">🥤 Minuman (bx-drink)</option>
-                        <option value="bx-group">👥 Paket Keluarga (bx-group)</option>
-                        <option value="bx-baguette">🥖 Makanan Ringan (bx-baguette)</option>
-                        <option value="bx-cake">🍰 Dessert (bx-cake)</option>
-                        <option value="bx-pepper">🌶️ Sambal (bx-pepper)</option>
-                    </select>
-                </div>
-
-                <!-- Deskripsi -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text flex items-center gap-1">
-                            <i class='bx bx-note'></i> Deskripsi
-                        </span>
-                    </label>
-                    <textarea class="textarea textarea-bordered h-24" placeholder="Jelaskan kategori ini..."></textarea>
-                </div>
-
-                <!-- Status -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text flex items-center gap-1">
-                            <i class='bx bx-toggle-left'></i> Status
-                        </span>
-                    </label>
-                    <select class="select select-bordered w-full">
-                        <option value="aktif">Aktif</option>
-                        <option value="nonaktif">Nonaktif</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn btn-ghost">Batal</button>
-                </form>
-                <button class="btn btn-primary" onclick="alert('Kategori berhasil ditambahkan (simulasi)')">
-                    <i class='bx bx-save'></i>
-                    Simpan
-                </button>
             </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
+    </div>
 
-    <!-- MODAL EDIT KATEGORI (UPDATE) -->
-    <dialog id="modal_edit" class="modal">
-        <div class="modal-box w-11/12 max-w-lg">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <h3 class="font-bold text-lg flex items-center gap-2 mb-4">
-                <i class='bx bx-edit-alt text-warning'></i>
-                Edit Kategori
-            </h3>
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Flowbite JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
-            <div class="space-y-4">
-                <!-- ID Kategori -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">ID Kategori</span>
-                    </label>
-                    <input type="text" id="edit_id" value="#K001" class="input input-bordered w-full bg-base-200"
-                        disabled />
-                </div>
-
-                <!-- Nama Kategori -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Nama Kategori *</span>
-                    </label>
-                    <input type="text" id="edit_nama" value="Makanan" class="input input-bordered w-full" />
-                </div>
-
-                <!-- Icon -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Icon</span>
-                    </label>
-                    <select id="edit_icon" class="select select-bordered w-full">
-                        <option value="bx-bowl-hot">🍲 Makanan (bx-bowl-hot)</option>
-                        <option value="bx-drink">🥤 Minuman (bx-drink)</option>
-                        <option value="bx-group">👥 Paket Keluarga (bx-group)</option>
-                        <option value="bx-baguette">🥖 Makanan Ringan (bx-baguette)</option>
-                        <option value="bx-cake">🍰 Dessert (bx-cake)</option>
-                        <option value="bx-pepper">🌶️ Sambal (bx-pepper)</option>
-                    </select>
-                </div>
-
-                <!-- Deskripsi -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Deskripsi</span>
-                    </label>
-                    <textarea id="edit_deskripsi"
-                        class="textarea textarea-bordered h-24">Hidangan utama, lauk-pauk, dan makanan berat</textarea>
-                </div>
-
-                <!-- Status -->
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Status</span>
-                    </label>
-                    <select id="edit_status" class="select select-bordered w-full">
-                        <option value="Aktif">Aktif</option>
-                        <option value="Nonaktif">Nonaktif</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn btn-ghost">Batal</button>
-                </form>
-                <button class="btn btn-warning" onclick="alert('Kategori berhasil diupdate (simulasi)')">
-                    <i class='bx bx-save'></i>
-                    Update
-                </button>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-
-    <!-- MODAL DETAIL KATEGORI (READ) -->
-    <dialog id="modal_detail" class="modal">
-        <div class="modal-box w-11/12 max-w-lg">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <h3 class="font-bold text-lg flex items-center gap-2 mb-4">
-                <i class='bx bx-show text-info'></i>
-                Detail Kategori
-            </h3>
-
-            <div class="flex items-center gap-4 pb-4 border-b border-base-200">
-                <div class="bg-base-200 p-4 rounded-full">
-                    <i class='bx bx-category text-4xl text-primary' id="detail_icon"></i>
-                </div>
-                <div>
-                    <p class="text-sm text-base-content/70">ID Kategori</p>
-                    <p class="font-mono font-medium" id="detail_id">#K001</p>
-                </div>
-            </div>
-
-            <div class="space-y-3 mt-4">
-                <div>
-                    <p class="text-sm text-base-content/70">Nama Kategori</p>
-                    <p class="font-bold text-xl" id="detail_nama">Makanan</p>
-                </div>
-                <div>
-                    <p class="text-sm text-base-content/70">Deskripsi</p>
-                    <p class="text-base" id="detail_deskripsi">Hidangan utama, lauk-pauk, dan makanan berat</p>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-sm text-base-content/70">Jumlah Menu</p>
-                        <p class="font-semibold" id="detail_jumlah">12 menu</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-base-content/70">Status</p>
-                        <p id="detail_status"><span class="badge badge-success">Aktif</span></p>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-sm text-base-content/70">Dibuat</p>
-                    <p id="detail_dibuat">12 Jan 2025</p>
-                </div>
-            </div>
-
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn">Tutup</button>
-                </form>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-
-    <!-- MODAL KONFIRMASI HAPUS (DELETE) -->
-    <dialog id="modal_hapus" class="modal">
-        <div class="modal-box w-11/12 max-w-md">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <div class="text-center">
-                <div class="text-6xl text-error mb-4">
-                    <i class='bx bx-error-circle'></i>
-                </div>
-                <h3 class="font-bold text-lg mb-2">Hapus Kategori</h3>
-                <p class="text-base-content/70 mb-4" id="hapus_message">Kategori <span class="font-bold"
-                        id="hapus_nama">Makanan</span> (ID: <span id="hapus_id">#K001</span>) akan dihapus.</p>
-                <p class="text-sm text-error mb-6">*Menu dalam kategori ini akan dipindahkan ke "Tanpa Kategori"</p>
-            </div>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn btn-ghost">Batal</button>
-                </form>
-                <button class="btn btn-error"
-                    onclick="alert('Kategori berhasil dihapus (simulasi)'); document.getElementById('modal_hapus').close();">
-                    <i class='bx bx-trash'></i>
-                    Hapus
-                </button>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-
-    <!-- JavaScript untuk interaksi modal -->
     <script>
-        // Fungsi untuk membuka modal detail
-        function showDetail(nama) {
-            document.getElementById('detail_id').innerText = '#K001';
-            document.getElementById('detail_nama').innerText = nama;
-            document.getElementById('detail_deskripsi').innerText = 'Deskripsi lengkap untuk kategori ' + nama;
-            document.getElementById('detail_jumlah').innerText = '12 menu';
-            document.getElementById('detail_status').innerHTML = '<span class="badge badge-success">Aktif</span>';
-            document.getElementById('detail_dibuat').innerText = '12 Jan 2025';
-            document.getElementById('detail_icon').className = 'bx bx-category text-4xl text-primary';
-            document.getElementById('modal_detail').showModal();
+        // Populate edit modal dengan data sesuai kategori
+        function populateEditCategory(categoryId) {
+            document.getElementById('editCategoryId').value = categoryId;
+
+            if (categoryId === 1) {
+                document.getElementById('editCategoryName').value = 'Makanan Utama';
+                document.getElementById('editCategoryDesc').value = 'Nasi, lauk, sayur, dan hidangan utama';
+                document.getElementById('editCategoryIcon').value = 'bxs-bowl-hot';
+                document.getElementById('editCategoryStatus').value = 'Aktif';
+            } else if (categoryId === 2) {
+                document.getElementById('editCategoryName').value = 'Minuman';
+                document.getElementById('editCategoryDesc').value = 'Kopi, teh, jus, minuman tradisional';
+                document.getElementById('editCategoryIcon').value = 'bxs-coffee';
+                document.getElementById('editCategoryStatus').value = 'Aktif';
+            } else if (categoryId === 3) {
+                document.getElementById('editCategoryName').value = 'Snack & Jajanan';
+                document.getElementById('editCategoryDesc').value = 'Gorengan, kue tradisional, camilan';
+                document.getElementById('editCategoryIcon').value = 'bxs-cake';
+                document.getElementById('editCategoryStatus').value = 'Aktif';
+            } else {
+                document.getElementById('editCategoryName').value = 'Sushi & Jepang';
+                document.getElementById('editCategoryDesc').value = 'Menu fusion Jepang (coming soon)';
+                document.getElementById('editCategoryIcon').value = 'bxs-sushi';
+                document.getElementById('editCategoryStatus').value = 'Tidak Aktif';
+            }
         }
 
-        // Fungsi untuk membuka modal edit dengan data
-        function openEditModal(id, nama, icon, deskripsi, status) {
-            document.getElementById('edit_id').value = id;
-            document.getElementById('edit_nama').value = nama;
-            document.getElementById('edit_deskripsi').value = deskripsi;
+        // Simpan kategori
+        function saveCategory() {
+            const modal = document.getElementById('addCategoryModal');
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
 
-            // Set select icon
-            const iconSelect = document.getElementById('edit_icon');
-            for (let i = 0; i < iconSelect.options.length; i++) {
-                if (iconSelect.options[i].value === icon) {
-                    iconSelect.selectedIndex = i;
-                    break;
-                }
-            }
-
-            // Set select status
-            const statusSelect = document.getElementById('edit_status');
-            for (let i = 0; i < statusSelect.options.length; i++) {
-                if (statusSelect.options[i].value === status) {
-                    statusSelect.selectedIndex = i;
-                    break;
-                }
-            }
-
-            document.getElementById('modal_edit').showModal();
+            Swal.fire({
+                icon: 'success',
+                title: 'Kategori ditambahkan',
+                text: 'Kategori baru berhasil disimpan',
+                timer: 2000,
+                showConfirmButton: false,
+                background: '#f8f5f2',
+                customClass: { popup: 'rounded-2xl' }
+            });
         }
 
-        // Fungsi untuk konfirmasi hapus
-        function confirmDelete(id, nama) {
-            document.getElementById('hapus_id').innerText = id;
-            document.getElementById('hapus_nama').innerText = nama;
-            document.getElementById('hapus_message').innerHTML = `Kategori <span class="font-bold">${nama}</span> (ID: ${id}) akan dihapus.`;
-            document.getElementById('modal_hapus').showModal();
+        function updateCategory() {
+            const modal = document.getElementById('editCategoryModal');
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Kategori diperbarui',
+                text: 'Data kategori berhasil diupdate',
+                timer: 2000,
+                showConfirmButton: false,
+                background: '#f8f5f2'
+            });
+        }
+
+        function confirmDeleteCategory(categoryId) {
+            Swal.fire({
+                title: 'Hapus kategori?',
+                text: "Kategori akan dihapus permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#b48b5a',
+                cancelButtonColor: '#aaa',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                background: '#f8f5f2',
+                customClass: { popup: 'rounded-2xl' }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Terhapus!',
+                        text: 'Kategori berhasil dihapus.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        background: '#f8f5f2'
+                    });
+                }
+            });
         }
     </script>
 </body>
