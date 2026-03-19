@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>429 · Too Many Requests | Warung Daun</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Box Icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8f5f2; }
+        .bx { font-size: 1.25rem; vertical-align: middle; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        .progress-animation {
+            animation: progress 30s linear;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 bg-[#f8f5f2]">
+    <div class="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden fade-in">
+        <div class="flex flex-col md:flex-row">
+            <!-- Left: Ilustrasi -->
+            <div class="md:w-1/2 bg-gradient-to-br from-[#7aa57a] to-[#5a805a] p-8 md:p-12 flex items-center justify-center">
+                <div class="text-center">
+                    <i class='bx bx-timer text-[#f8f5f2] text-8xl md:text-9xl'></i>
+                    <h1 class="text-8xl md:text-9xl font-bold text-white mt-4">429</h1>
+                    <p class="text-[#f0e7df] text-lg mt-2">Terlalu Banyak Request</p>
+                </div>
+            </div>
+
+            <!-- Right: Pesan & Tombol -->
+            <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                <div class="max-w-sm mx-auto text-center md:text-left">
+                    <i class='bx bx-hourglass text-[#7aa57a] text-5xl mb-4'></i>
+                    <h2 class="text-2xl font-bold text-[#3d332b] mb-3">Mohon Bersabar</h2>
+                    <p class="text-gray-600 mb-4">
+                        Anda terlalu banyak melakukan permintaan dalam waktu singkat. Silakan tunggu beberapa saat sebelum mencoba lagi.
+                    </p>
+
+                    <!-- Timer Progress -->
+                    <div class="bg-[#f8f5f2] rounded-xl p-4 mb-6">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span>Waktu tunggu</span>
+                            <span id="countdown">30 detik</span>
+                        </div>
+                        <div class="w-full bg-[#ddd0c4] rounded-full h-2.5">
+                            <div id="progressBar" class="bg-[#7aa57a] h-2.5 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button onclick="refreshPage()" disabled id="retryButton" class="w-full bg-gray-300 text-gray-500 py-3 rounded-xl cursor-not-allowed flex items-center justify-center gap-2">
+                            <i class='bx bx-refresh'></i> Coba Lagi (<span id="timer">30</span>)
+                        </button>
+                        <a href="index.html" class="block w-full border border-[#ddd0c4] text-[#5f4d40] py-3 rounded-xl hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                            <i class='bx bx-home'></i> Ke Beranda
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown timer
+        let timeLeft = 30;
+        const timerElement = document.getElementById('timer');
+        const countdownElement = document.getElementById('countdown');
+        const retryButton = document.getElementById('retryButton');
+        const progressBar = document.getElementById('progressBar');
+
+        const interval = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            countdownElement.textContent = timeLeft + ' detik';
+
+            // Update progress bar
+            const percentage = (timeLeft / 30) * 100;
+            progressBar.style.width = percentage + '%';
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                retryButton.disabled = false;
+                retryButton.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                retryButton.classList.add('bg-[#7aa57a]', 'text-white', 'hover:bg-[#689268]');
+                retryButton.innerHTML = '<i class="bx bx-refresh"></i> Coba Lagi Sekarang';
+                timerElement.textContent = '0';
+                countdownElement.textContent = '0 detik (siap)';
+            }
+        }, 1000);
+
+        function refreshPage() {
+            if (timeLeft <= 0) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

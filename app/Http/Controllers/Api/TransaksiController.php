@@ -29,8 +29,9 @@ class TransaksiController extends Controller
         try {
 
             $request->validate([
+                'meja_id' => 'required|exists:meja,id',
                 'user_id' => 'required|exists:users,id',
-                'taggal' => 'required|date',
+                'tanggal' => 'required|date',
                 'total' => 'required|numeric',
                 'bayar' => 'required|numeric'
             ]);
@@ -38,7 +39,7 @@ class TransaksiController extends Controller
             $kembali = $request->bayar - $request->total;
 
             $transaksi = Transaksi::create([
-                'kode_transaksi' => 'TRX-' . time(),
+                'meja_id' => $request->meja_id,
                 'user_id' => $request->user_id,
                 'tanggal' => $request->tanggal,
                 'total' => $request->total,

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DetailTransaksi;
 use Illuminate\Http\Request;
 
-class DetailTranasksiController extends Controller
+class DetailTransaksiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -87,7 +87,7 @@ class DetailTranasksiController extends Controller
         ]);
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      */

@@ -26,7 +26,7 @@
     <!-- LAYOUT -->
     <div class="flex h-screen overflow-hidden">
         <!-- SIDEBAR-->
-        @include('layouts.sidebar')
+        @include('layouts.partials.sidebar')
 
         <!-- MAIN-->
         <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
@@ -34,7 +34,7 @@
             @yield('content')
 
             <!-- FOOTER -->
-            @include('layouts.footer')
+            @include('layouts.partials.footer')
         </main>
     </div>
 

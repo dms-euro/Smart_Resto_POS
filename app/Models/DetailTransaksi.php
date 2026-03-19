@@ -14,5 +14,7 @@ class DetailTransaksi extends Model
         'jumlah',
         'harga_satuan',
         'subtotal',
+        'catatan',
+        'status',
     ];
 }

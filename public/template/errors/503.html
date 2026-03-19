@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>503 · Maintenance Mode | Warung Daun</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Box Icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8f5f2; }
+        .bx { font-size: 1.25rem; vertical-align: middle; }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .rotate-animation {
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Maintenance mode strip */
+        .maintenance-strip {
+            background: repeating-linear-gradient(
+                45deg,
+                #7aa57a,
+                #7aa57a 20px,
+                #b48b5a 20px,
+                #b48b5a 40px
+            );
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 bg-[#f8f5f2]">
+    <div class="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden fade-in">
+        <div class="h-2 maintenance-strip"></div>
+        <div class="flex flex-col md:flex-row">
+            <!-- Left: Ilustrasi -->
+            <div class="md:w-1/2 bg-gradient-to-br from-[#3d332b] to-[#5f4d40] p-8 md:p-12 flex items-center justify-center">
+                <div class="text-center">
+                    <div class="rotate-animation">
+                        <i class='bx bx-wrench text-[#bdd6bd] text-8xl md:text-9xl'></i>
+                    </div>
+                    <h1 class="text-8xl md:text-9xl font-bold text-white mt-4">503</h1>
+                    <p class="text-[#e0d3c7] text-lg mt-2">Mode Maintenance</p>
+                </div>
+            </div>
+
+            <!-- Right: Pesan & Tombol -->
+            <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                <div class="max-w-sm mx-auto text-center md:text-left">
+                    <i class='bx bx-time-five text-[#7aa57a] text-5xl mb-4'></i>
+                    <h2 class="text-2xl font-bold text-[#3d332b] mb-3">Sedang Perbaikan</h2>
+                    <p class="text-gray-600 mb-4">
+                        Kami sedang melakukan peningkatan sistem untuk memberikan pelayanan yang lebih baik.
+                        Mohon maaf atas ketidaknyamanannya.
+                    </p>
+
+                    <!-- Countdown Timer (simulasi) -->
+                    <div class="bg-[#f8f5f2] rounded-xl p-4 mb-6">
+                        <p class="text-sm font-medium text-[#3d332b] mb-3">Perkiraan selesai:</p>
+                        <div class="grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-white p-2 rounded-lg">
+                                <span class="block text-xl font-bold text-[#7aa57a]">02</span>
+                                <span class="text-xs text-gray-500">Jam</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg">
+                                <span class="block text-xl font-bold text-[#7aa57a]">30</span>
+                                <span class="text-xs text-gray-500">Menit</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg">
+                                <span class="block text-xl font-bold text-[#7aa57a]">15</span>
+                                <span class="text-xs text-gray-500">Detik</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <a href="javascript:location.reload()" class="block w-full bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition flex items-center justify-center gap-2">
+                            <i class='bx bx-refresh'></i> Cek Kembali
+                        </a>
+                        <a href="#" class="block w-full border border-[#ddd0c4] text-[#5f4d40] py-3 rounded-xl hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                            <i class='bx bx-bell'></i> Beri Tahu Saya
+                        </a>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-[#f0e7df]">
+                        <p class="text-sm text-gray-500">
+                            <i class='bx bx-leaf'></i> Tim Warung Daun
+                        </p>
+                        <p class="text-xs text-gray-400 mt-1">
+                            Follow Instagram @warungdaun untuk update
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple countdown simulation (just for display)
+        let hours = 2;
+        let minutes = 30;
+        let seconds = 15;
+
+        function updateCountdown() {
+            if (seconds > 0) {
+                seconds--;
+            } else {
+                if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else if (hours > 0) {
+                    hours--;
+                    minutes = 59;
+                    seconds = 59;
+                }
+            }
+
+            document.querySelectorAll('.grid-cols-3 > div span:first-child')[0].textContent = hours.toString().padStart(2, '0');
+            document.querySelectorAll('.grid-cols-3 > div span:first-child')[1].textContent = minutes.toString().padStart(2, '0');
+            document.querySelectorAll('.grid-cols-3 > div span:first-child')[2].textContent = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>

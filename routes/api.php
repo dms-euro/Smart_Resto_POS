@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\DetailTranasksiController;
+use App\Http\Controllers\Api\DetailTransaksiController;
 use App\Http\Controllers\Api\KategoriController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ReservasiController;
@@ -41,8 +41,8 @@ Route::put('/transaksi/{id}', [TransaksiController::class, 'update']);
 Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy']);
 
 // TransaksiDetail API Routes
-Route::get('/detail-transaksi', [DetailTranasksiController::class, 'index']);
-Route::post('/detail-transaksi', [DetailTranasksiController::class, 'store']);
-Route::get('/detail-transaksi/{id}', [DetailTranasksiController::class, 'show']);
-Route::put('/detail-transaksi/{id}', [DetailTranasksiController::class, 'update']);
-Route::delete('/detail-transaksi/{id}', [   DetailTranasksiController::class, 'destroy']);
+Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index']);
+Route::post('/detail-transaksi', [DetailTransaksiController::class, 'store']);
+Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show']);
+Route::put('/detail-transaksi/{id}', [DetailTransaksiController::class, 'update']);
+Route::delete('/detail-transaksi/{id}', [DetailTransaksiController::class, 'destroy']);

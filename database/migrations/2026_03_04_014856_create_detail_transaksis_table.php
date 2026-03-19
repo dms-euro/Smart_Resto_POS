@@ -19,7 +19,6 @@ return new class extends Migration
             $table->decimal('harga_satuan', 10, 2);
             $table->decimal('subtotal', 10, 2);
             $table->string('catatan')->nullable();
-            $table->string('meja')->nullable();
             $table->enum('status', ['pending', 'selesai'])->default('pending');
             $table->timestamps();
         });
