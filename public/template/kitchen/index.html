@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Display · Warung Daun | POS Restoran</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Flowbite CSS & JS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <!-- Box Icons CDN Resmi -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <!-- Howler.js untuk notifikasi suara ringan -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #1a1a1a;
+        }
+
+        .bx {
+            font-size: 1.25rem;
+            vertical-align: middle;
+        }
+
+        /* Animasi untuk pesanan baru */
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(122, 165, 122, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(122, 165, 122, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(122, 165, 122, 0);
+            }
+        }
+
+        .new-order-animation {
+            animation: pulse-green 2s infinite;
+        }
+
+        /* Blink untuk notifikasi */
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        /* Status badge */
+        .status-badge {
+            @apply px-3 py-1 rounded-full text-xs font-medium;
+        }
+    </style>
+</head>
+
+<body class="text-gray-200 antialiased">
+
+    <!-- LAYOUT KITCHEN - Full screen mode -->
+    <div class="flex h-screen overflow-hidden bg-[#1a1a1a]">
+        <!-- SIDEBAR KITCHEN (lebih gelap) -->
+        <aside
+            class="w-72 bg-[#2d2d2d] text-[#e0e0e0] shadow-xl hidden md:block flex-shrink-0 border-r border-[#404040]">
+            <div class="p-6 border-b border-[#404040]">
+                <div class="flex items-center gap-3">
+                    <i class='bx bx-chef text-[#8fb08c] text-3xl'></i>
+                    <span class="text-2xl font-semibold tracking-wide text-white">Warung <span
+                            class="text-[#bdd6bd]">Daun</span></span>
+                </div>
+                <p class="text-xs text-[#a0a0a0] mt-1 ml-1 flex items-center gap-1">
+                    <i class='bx bx-cool'></i> Kitchen Display System
+                </p>
+            </div>
+
+            <!-- Info Kitchen -->
+            <div class="p-5">
+                <div class="bg-[#3d332b] rounded-xl p-4 mb-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <i class='bx bx-user-circle text-2xl text-[#8fb08c]'></i>
+                        <div>
+                            <p class="text-sm font-medium">Chef Heru</p>
+                            <p class="text-xs text-[#a0a0a0]">Shift Pagi</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm mt-3 pt-3 border-t border-[#5f4d40]">
+                        <span><i class='bx bx-time'></i> 09:30</span>
+                        <span class="text-[#8fb08c]"><i class='bx bx-calendar'></i> 20 Mar 2026</span>
+                    </div>
+                </div>
+
+                <!-- Statistik Cepat -->
+                <h3 class="text-xs uppercase tracking-wider text-[#a0a0a0] mb-3">Ringkasan Dapur</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm flex items-center gap-2"><i class='bx bx-time text-yellow-500'></i>
+                            Antrian</span>
+                        <span class="bg-yellow-500 text-black font-bold px-3 py-1 rounded-full text-sm">8</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm flex items-center gap-2"><i class='bx bx-check-circle text-green-500'></i>
+                            Sedang Dimasak</span>
+                        <span class="bg-green-500 text-black font-bold px-3 py-1 rounded-full text-sm">4</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm flex items-center gap-2"><i class='bx bx-hourglass text-orange-500'></i>
+                            Hari Ini</span>
+                        <span class="bg-orange-500 text-black font-bold px-3 py-1 rounded-full text-sm">47</span>
+                    </div>
+                </div>
+
+                <!-- Tombol Simulasi Pesanan Baru (untuk demo) -->
+                <div class="mt-8">
+                    <button onclick="simulasiPesananBaru()"
+                        class="w-full bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition flex items-center justify-center gap-2">
+                        <i class='bx bx-plus-circle'></i> Simulasi Pesanan Baru
+                    </button>
+                    <p class="text-xs text-center text-[#a0a0a0] mt-2">(untuk demo notifikasi)</p>
+                </div>
+            </div>
+
+            <div class="absolute bottom-6 left-6 text-[#a0a0a0] text-xs flex items-center gap-2">
+                <i class='bx bx-wifi text-[#8fb08c]'></i> Online · Real-time
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT KITCHEN -->
+        <main class="flex-1 overflow-y-auto p-6 bg-[#1a1a1a]">
+            <!-- Header Kitchen dengan Notifikasi -->
+            <div class="flex flex-wrap items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-white flex items-center gap-3">
+                        <i class='bx bx-chef text-[#7aa57a]'></i> Kitchen Display
+                        <span id="newOrderBadge"
+                            class="bg-red-600 text-white text-sm px-3 py-1 rounded-full font-normal hidden items-center gap-1">
+                            <i class='bx bx-bell blink'></i> Ada pesanan baru
+                        </span>
+                    </h1>
+                    <p class="text-[#a0a0a0] mt-1 flex items-center gap-2">
+                        <i class='bx bx-time'></i> Update real-time · Prioritas berdasarkan waktu
+                    </p>
+                </div>
+                <div class="flex gap-3 mt-4 sm:mt-0">
+                    <span
+                        class="bg-[#2d2d2d] border border-[#404040] rounded-full px-5 py-2 text-sm flex items-center gap-2">
+                        <i class='bx bx-refresh text-[#7aa57a]'></i> Auto-refresh 5s
+                    </span>
+                    <span
+                        class="bg-[#2d2d2d] border border-[#404040] rounded-full px-5 py-2 text-sm flex items-center gap-2">
+                        <i class='bx bx-volume-full text-[#7aa57a]'></i> Notifikasi Aktif
+                    </span>
+                </div>
+            </div>
+
+            <!-- GRID PESANAN - Urut berdasarkan prioritas (waktu) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+
+                <!-- CARD PESANAN 1 (Prioritas Tinggi - Warna Highlight) -->
+                <div
+                    class="bg-[#2d2d2d] rounded-2xl border-l-8 border-l-yellow-500 border border-[#404040] shadow-xl overflow-hidden new-order-animation">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="text-xs bg-yellow-500 text-black px-3 py-1 rounded-full font-bold">PRIORITAS</span>
+                                    <span
+                                        class="text-xs bg-[#404040] text-gray-300 px-3 py-1 rounded-full">#TRX-782</span>
+                                </div>
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                                    Meja 5
+                                    <span class="text-sm font-normal text-gray-400">· 4 orang</span>
+                                </h2>
+                                <p class="text-sm text-gray-400 flex items-center gap-1">
+                                    <i class='bx bx-time'></i> 10 menit yang lalu
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold text-[#7aa57a]">12:35</span>
+                                <p class="text-xs text-gray-400">Estimasi Selesai</p>
+                            </div>
+                        </div>
+
+                        <!-- List Item Pesanan -->
+                        <div class="space-y-3 mb-5">
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">2x Nasi Goreng Spesial</span>
+                                    <p class="text-xs text-gray-400">Extra pedas, tanpa telur</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">35K</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">1x Sate Ayam</span>
+                                    <p class="text-xs text-gray-400">10 tusuk, bumbu kacang</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">45K</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">3x Es Teh Manis</span>
+                                    <p class="text-xs text-gray-400">Es batu banyak</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">24K</span>
+                            </div>
+                        </div>
+
+                        <!-- Catatan -->
+                        <div class="bg-[#3d332b] p-3 rounded-xl mb-5 text-sm flex items-start gap-2">
+                            <i class='bx bx-note text-[#b48b5a]'></i>
+                            <span class="text-gray-300">Catatan: Request meja dekat jendela, porsi besar</span>
+                        </div>
+
+                        <!-- Tombol Aksi -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="updateStatus('start', 1)"
+                                class="bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition flex items-center justify-center gap-2">
+                                <i class='bx bx-play'></i> Mulai Masak
+                            </button>
+                            <button onclick="updateStatus('done', 1)"
+                                class="bg-[#b48b5a] text-white py-3 rounded-xl hover:bg-[#8e6943] transition flex items-center justify-center gap-2">
+                                <i class='bx bx-check'></i> Selesai
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD PESANAN 2 (Normal) -->
+                <div class="bg-[#2d2d2d] rounded-2xl border border-[#404040] shadow-xl overflow-hidden">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="text-xs bg-[#404040] text-gray-300 px-3 py-1 rounded-full">#TRX-781</span>
+                                </div>
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                                    Meja 3
+                                    <span class="text-sm font-normal text-gray-400">· 2 orang</span>
+                                </h2>
+                                <p class="text-sm text-gray-400 flex items-center gap-1">
+                                    <i class='bx bx-time'></i> 25 menit yang lalu
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold text-[#7aa57a]">12:50</span>
+                                <p class="text-xs text-gray-400">Estimasi Selesai</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 mb-5">
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">1x Nasi Goreng Biasa</span>
+                                    <p class="text-xs text-gray-400">-</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">25K</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">2x Es Teh Manis</span>
+                                    <p class="text-xs text-gray-400">-</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">16K</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mt-5">
+                            <button onclick="updateStatus('start', 2)"
+                                class="bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition flex items-center justify-center gap-2">
+                                <i class='bx bx-play'></i> Mulai
+                            </button>
+                            <button onclick="updateStatus('done', 2)"
+                                class="bg-[#b48b5a] text-white py-3 rounded-xl hover:bg-[#8e6943] transition flex items-center justify-center gap-2">
+                                <i class='bx bx-check'></i> Selesai
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD PESANAN 3 (Sedang Dimasak - Progress) -->
+                <div
+                    class="bg-[#2d2d2d] rounded-2xl border-l-8 border-l-[#7aa57a] border border-[#404040] shadow-xl overflow-hidden">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="text-xs bg-[#7aa57a] text-white px-3 py-1 rounded-full flex items-center gap-1">
+                                        <i class='bx bx-cooking-pot'></i> SEDANG DIMASAK
+                                    </span>
+                                    <span
+                                        class="text-xs bg-[#404040] text-gray-300 px-3 py-1 rounded-full">#TRX-780</span>
+                                </div>
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                                    Meja 8
+                                    <span class="text-sm font-normal text-gray-400">· 6 orang</span>
+                                </h2>
+                                <p class="text-sm text-gray-400 flex items-center gap-1">
+                                    <i class='bx bx-time'></i> Mulai 15 menit lalu
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold text-[#7aa57a]">13:15</span>
+                                <p class="text-xs text-gray-400">Estimasi</p>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                <span>Progress</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="w-full bg-[#3d3d3d] rounded-full h-2">
+                                <div class="bg-[#7aa57a] h-2 rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 mb-4">
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">3x Nasi Goreng Spesial</span>
+                                    <p class="text-xs text-green-400">✓ Selesai</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">105K</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">2x Sate Ayam</span>
+                                    <p class="text-xs text-yellow-400">⏳ Dimasak</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">90K</span>
+                            </div>
+                        </div>
+
+                        <button onclick="updateStatus('done', 3)"
+                            class="w-full bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition flex items-center justify-center gap-2">
+                            <i class='bx bx-check-circle'></i> Tandai Selesai
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD PESANAN 4 (Baru - dengan efek) -->
+                <div
+                    class="bg-[#2d2d2d] rounded-2xl border-l-8 border-l-green-500 border border-[#404040] shadow-xl overflow-hidden new-order-animation">
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span
+                                class="bg-green-500 text-black text-xs px-3 py-1 rounded-full font-bold flex items-center gap-1">
+                                <i class='bx bx-bell blink'></i> PESANAN BARU
+                            </span>
+                            <span class="text-xs bg-[#404040] text-gray-300 px-3 py-1 rounded-full">#TRX-785</span>
+                        </div>
+
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                                    Meja 2
+                                    <span class="text-sm font-normal text-gray-400">· 2 orang</span>
+                                </h2>
+                                <p class="text-sm text-gray-400 flex items-center gap-1">
+                                    <i class='bx bx-time'></i> Baru saja
+                                </p>
+                            </div>
+                            <span class="text-2xl font-bold text-[#7aa57a]">12:40</span>
+                        </div>
+
+                        <div class="space-y-3 mb-5">
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">2x Nasi Goreng</span>
+                                    <p class="text-xs text-gray-400">-</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">70K</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <div>
+                                    <span class="font-medium text-white">2x Es Teh</span>
+                                    <p class="text-xs text-gray-400">-</p>
+                                </div>
+                                <span class="text-[#7aa57a] font-bold">16K</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="updateStatus('start', 4)"
+                                class="bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition flex items-center justify-center gap-2">
+                                <i class='bx bx-play'></i> Mulai Masak
+                            </button>
+                            <button onclick="updateStatus('done', 4)"
+                                class="bg-[#b48b5a] text-white py-3 rounded-xl hover:bg-[#8e6943] transition flex items-center justify-center gap-2">
+                                <i class='bx bx-check'></i> Selesai
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD PESANAN 5 (Normal) -->
+                <div class="bg-[#2d2d2d] rounded-2xl border border-[#404040] shadow-xl overflow-hidden">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-xs bg-[#404040] text-gray-300 px-3 py-1 rounded-full">#TRX-779</span>
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2 mt-1">
+                                    Meja 10
+                                    <span class="text-sm font-normal text-gray-400">· 4 orang</span>
+                                </h2>
+                                <p class="text-sm text-gray-400">35 menit yang lalu</p>
+                            </div>
+                            <span class="text-2xl font-bold text-[#7aa57a]">13:00</span>
+                        </div>
+
+                        <div class="space-y-3 mb-5">
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <span class="font-medium text-white">4x Nasi Goreng</span>
+                                <span class="text-[#7aa57a] font-bold">140K</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="updateStatus('start', 5)"
+                                class="bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition">Mulai</button>
+                            <button onclick="updateStatus('done', 5)"
+                                class="bg-[#b48b5a] text-white py-3 rounded-xl hover:bg-[#8e6943] transition">Selesai</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD PESANAN 6 (Normal) -->
+                <div class="bg-[#2d2d2d] rounded-2xl border border-[#404040] shadow-xl overflow-hidden">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-xs bg-[#404040] text-gray-300 px-3 py-1 rounded-full">#TRX-778</span>
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2 mt-1">
+                                    Meja 7
+                                    <span class="text-sm font-normal text-gray-400">· 2 orang</span>
+                                </h2>
+                                <p class="text-sm text-gray-400">40 menit yang lalu</p>
+                            </div>
+                            <span class="text-2xl font-bold text-[#7aa57a]">13:05</span>
+                        </div>
+
+                        <div class="space-y-3 mb-5">
+                            <div class="flex justify-between items-center bg-[#3d3d3d] p-3 rounded-xl">
+                                <span class="font-medium text-white">2x Sate Ayam</span>
+                                <span class="text-[#7aa57a] font-bold">90K</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="updateStatus('start', 6)"
+                                class="bg-[#7aa57a] text-white py-3 rounded-xl hover:bg-[#689268] transition">Mulai</button>
+                            <button onclick="updateStatus('done', 6)"
+                                class="bg-[#b48b5a] text-white py-3 rounded-xl hover:bg-[#8e6943] transition">Selesai</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATISTIK KITCHEN BOTTOM -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
+                <div class="bg-[#2d2d2d] rounded-xl border border-[#404040] p-4">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-yellow-500/20 rounded-full flex items-center justify-center text-yellow-500">
+                            <i class='bx bx-time text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Antrian</p>
+                            <p class="text-2xl font-bold text-white">8</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[#2d2d2d] rounded-xl border border-[#404040] p-4">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-[#7aa57a]/20 rounded-full flex items-center justify-center text-[#7aa57a]">
+                            <i class='bx bx-cooking-pot text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Dimasak</p>
+                            <p class="text-2xl font-bold text-white">4</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[#2d2d2d] rounded-xl border border-[#404040] p-4">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center text-green-500">
+                            <i class='bx bx-check-circle text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Selesai Hari Ini</p>
+                            <p class="text-2xl font-bold text-white">35</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[#2d2d2d] rounded-xl border border-[#404040] p-4">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500">
+                            <i class='bx bx-time-five text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Rata-rata Waktu</p>
+                            <p class="text-2xl font-bold text-white">18 menit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Flowbite JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <script>
+        let notificationSound;
+        let isSoundReady = false;
+
+        // INIT SOUND (sekali saja)
+        function initSound() {
+            try {
+                notificationSound = new Howl({
+                    src: ['../../bell.wav   '], // pastikan file ada
+                    volume: 0.7,
+                    html5: true
+                });
+
+                isSoundReady = true;
+            } catch (e) {
+                console.log('Howler gagal, pakai fallback');
+                setupFallbackBeep();
+            }
+        }
+
+        // FALLBACK BEEP
+        function setupFallbackBeep() {
+            window.beep = function () {
+                try {
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+
+                    oscillator.frequency.value = 800;
+                    gainNode.gain.value = 0.3;
+
+                    oscillator.start();
+                    oscillator.stop(audioCtx.currentTime + 0.3);
+                } catch (e) {
+                    console.log('Fallback juga gagal');
+                }
+            };
+        }
+
+        // PLAY SOUND (bisa dipanggil berkali-kali)
+        function playNotification() {
+            if (notificationSound && isSoundReady) {
+                try {
+                    notificationSound.stop(); // reset biar bisa dipanggil cepat
+                    notificationSound.play();
+                } catch (e) {
+                    console.log('Play gagal, pakai beep');
+                    if (window.beep) window.beep();
+                }
+            } else if (window.beep) {
+                window.beep();
+            }
+        }
+
+        // NOTIFIKASI PESANAN BARU
+        function showNewOrderNotification() {
+            const badge = document.getElementById('newOrderBadge');
+            badge.classList.remove('hidden');
+
+            // suara
+            playNotification();
+
+            Swal.fire({
+                icon: 'info',
+                title: 'Pesanan Baru!',
+                text: 'Ada pesanan masuk dari Meja 2',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                background: '#2d2d2d',
+                color: '#ffffff',
+                customClass: { popup: 'rounded-xl' }
+            });
+
+            setTimeout(() => {
+                badge.classList.add('hidden');
+            }, 10000);
+        }
+
+        // SIMULASI
+        function simulasiPesananBaru() {
+            showNewOrderNotification();
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Pesanan Baru Ditambahkan',
+                timer: 2000,
+                showConfirmButton: false,
+                background: '#2d2d2d',
+                color: '#ffffff'
+            });
+        }
+
+        // UPDATE STATUS
+        function updateStatus(action, orderId) {
+            let message = '';
+
+            if (action === 'start') {
+                message = 'Pesanan #' + orderId + ' mulai dimasak';
+            } else {
+                message = 'Pesanan #' + orderId + ' selesai';
+                playNotification(); // bunyi juga saat selesai
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Status Diperbarui',
+                text: message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                background: '#2d2d2d',
+                color: '#ffffff'
+            });
+        }
+
+        // AUTO REFRESH SIMULASI
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                showNewOrderNotification();
+            }
+        }, 30000);
+
+        // 🔥 WAJIB: unlock audio setelah klik user
+        document.body.addEventListener('click', function () {
+            if (!isSoundReady) {
+                initSound();
+
+                // trigger sekali biar browser kasih izin
+                setTimeout(() => {
+                    playNotification();
+                }, 100);
+            }
+        }, { once: true });
+
+    </script>
+</body>
+
+</html>
