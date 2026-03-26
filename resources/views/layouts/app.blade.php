@@ -38,8 +38,13 @@
         </main>
     </div>
 
+
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Flowbite JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    @include('components.alerts')
+    @include('components.modal-delete')
 </body>
 
 </html>

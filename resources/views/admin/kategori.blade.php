@@ -69,18 +69,18 @@
         <!-- TABEL KATEGORI -->
         <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] overflow-hidden">
             <div class="overflow-x-auto">
-                @foreach ($kategori as $kategori)
-                    <table class="w-full text-sm">
-                        <thead class="bg-[#f8f5f2] text-[#6b5b4c] border-b border-[#e0d3c7]">
-                            <tr>
-                                <th class="text-left py-4 px-6 font-medium">Icon</th>
-                                <th class="text-left py-4 px-6 font-medium">Nama Kategori</th>
-                                <th class="text-left py-4 px-6 font-medium">Deskripsi</th>
-                                <th class="text-left py-4 px-6 font-medium">Jumlah Menu</th>
-                                <th class="text-left py-4 px-6 font-medium">Status</th>
-                                <th class="text-left py-4 px-6 font-medium">Aksi</th>
-                            </tr>
-                        </thead>
+                <table class="w-full text-sm">
+                    <thead class="bg-[#f8f5f2] text-[#6b5b4c] border-b border-[#e0d3c7]">
+                        <tr>
+                            <th class="text-left py-4 px-6 font-medium">Icon</th>
+                            <th class="text-left py-4 px-6 font-medium">Nama Kategori</th>
+                            <th class="text-left py-4 px-6 font-medium">Deskripsi</th>
+                            <th class="text-left py-4 px-6 font-medium">Jumlah Menu</th>
+                            <th class="text-left py-4 px-6 font-medium">Status</th>
+                            <th class="text-left py-4 px-6 font-medium">Aksi</th>
+                        </tr>
+                    </thead>
+                    @foreach ($kategori as $kategori)
                         <tbody class="divide-y divide-[#f0e7df]">
                             <!-- row 1: Makanan -->
                             <tr class="hover:bg-[#fcf9f7] transition-colors">
@@ -90,8 +90,8 @@
                                         <i class='bx bxs-bowl-hot'></i>
                                     </div>
                                 </td>
-                                <td class="py-4 px-6 font-medium text-[#3d332b]">Makanan Utama</td>
-                                <td class="py-4 px-6">Nasi, lauk, sayur, dan hidangan utama</td>
+                                <td class="py-4 px-6 font-medium text-[#3d332b]">{{ $kategori->nama_kategori }}</td>
+                                <td class="py-4 px-6">{{ $kategori->deskripsi }}</td>
                                 <td class="py-4 px-6">48 menu</td>
                                 <td class="py-4 px-6"><span
                                         class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
@@ -103,100 +103,96 @@
                                             class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
                                             <i class='bx bxs-edit'></i>
                                         </button>
-                                        <button onclick="confirmDeleteCategory(1)"
+
+                                        <form id="delete-form-{{ $kategori->id }}"
+                                            action="{{ route('kategori.destroy', $kategori->id) }}" method="POST"
+                                            onclick="confirmDelete({ id: {{ $kategori->id }} })"
                                             class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
                                             <i class='bx bxs-trash'></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- row 2: Minuman -->
-                            <tr class="hover:bg-[#fcf9f7] transition-colors">
-                                <td class="py-4 px-6">
-                                    <div
-                                        class="w-10 h-10 bg-[#f7ede2] rounded-lg flex items-center justify-center text-[#b48b5a] text-xl">
-                                        <i class='bx bxs-coffee'></i>
-                                    </div>
-                                </td>
-                                <td class="py-4 px-6 font-medium text-[#3d332b]">Minuman</td>
-                                <td class="py-4 px-6">Kopi, teh, jus, minuman tradisional</td>
-                                <td class="py-4 px-6">44 menu</td>
-                                <td class="py-4 px-6"><span
-                                        class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
-                                </td>
-                                <td class="py-4 px-6">
-                                    <div class="flex gap-2">
-                                        <button data-modal-target="editCategoryModal" data-modal-toggle="editCategoryModal"
-                                            onclick="populateEditCategory(2)"
-                                            class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
-                                            <i class='bx bxs-edit'></i>
-                                        </button>
-                                        <button onclick="confirmDeleteCategory(2)"
-                                            class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
-                                            <i class='bx bxs-trash'></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- row 3: Snack -->
-                            <tr class="hover:bg-[#fcf9f7] transition-colors">
-                                <td class="py-4 px-6">
-                                    <div
-                                        class="w-10 h-10 bg-[#f7ede2] rounded-lg flex items-center justify-center text-[#b48b5a] text-xl">
-                                        <i class='bx bxs-cake'></i>
-                                    </div>
-                                </td>
-                                <td class="py-4 px-6 font-medium text-[#3d332b]">Snack & Jajanan</td>
-                                <td class="py-4 px-6">Gorengan, kue tradisional, camilan</td>
-                                <td class="py-4 px-6">34 menu</td>
-                                <td class="py-4 px-6"><span
-                                        class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
-                                </td>
-                                <td class="py-4 px-6">
-                                    <div class="flex gap-2">
-                                        <button data-modal-target="editCategoryModal" data-modal-toggle="editCategoryModal"
-                                            onclick="populateEditCategory(3)"
-                                            class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
-                                            <i class='bx bxs-edit'></i>
-                                        </button>
-                                        <button onclick="confirmDeleteCategory(3)"
-                                            class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
-                                            <i class='bx bxs-trash'></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- row 4: Sushi (contoh kategori tidak aktif) -->
-                            <tr class="hover:bg-[#fcf9f7] transition-colors opacity-80">
-                                <td class="py-4 px-6">
-                                    <div
-                                        class="w-10 h-10 bg-[#e0d6cc] rounded-lg flex items-center justify-center text-[#8b7a6b] text-xl">
-                                        <i class='bx bxs-sushi'></i>
-                                    </div>
-                                </td>
-                                <td class="py-4 px-6 font-medium text-[#3d332b]">Sushi & Jepang</td>
-                                <td class="py-4 px-6">Menu fusion Jepang (coming soon)</td>
-                                <td class="py-4 px-6">0 menu</td>
-                                <td class="py-4 px-6"><span
-                                        class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs">Tidak
-                                        Aktif</span></td>
-                                <td class="py-4 px-6">
-                                    <div class="flex gap-2">
-                                        <button data-modal-target="editCategoryModal"
-                                            data-modal-toggle="editCategoryModal" onclick="populateEditCategory(4)"
-                                            class="text-[#7aa57a] hover:text-[#5a805a] transition p-1">
-                                            <i class='bx bxs-edit'></i>
-                                        </button>
-                                        <button onclick="confirmDeleteCategory(4)"
-                                            class="text-[#b48b5a] hover:text-[#8e6943] transition p-1">
-                                            <i class='bx bxs-trash'></i>
-                                        </button>
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
-                @endforeach
+                        <!-- FLOWBITE MODAL: EDIT KATEGORI -->
+                        <div id="editCategoryModal" tabindex="-1" aria-hidden="true"
+                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                                    <div
+                                        class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                                        <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                                            <i class='bx bxs-edit text-[#7aa57a]'></i> Edit Kategori
+                                        </h3>
+                                        <button type="button"
+                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                            data-modal-hide="editCategoryModal">
+                                            <i class='bx bx-x text-xl'></i>
+                                        </button>
+                                    </div>
+                                    <div class="p-4 md:p-5">
+                                        <form action="{{ route('kategori.update', ['id' => $kategori->id]) }}"
+                                            method="POST" class="space-y-4">
+                                            @csrf
+                                            @method('PUT')
+                                            <div>
+                                                <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Kategori
+                                                    <span class="text-red-400">*</span></label>
+                                                <input type="text" name="nama_kategori" id="nama_kategori"
+                                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                                    value="{{ $kategori->nama_kategori }}" required>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
+                                                <textarea rows="3" name="deskripsi" id="deskripsi"
+                                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                                    required>{{ $kategori->deskripsi }}</textarea>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori
+                                                    Icon</label>
+                                                <div class="relative">
+                                                    <select name="icon" id="icon"
+                                                        class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30 focus:border-[#7aa57a] outline-none appearance-none transition-all cursor-pointer text-[#5f4d40]"
+                                                        required>
+                                                        <option value="" disabled>Pilih Icon</option>
+                                                        <option value="makanan"
+                                                            {{ $kategori->icon == 'makanan' ? 'selected' : '' }}>🍲
+                                                            Makanan
+                                                        </option>
+                                                        <option value="minuman"
+                                                            {{ $kategori->icon == 'minuman' ? 'selected' : '' }}>☕
+                                                            Minuman
+                                                        </option>
+                                                        <option value="camilan"
+                                                            {{ $kategori->icon == 'camilan' ? 'selected' : '' }}>🍰
+                                                            Camilan
+                                                        </option>
+                                                    </select>
+                                                    <div
+                                                        class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-[#5f4d40]">
+                                                        <i class='bx bx-chevron-down text-xl'></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-end gap-3 mt-6">
+                                                <button type="reset" data-modal-hide="editCategoryModal"
+                                                    class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                                                <button type="submit"
+                                                    class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                                    <i class='bx bx-check-circle'></i> Simpan
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </table>
             </div>
             <!-- pagination -->
             <div
@@ -263,71 +259,7 @@
                             </div>
                         </div>
                         <div class="flex justify-end gap-3 mt-6">
-                            <button type="button" data-modal-hide="addCategoryModal"
-                                class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
-                            <button type="submit"
-                                class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
-                                <i class='bx bx-check-circle'></i> Simpan
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FLOWBITE MODAL: EDIT KATEGORI -->
-    <div id="editCategoryModal" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
-            <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
-                <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
-                    <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
-                        <i class='bx bxs-edit text-[#7aa57a]'></i> Edit Kategori
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-                        data-modal-hide="editCategoryModal">
-                        <i class='bx bx-x text-xl'></i>
-                    </button>
-                </div>
-                <div class="p-4 md:p-5">
-                    <form action="{{ route('kategori.update', ['id' => $kategori->id]) }}" method="POST"
-                        class="space-y-4">
-                        @csrf
-                        @method('PUT')
-                        <div>
-                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama Kategori <span
-                                    class="text-red-400">*</span></label>
-                            <input type="text" name="nama_kategori" id="nama_kategori"
-                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                value="{{ $kategori->nama_kategori }}" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
-                            <textarea rows="3" name="deskripsi" id="deskripsi"
-                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                required>{{ $kategori->deskripsi }}</textarea>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori Icon</label>
-                            <div class="relative">
-                                <select name="icon" id="icon"
-                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30 focus:border-[#7aa57a] outline-none appearance-none transition-all cursor-pointer text-[#5f4d40]"
-                                    required>
-                                    <option value="" disabled>Pilih Icon</option>
-                                    <option value="makanan" {{ $kategori->icon == 'makanan' ? 'selected' : '' }}>🍲 Makanan</option>
-                                    <option value="minuman" {{ $kategori->icon == 'minuman' ? 'selected' : '' }}>☕ Minuman</option>
-                                    <option value="camilan" {{ $kategori->icon == 'camilan' ? 'selected' : '' }}>🍰 Camilan</option>
-                                </select>
-                                <div
-                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-[#5f4d40]">
-                                    <i class='bx bx-chevron-down text-xl'></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex justify-end gap-3 mt-6">
-                            <button type="button" data-modal-hide="addCategoryModal"
+                            <button type="reset" data-modal-hide="addCategoryModal"
                                 class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
                             <button type="submit"
                                 class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
