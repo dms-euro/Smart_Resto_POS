@@ -14,8 +14,10 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategori = Kategori::all();
-        return view('admin.kategori', compact('kategori'));
+        $kategoris = Kategori::withCount('menu')
+            ->latest()
+            ->paginate(10);
+        return view('admin.kategori', compact('kategoris'));
     }
 
     /**
@@ -65,11 +67,11 @@ class KategoriController extends Controller
             ], 404);
         }
 
-            $validate = $request->validate([
-                'nama_kategori' => 'nullable|string',
-                'deskripsi' => 'nullable|string',
-                'icon' => 'nullable|in:makanan,minuman,camilan',
-            ]);
+        $validate = $request->validate([
+            'nama_kategori' => 'nullable|string',
+            'deskripsi' => 'nullable|string',
+            'icon' => 'nullable|in:makanan,minuman,camilan',
+        ]);
 
         $kategori->update($validate);
 

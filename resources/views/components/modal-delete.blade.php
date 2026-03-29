@@ -15,15 +15,16 @@ function confirmDelete(options) {
         icon: 'warning',
         iconColor: '#b48b5a',
         showCancelButton: true,
-        confirmButtonColor: '#7aa57a',
-        cancelButtonColor: '#8b7a6b',
-        confirmButtonText: confirmText,
-        cancelButtonText: cancelText,
-        background: '#ffffff',
+
+        buttonsStyling: false,
+
         customClass: {
-            popup: 'rounded-2xl border border-[#e5d9d0]',
-            title: 'text-[#3d332b]',
-            htmlContainer: 'text-[#6b5b4c]'
+            popup: 'rounded-2xl border border-[#e5d9d0] p-6',
+            title: 'text-[#3d332b] text-xl font-semibold',
+            htmlContainer: 'text-[#6b5b4c] text-sm',
+
+            confirmButton: 'bg-[#7aa57a] hover:bg-[#689268] text-white px-5 py-2 rounded-full text-sm font-medium transition',
+            cancelButton: 'bg-gray-100 hover:bg-gray-200 text-[#5f4d40] px-5 py-2 rounded-full text-sm font-medium transition ml-2'
         }
     }).then((result) => {
         if (result.isConfirmed) {

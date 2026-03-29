@@ -21,51 +21,6 @@
             </button>
         </div>
 
-        <!-- STATISTIK KATEGORI (ringkasan) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
-                <div>
-                    <p class="text-sm text-gray-500 uppercase tracking-wide">Total Kategori</p>
-                    <p class="text-3xl font-bold text-[#3d332b]">4</p>
-                    <span class="text-xs text-green-800 bg-green-100 px-2 py-0.5 rounded-full mt-2 inline-block">Aktif
-                        semua</span>
-                </div>
-                <div class="w-14 h-14 bg-[#f0ebe6] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
-                    <i class='bx bx-category'></i>
-                </div>
-            </div>
-            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
-                <div>
-                    <p class="text-sm text-gray-500 uppercase tracking-wide">Makanan</p>
-                    <p class="text-3xl font-bold text-[#3d332b]">48</p>
-                    <span class="text-xs text-[#7aa57a] bg-green-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
-                </div>
-                <div class="w-14 h-14 bg-[#e9f0e9] rounded-full flex items-center justify-center text-3xl text-[#6f9e6f]">
-                    <i class='bx bxs-bowl-hot'></i>
-                </div>
-            </div>
-            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
-                <div>
-                    <p class="text-sm text-gray-500 uppercase tracking-wide">Minuman</p>
-                    <p class="text-3xl font-bold text-[#3d332b]">44</p>
-                    <span class="text-xs text-[#b48b5a] bg-amber-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
-                </div>
-                <div class="w-14 h-14 bg-[#f7ede2] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
-                    <i class='bx bxs-coffee'></i>
-                </div>
-            </div>
-            <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 flex justify-between items-center">
-                <div>
-                    <p class="text-sm text-gray-500 uppercase tracking-wide">Snack</p>
-                    <p class="text-3xl font-bold text-[#3d332b]">34</p>
-                    <span class="text-xs text-[#8e6943] bg-amber-50 px-2 py-0.5 rounded-full mt-2 inline-block">menu</span>
-                </div>
-                <div class="w-14 h-14 bg-[#f7ede2] rounded-full flex items-center justify-center text-3xl text-[#b48b5a]">
-                    <i class='bx bxs-cake'></i>
-                </div>
-            </div>
-        </div>
-
         <!-- TABEL KATEGORI -->
         <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] overflow-hidden">
             <div class="overflow-x-auto">
@@ -80,7 +35,7 @@
                             <th class="text-left py-4 px-6 font-medium">Aksi</th>
                         </tr>
                     </thead>
-                    @foreach ($kategori as $kategori)
+                    @foreach ($kategoris as $kategori)
                         <tbody class="divide-y divide-[#f0e7df]">
                             <!-- row 1: Makanan -->
                             <tr class="hover:bg-[#fcf9f7] transition-colors">
@@ -92,7 +47,7 @@
                                 </td>
                                 <td class="py-4 px-6 font-medium text-[#3d332b]">{{ $kategori->nama_kategori }}</td>
                                 <td class="py-4 px-6">{{ $kategori->deskripsi }}</td>
-                                <td class="py-4 px-6">48 menu</td>
+                                <td class="py-4 px-6">{{ $kategori->menu_count }} menu</td>
                                 <td class="py-4 px-6"><span
                                         class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Aktif</span>
                                 </td>
@@ -197,15 +152,9 @@
             <!-- pagination -->
             <div
                 class="flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
-                <span>Menampilkan 1-4 dari 4 kategori</span>
-                <div class="flex gap-2">
-                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
-                        <i class='bx bx-chevron-left text-xs'></i>
-                    </span>
-                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-[#7aa57a] text-white">1</span>
-                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
-                        <i class='bx bx-chevron-right text-xs'></i>
-                    </span>
+                <!-- PAGINATION LINK -->
+                <div>
+                    {{ $kategoris->links() }}
                 </div>
             </div>
         </div>

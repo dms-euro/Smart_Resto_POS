@@ -7,37 +7,41 @@ document.addEventListener('DOMContentLoaded', function () {
         showConfirmButton: false,
         timer: 2500,
         timerProgressBar: true,
+
         customClass: {
-            popup: 'rounded-xl shadow-lg border border-[#e5d9d0]',
+            popup: 'rounded-xl border border-[#e5d9d0]',
             title: 'text-[#3d332b] font-semibold',
             htmlContainer: 'text-[#6b5b4c]',
         }
     });
-    
-    // SUCCESS (Hijau Warung Daun)
+
+    // SUCCESS
     @if(session('success'))
         Toast.fire({
             icon: 'success',
             title: '{{ session('success') }}',
-            iconColor: '#7aa57a'
+            iconColor: '#7aa57a',
+            background: '#f6fbf6'
         });
     @endif
 
-    // ERROR (Merah soft biar tetap elegan)
+    // ERROR
     @if(session('error'))
         Toast.fire({
             icon: 'error',
             title: '{{ session('error') }}',
-            iconColor: '#d9534f'
+            iconColor: '#d9534f',
+            background: '#fdf2f2'
         });
     @endif
 
-    // INFO (Coklat earthy)
+    // INFO
     @if(session('info'))
         Toast.fire({
             icon: 'info',
             title: '{{ session('info') }}',
-            iconColor: '#b48b5a'
+            iconColor: '#b48b5a',
+            background: '#fdf8f3'
         });
     @endif
 
