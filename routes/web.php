@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,3 +15,7 @@ Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.in
 Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
 Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
 Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+Route::get('/Menu', [MenuController::class, 'index'])->name('menu.index');
+Route::post('/Menu', [MenuController::class, 'store'])->name('menu.store');
+Route::put('/Menu/{id}', [MenuController::class, 'update'])->name('menu.update');
+Route::delete('/Menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');

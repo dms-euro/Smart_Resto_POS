@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Menu · Warung Daun | POS Restoran</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Flowbite CSS & JS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
-    <!-- Box Icons CDN Resmi -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <!-- Inter font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8f5f2; }
-        .bx { font-size: 1.25rem; vertical-align: middle; }
-    </style>
-</head>
-<body class="text-gray-700 antialiased">
+@extends('layouts.app')
+@section('title', 'Menu | Warung Daun')
+@section('content')
 
-    <!-- LAYOUT ADMIN -->
-    <div class="flex h-screen overflow-hidden">
-        <!-- MAIN CONTENT -->
-        <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
+<div>
+     <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
             <!-- header -->
             <div class="flex flex-wrap items-center justify-between mb-8">
                 <div>
@@ -302,9 +283,10 @@
                 <span><i class='bx bx-time'></i> Terakhir update: 16 Mar 2026 11:30</span>
             </div>
         </main>
-    </div>
+</div>
 
-    <!-- FLOWBITE MODAL: ADD MENU -->
+<div>
+     <!-- FLOWBITE MODAL: ADD MENU -->
     <div id="addMenuModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-2xl max-h-full">
             <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
@@ -465,113 +447,6 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Sweet Alert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Flowbite JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-
-    <script>
-        // Populate edit modal dengan data sesuai menu
-        function populateEditMenu(menuId) {
-            document.getElementById('editMenuId').value = menuId;
-
-            if (menuId === 1) {
-                document.getElementById('editMenuName').value = 'Nasi Goreng Spesial';
-                document.getElementById('editMenuCategory').value = 'Makanan Utama';
-                document.getElementById('editMenuDesc').value = 'Nasi goreng dengan ayam suwir dan telur';
-                document.getElementById('editMenuPrice').value = '35000';
-                document.getElementById('editMenuStatus').value = 'Tersedia';
-            } else if (menuId === 2) {
-                document.getElementById('editMenuName').value = 'Es Teh Manis';
-                document.getElementById('editMenuCategory').value = 'Minuman';
-                document.getElementById('editMenuDesc').value = 'Teh hitam dengan gula asli';
-                document.getElementById('editMenuPrice').value = '8000';
-                document.getElementById('editMenuStatus').value = 'Tersedia';
-            } else if (menuId === 3) {
-                document.getElementById('editMenuName').value = 'Pisang Goreng';
-                document.getElementById('editMenuCategory').value = 'Snack';
-                document.getElementById('editMenuDesc').value = 'Pisang kepok goreng dengan topping cokelat';
-                document.getElementById('editMenuPrice').value = '15000';
-                document.getElementById('editMenuStatus').value = 'Tersedia';
-            } else if (menuId === 4) {
-                document.getElementById('editMenuName').value = 'Sate Ayam';
-                document.getElementById('editMenuCategory').value = 'Makanan Utama';
-                document.getElementById('editMenuDesc').value = '10 tusuk sate ayam dengan bumbu kacang';
-                document.getElementById('editMenuPrice').value = '45000';
-                document.getElementById('editMenuStatus').value = 'Tersedia';
-            } else if (menuId === 5) {
-                document.getElementById('editMenuName').value = 'Kopi Tubruk';
-                document.getElementById('editMenuCategory').value = 'Minuman';
-                document.getElementById('editMenuDesc').value = 'Kopi hitam khas Indonesia';
-                document.getElementById('editMenuPrice').value = '12000';
-                document.getElementById('editMenuStatus').value = 'Habis';
-            } else {
-                document.getElementById('editMenuName').value = 'Es Cendol';
-                document.getElementById('editMenuCategory').value = 'Minuman';
-                document.getElementById('editMenuDesc').value = 'Minuman tradisional dengan gula merah';
-                document.getElementById('editMenuPrice').value = '18000';
-                document.getElementById('editMenuStatus').value = 'Tersedia';
-            }
-        }
-
-        // Simpan menu
-        function saveMenu() {
-            const modal = document.getElementById('addMenuModal');
-            modal.classList.add('hidden');
-            modal.setAttribute('aria-hidden', 'true');
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Menu ditambahkan',
-                text: 'Menu baru berhasil disimpan',
-                timer: 2000,
-                showConfirmButton: false,
-                background: '#f8f5f2',
-                customClass: { popup: 'rounded-2xl' }
-            });
-        }
-
-        function updateMenu() {
-            const modal = document.getElementById('editMenuModal');
-            modal.classList.add('hidden');
-            modal.setAttribute('aria-hidden', 'true');
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Menu diperbarui',
-                text: 'Data menu berhasil diupdate',
-                timer: 2000,
-                showConfirmButton: false,
-                background: '#f8f5f2'
-            });
-        }
-
-        function confirmDeleteMenu(menuId) {
-            Swal.fire({
-                title: 'Hapus menu?',
-                text: "Menu akan dihapus permanen!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#b48b5a',
-                cancelButtonColor: '#aaa',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal',
-                background: '#f8f5f2',
-                customClass: { popup: 'rounded-2xl' }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Terhapus!',
-                        text: 'Menu berhasil dihapus.',
-                        icon: 'success',
-                        timer: 1500,
-                        showConfirmButton: false,
-                        background: '#f8f5f2'
-                    });
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+@endsection

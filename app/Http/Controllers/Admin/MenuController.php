@@ -15,11 +15,7 @@ class MenuController extends Controller
     public function index()
     {
         $menu = Menu::with('kategori')->get();
-        return response()->json([
-            'success' => true,
-            'message' => 'Daftar menu berhasil diambil.',
-            'data' => $menu,
-        ], 200);
+        return view('admin.menu', compact('menu'));
     }
 
     /**

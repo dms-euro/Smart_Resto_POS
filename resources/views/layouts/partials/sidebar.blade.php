@@ -21,7 +21,7 @@
                     class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
                     <i class='bx bxs-category'></i> Kategori
                 </a>
-                <a href="#"
+                <a href="{{ route('menu.index') }}"
                     class="flex items-center gap-4 py-3 px-4 text-[#e0d3c7] hover:bg-[#5f4d40] hover:text-white rounded-xl transition-colors">
                     <i class='bx bxs-food-menu'></i> Menu
                 </a>
