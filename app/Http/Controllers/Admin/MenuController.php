@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kategori;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,8 +15,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menu = Menu::with('kategori')->get();
-        return view('admin.menu', compact('menu'));
+        $kategori = Kategori::all();
+        $menu = Menu::latest()->paginate(9);
+        return view('admin.menu', compact('menu', 'kategori'));
     }
 
     /**
@@ -29,8 +31,7 @@ class MenuController extends Controller
             'deskripsi' => 'required',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
-            'foto' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'status' => 'required',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -38,13 +39,9 @@ class MenuController extends Controller
             $validate['foto'] = $path;
         }
 
-        $menu = Menu::create($validate);
+        Menu::create($validate);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Menu berhasil ditambahkan',
-            'data' => $menu
-        ], 201);
+        return redirect()->back()->with('success', 'Menu berhasil ditambahkan');
     }
 
     /**
@@ -76,13 +73,12 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($id);
 
         $validate = $request->validate([
-            'kategori_id' => 'required',
-            'nama_menu' => 'required',
-            'deskripsi' => 'required',
-            'harga' => 'required|numeric',
-            'stok' => 'required|integer',
-            'foto' => 'image|mimes:jpg,jpeg,png|max:2048',
-            'status' => 'required',
+            'kategori_id' => 'nullable|exists:kategori,id',
+            'nama_menu' => 'nullable|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'nullable|numeric|min:0',
+            'stok' => 'nullable|integer|min:0',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -97,11 +93,7 @@ class MenuController extends Controller
 
         $menu->update($validate);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Menu berhasil diupdate',
-            'data' => $menu
-        ], 200);
+        return redirect()->back()->with('success', 'Menu berhasil diperbarui');
     }
 
     /**
@@ -117,9 +109,6 @@ class MenuController extends Controller
 
         $menu->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Menu berhasil dihapus'
-        ], 200);
+        return redirect()->back()->with('success', 'Menu berhasil dihapus');
     }
 }
