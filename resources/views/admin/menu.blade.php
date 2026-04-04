@@ -1,15 +1,16 @@
 @extends('layouts.app')
 @section('title', 'Menu | Warung Daun')
 @section('content')
-
     <div>
-        <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
+        <div class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
             <!-- header -->
             <div class="flex flex-wrap items-center justify-between mb-8">
                 <div>
                     <h1 class="text-3xl font-bold text-[#3d332b] flex items-center gap-3">
                         <i class='bx bxs-food-menu text-[#7aa57a]'></i> Manajemen Menu
-                        <span class="text-sm bg-[#e0d6cc] text-[#4a3f37] px-3 py-1 rounded-full font-normal">{{ $menu->count() }} menu</span>
+                        <span
+                            class="text-sm bg-[#e0d6cc] text-[#4a3f37] px-3 py-1 rounded-full font-normal">{{ $menu->count() }}
+                            menu</span>
                     </h1>
                     <p class="text-[#8b7a6b] mt-1 flex items-center gap-2">
                         <i class='bx bx-dish text-[#7aa57a]'></i> Kelola daftar menu, harga, foto, dan status
@@ -25,23 +26,24 @@
             <!-- FILTER & SEARCH -->
             <div class="flex flex-wrap gap-3 mb-6 items-center justify-between">
                 <div class="flex gap-2 flex-wrap">
-                    <span
-                        class="bg-white border border-[#ddd0c4] rounded-full px-5 py-2 text-sm flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                        <i class='bx bx-filter-alt text-[#7aa57a]'></i> Semua Kategori
+
+                    <span data-filter="all"
+                        class="filter-btn cursor-pointer px-5 py-2 border rounded-full bg-[#7aa57a] text-white">
+                        Semua
                     </span>
-                    <span
-                        class="bg-white border border-[#ddd0c4] rounded-full px-5 py-2 text-sm flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                        <i class='bx bx-check-circle text-[#7aa57a]'></i> Tersedia
+
+                    <span data-filter="tersedia" class="filter-btn cursor-pointer px-5 py-2 border rounded-full">
+                        Tersedia
                     </span>
-                    <span
-                        class="bg-white border border-[#ddd0c4] rounded-full px-5 py-2 text-sm flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                        <i class='bx bx-x-circle text-[#b48b5a]'></i> Habis
+
+                    <span data-filter="habis" class="filter-btn cursor-pointer px-5 py-2 border rounded-full">
+                        Habis
                     </span>
+
                 </div>
                 <div class="relative">
-                    <i class='bx bx-search absolute left-4 top-3 text-[#8b7a6b] text-sm'></i>
-                    <input type="text" placeholder="Cari menu..."
-                        class="pl-10 pr-5 py-2 rounded-full border border-[#ddd0c4] bg-white text-sm w-64 focus:outline-none focus:ring-2 focus:ring-[#7aa57a]/30">
+                    <input type="text" id="searchInput" placeholder="Cari menu..."
+                        class="pl-4 pr-4 py-2 border rounded-full w-64">
                 </div>
             </div>
 
@@ -85,11 +87,12 @@
                 </div>
             </div>
 
-            <!-- TABEL MENU (GRID VIEW / CARD VIEW agar lebih menarik dan bisa foto) -->
+            <!-- TABEL MENU -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 @foreach ($menu as $item)
-                    <div
-                        class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] overflow-hidden hover:shadow-md transition">
+                    <div data-nama="{{ strtolower($item->nama_menu) }}" data-status="{{ $item->status }}"
+                        data-kategori="{{ strtolower($item->kategori->nama_kategori) }}"
+                        class="menu-item bg-white rounded-2xl shadow-sm border border-[#e5d9d0] overflow-hidden hover:shadow-md transition">
                         <div class="h-40 bg-[#e0d6cc] relative overflow-hidden">
 
                             @if ($item->foto)
@@ -399,28 +402,20 @@
                 @endforeach
             </div>
 
-            <!-- PAGINATION -->
-            <div class="flex justify-between items-center mt-8 px-2 text-sm text-[#8b7a6b]">
-                <span>Menampilkan 1-6 dari 126 menu</span>
-                <div class="flex gap-2">
-                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
-                        <i class='bx bx-chevron-left text-xs'></i>
-                    </span>
-                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-[#7aa57a] text-white">1</span>
-                    <span
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">2</span>
-                    <span
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">3</span>
-                    <span
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">4</span>
-                    <span
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">5</span>
-                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-[#ddd0c4]">
-                        <i class='bx bx-chevron-right text-xs'></i>
-                    </span>
+            <!-- Pagination -->
+            <div
+                class="mt-4 flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
+                <div>
+                    Menampilkan {{ $menu->firstItem() }} - {{ $menu->lastItem() }} dari
+                    {{ $menu->total() }} kategori
                 </div>
+                @if ($menu->hasPages())
+                    <div>
+                        {{ $menu->links('pagination::tailwind') }}
+                    </div>
+                @endif
             </div>
-        </main>
+        </div>
     </div>
     @push('scripts')
         <script>
@@ -464,6 +459,49 @@
                     reader.readAsDataURL(file);
                 }
             });
+        </script>
+        <script>
+            const items = document.querySelectorAll('.menu-item');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('searchInput');
+
+            let currentFilter = 'all';
+
+            // klik filter
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentFilter = btn.dataset.filter;
+
+                    // reset active
+                    filterButtons.forEach(b => b.classList.remove('bg-[#7aa57a]', 'text-white'));
+
+                    // set active
+                    btn.classList.add('bg-[#7aa57a]', 'text-white');
+
+                    applyFilter();
+                });
+            });
+
+            // search realtime
+            searchInput.addEventListener('input', applyFilter);
+
+            // fungsi filter
+            function applyFilter() {
+                const search = searchInput.value.toLowerCase();
+
+                items.forEach(item => {
+                    const nama = item.dataset.nama;
+                    const status = item.dataset.status;
+
+                    const matchSearch = nama.includes(search);
+                    const matchFilter = currentFilter === 'all' || status === currentFilter;
+
+                    item.style.display = (matchSearch && matchFilter) ? 'block' : 'none';
+                });
+            }
+
+            // 🔥 jalan pertama kali
+            document.addEventListener('DOMContentLoaded', applyFilter);
         </script>
     @endpush
 @endsection

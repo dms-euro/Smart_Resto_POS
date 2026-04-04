@@ -203,37 +203,19 @@
                 </table>
 
                 <!-- Pagination -->
-                @if ($kategoris->hasPages())
-                    <div
-                        class="flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
-                        <div>
-                            Menampilkan {{ $kategoris->firstItem() }} - {{ $kategoris->lastItem() }} dari
-                            {{ $kategoris->total() }} kategori
-                        </div>
+                <div
+                    class="flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
+                    <div>
+                        Menampilkan {{ $kategoris->firstItem() }} - {{ $kategoris->lastItem() }} dari
+                        {{ $kategoris->total() }} kategori
+                    </div>
+                    @if ($kategoris->hasPages())
                         <div>
                             {{ $kategoris->links('pagination::tailwind') }}
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
-
-            <!-- Pagination -->
-            @if ($kategoris->hasPages())
-                <div
-                    class="flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
-                    <div class="text-sm text-gray-600">
-                        Menampilkan {{ $kategoris->firstItem() ?? 0 }} - {{ $kategoris->lastItem() ?? 0 }} dari
-                        {{ $kategoris->total() }} kategori
-                    </div>
-                    <div>
-                        {{ $kategoris->links('pagination::tailwind') }}
-                    </div>
-                </div>
-            @elseif($kategoris->total() > 0)
-                <div class="flex justify-end px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
-                    <span>Total {{ $kategoris->total() }} kategori</span>
-                </div>
-            @endif
         </div>
     </div>
 
