@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -19,3 +20,4 @@ Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
 Route::put('/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
 Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+Route::get('laporan',[LaporanController::class, 'index'])->name('laporan.index');

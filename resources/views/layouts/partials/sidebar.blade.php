@@ -48,7 +48,7 @@
         </a>
 
         <!-- Laporan -->
-        <a href="#"
+        <a href="{{ route('laporan.index') }}"
             class="flex items-center gap-4 py-3 px-4 rounded-xl transition-colors
             {{ request()->routeIs('laporan.*') ? $active : $inactive }}">
             <i class='bx bxs-report'></i> Laporan Transaksi

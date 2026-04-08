@@ -128,265 +128,11 @@
                                     {{ $item->stok }} stok
                                 </span>
                                 <div class="flex items-center gap-2">
-                                    <button data-modal-target="editMenuModal" data-modal-toggle="editMenuModal"
-                                        onclick="populateEditMenu({{ $item->id }})"
+                                    <button type="button" data-modal-target="editMenuModal-{{ $item->id }}"
+                                        data-modal-toggle="editMenuModal-{{ $item->id }}"
                                         class="text-[#7aa57a] hover:text-[#5a805a] transition p-2 bg-[#f8f5f2] rounded-full w-8 h-8 flex items-center justify-center">
                                         <i class='bx bxs-edit'></i>
                                     </button>
-                                    <div>
-                                        <div id="addMenuModal" tabindex="-1" aria-hidden="true"
-                                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                            <div class="relative p-4 w-full max-w-2xl max-h-full">
-                                                <div
-                                                    class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
-                                                    <div
-                                                        class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
-                                                        <h3
-                                                            class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
-                                                            <i class='bx bx-dish text-[#7aa57a]'></i> Tambah Menu Baru
-                                                        </h3>
-                                                        <button type="reset"
-                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-                                                            data-modal-hide="addMenuModal">
-                                                            <i class='bx bx-x text-xl'></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="p-4 md:p-5">
-                                                        <form action="{{ route('menu.store') }}" method="POST"
-                                                            enctype="multipart/form-data" class="space-y-4">
-                                                            @csrf
-                                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Nama
-                                                                        Menu <span class="text-red-400">*</span></label>
-                                                                    <input type="text" name="nama_menu"
-                                                                        class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                        placeholder="contoh: Nasi Goreng">
-                                                                </div>
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori</label>
-                                                                    <select
-                                                                        class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                        name="kategori_id">
-                                                                        <option value="">Pilih Kategori</option>
-                                                                        @foreach ($kategori as $k)
-                                                                            <option value="{{ $k->id }}">
-                                                                                {{ $k->nama_kategori }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <div>
-                                                                <label
-                                                                    class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
-                                                                <textarea rows="2" name="deskripsi"
-                                                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                    placeholder="Deskripsi menu..."></textarea>
-                                                            </div>
-
-                                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Harga
-                                                                        <span class="text-red-400">*</span></label>
-                                                                    <div class="relative">
-                                                                        <span
-                                                                            class="absolute left-3 top-3 text-gray-500">Rp</span>
-                                                                        <input type="number" name="harga"
-                                                                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                            placeholder="35000" step="0.01">
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Stock
-                                                                        <span class="text-red-400">*</span></label>
-                                                                    <div class="relative">
-                                                                        <span
-                                                                            class="absolute left-3 top-3 text-gray-500">Qty</span>
-                                                                        <input type="number" name="stok"
-                                                                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                            placeholder="100" step="1">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div>
-                                                                <label
-                                                                    class="block text-sm font-medium text-[#5f4d40] mb-1">Upload
-                                                                    Foto Menu</label>
-
-                                                                <div class="flex items-center justify-center w-full">
-                                                                    <label
-                                                                        class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#ddd0c4] rounded-xl bg-[#f8f5f2] cursor-pointer hover:bg-gray-100 overflow-hidden">
-
-                                                                        <img id="previewImage"
-                                                                            class="hidden w-full h-full object-cover rounded-xl" />
-
-                                                                        <div id="uploadText"
-                                                                            class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                                            <i
-                                                                                class='bx bx-cloud-upload text-3xl text-[#7aa57a]'></i>
-                                                                            <p class="mb-2 text-sm text-gray-500">
-                                                                                <span class="font-semibold">Klik untuk
-                                                                                    upload</span> atau drag & drop
-                                                                            </p>
-                                                                            <p class="text-xs text-gray-400">PNG, JPG, WEBP
-                                                                                (max. 2MB)</p>
-                                                                        </div>
-
-                                                                        <input type="file" id="fotoInput"
-                                                                            name="foto" class="hidden"
-                                                                            accept="image/*" />
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="flex justify-end gap-3 mt-6">
-                                                                <button type="button" data-modal-hide="addMenuModal"
-                                                                    class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
-                                                                <button type="submit"
-                                                                    class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
-                                                                    <i class='bx bx-check-circle'></i> Simpan Menu
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- FLOWBITE MODAL: EDIT MENU -->
-                                        <div id="editMenuModal" tabindex="-1" aria-hidden="true"
-                                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                            <div class="relative p-4 w-full max-w-2xl max-h-full">
-                                                <div
-                                                    class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
-                                                    <div
-                                                        class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
-                                                        <h3
-                                                            class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
-                                                            <i class='bx bxs-edit text-[#7aa57a]'></i> Edit Menu
-                                                        </h3>
-                                                        <button type="button"
-                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-                                                            data-modal-hide="editMenuModal">
-                                                            <i class='bx bx-x text-xl'></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="p-4 md:p-5">
-                                                        <form action="{{ route('menu.update', $item->id) }}"
-                                                            method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" id="editMenuId">
-                                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Nama
-                                                                        Menu</label>
-                                                                    <input type="text" id="editMenuName"
-                                                                        name="nama_menu"
-                                                                        class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                        value="{{ $item->nama_menu }}">
-                                                                </div>
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori</label>
-                                                                    <select name="kategori_id"
-                                                                        class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white">
-                                                                        @foreach ($kategori as $k)
-                                                                            <option value="{{ $k->id }}"
-                                                                                {{ $item->kategori_id == $k->id ? 'selected' : '' }}>
-                                                                                {{ $k->nama_kategori }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <div>
-                                                                <label
-                                                                    class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
-                                                                <textarea id="editMenuDesc" name="deskripsi" rows="2" value="{{ $item->deskripsi }}"
-                                                                    class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">{{ $item->deskripsi }}</textarea>
-                                                            </div>
-
-                                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Harga
-                                                                        <span class="text-red-400">*</span></label>
-                                                                    <div class="relative">
-                                                                        <span
-                                                                            class="absolute left-3 top-3 text-gray-500">Rp</span>
-                                                                        <input type="number" name="harga"
-                                                                            value="{{ $item->harga }}"
-                                                                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                            placeholder="35000" step="0.01">
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <label
-                                                                        class="block text-sm font-medium text-[#5f4d40] mb-1">Stock
-                                                                        <span class="text-red-400">*</span></label>
-                                                                    <div class="relative">
-                                                                        <span
-                                                                            class="absolute left-3 top-3 text-gray-500">Qty</span>
-                                                                        <input type="number" name="stok"
-                                                                            value="{{ $item->stok }}"
-                                                                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
-                                                                            placeholder="100" step="1">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div>
-                                                                <label
-                                                                    class="block text-sm font-medium text-[#5f4d40] mb-1">Upload
-                                                                    Foto Menu</label>
-
-                                                                <div class="flex items-center justify-center w-full">
-                                                                    <label
-                                                                        class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#ddd0c4] rounded-xl bg-[#f8f5f2] cursor-pointer hover:bg-gray-100 overflow-hidden">
-
-                                                                        <img id="previewImageEdit"
-                                                                            class="w-full h-full object-cover rounded-xl hidden" />
-                                                                        <div id="uploadText"
-                                                                            class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                                            <i
-                                                                                class='bx bx-cloud-upload text-3xl text-[#7aa57a]'></i>
-                                                                            <p class="mb-2 text-sm text-gray-500">
-                                                                                <span class="font-semibold">Klik untuk
-                                                                                    upload</span> atau drag & drop
-                                                                            </p>
-                                                                            <p class="text-xs text-gray-400">PNG, JPG, WEBP
-                                                                                (max. 2MB)</p>
-                                                                        </div>
-                                                                        <input type="file" id="fotoEdit"
-                                                                            name="foto" class="hidden"
-                                                                            accept="image/*" />
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="flex justify-end gap-3 mt-6">
-                                                                <button type="reset" data-modal-hide="editMenuModal"
-                                                                    class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
-                                                                <button type="submit"
-                                                                    class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
-                                                                    <i class='bx bx-check-circle'></i> Perbarui Menu
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <form id="delete-form-{{ $item->id }}"
                                         action="{{ route('menu.destroy', $item->id) }}" method="POST"
                                         onclick="confirmDelete({ id: {{ $item->id }} })"
@@ -396,12 +142,244 @@
                                         @method('DELETE')
                                     </form>
                                 </div>
+                                <!-- FLOWBITE MODAL: EDIT MENU -->
+                                <div id="editMenuModal-{{ $item->id }}" tabindex="-1" aria-hidden="true"
+                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative p-4 w-full max-w-2xl max-h-full">
+                                        <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                                            <div
+                                                class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                                                <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                                                    <i class='bx bxs-edit text-[#7aa57a]'></i> Edit Menu
+                                                </h3>
+                                                <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                                    data-modal-hide="editMenuModal-{{ $item->id }}">
+                                                    <i class='bx bx-x text-xl'></i>
+                                                </button>
+                                            </div>
+                                            <div class="p-4 md:p-5">
+                                                <form action="{{ route('menu.update', $item->id) }}" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" id="editMenuId">
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label
+                                                                class="block text-sm font-medium text-[#5f4d40] mb-1">Nama
+                                                                Menu</label>
+                                                            <input type="text" id="editMenuName" name="nama_menu"
+                                                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                                                value="{{ $item->nama_menu }}">
+                                                        </div>
+                                                        <div>
+                                                            <label
+                                                                class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori</label>
+                                                            <select name="kategori_id"
+                                                                class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white">
+                                                                @foreach ($kategori as $k)
+                                                                    <option value="{{ $k->id }}"
+                                                                        {{ $item->kategori_id == $k->id ? 'selected' : '' }}>
+                                                                        {{ $k->nama_kategori }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label
+                                                            class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
+                                                        <textarea id="editMenuDesc" name="deskripsi" rows="2" value="{{ $item->deskripsi }}"
+                                                            class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30">{{ $item->deskripsi }}</textarea>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label
+                                                                class="block text-sm font-medium text-[#5f4d40] mb-1">Harga
+                                                                <span class="text-red-400">*</span></label>
+                                                            <div class="relative">
+                                                                <span class="absolute left-3 top-3 text-gray-500">Rp</span>
+                                                                <input type="number" name="harga"
+                                                                    value="{{ $item->harga }}"
+                                                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                                                    placeholder="35000" step="0.01">
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label
+                                                                class="block text-sm font-medium text-[#5f4d40] mb-1">Stock
+                                                                <span class="text-red-400">*</span></label>
+                                                            <div class="relative">
+                                                                <span
+                                                                    class="absolute left-3 top-3 text-gray-500">Qty</span>
+                                                                <input type="number" name="stok"
+                                                                    value="{{ $item->stok }}"
+                                                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                                                    placeholder="100" step="1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-[#5f4d40] mb-1">Upload
+                                                            Foto Menu</label>
+
+                                                        <div class="flex items-center justify-center w-full">
+                                                            <label
+                                                                class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#ddd0c4] rounded-xl bg-[#f8f5f2] cursor-pointer hover:bg-gray-100 overflow-hidden">
+
+                                                                <img id="previewImageEdit-{{ $item->id }}"
+                                                                    class="w-full h-full object-cover rounded-xl hidden" />
+                                                                <div id="uploadText"
+                                                                    class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                    <i
+                                                                        class='bx bx-cloud-upload text-3xl text-[#7aa57a]'></i>
+                                                                    <p class="mb-2 text-sm text-gray-500">
+                                                                        <span class="font-semibold">Klik untuk
+                                                                            upload</span> atau drag & drop
+                                                                    </p>
+                                                                    <p class="text-xs text-gray-400">PNG, JPG, WEBP
+                                                                        (max. 2MB)</p>
+                                                                </div>
+                                                                <input type="file" id="fotoEdit" name="foto"
+                                                                    class="hidden" accept="image/*" />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex justify-end gap-3 mt-6">
+                                                        <button type="reset"
+                                                            data-modal-hide="editMenuModal-{{ $item->id }}"
+                                                            class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                                                        <button type="submit"
+                                                            class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                                            <i class='bx bx-check-circle'></i> Perbarui Menu
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
 
+            {{-- modal add menu --}}
+            <div id="addMenuModal" tabindex="-1" aria-hidden="true"
+                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-2xl max-h-full">
+                    <div class="relative bg-white rounded-2xl shadow-lg border border-[#e5d9d0]">
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b border-[#e5d9d0] rounded-t-2xl">
+                            <h3 class="text-xl font-semibold text-[#3d332b] flex items-center gap-2">
+                                <i class='bx bx-dish text-[#7aa57a]'></i> Tambah Menu Baru
+                            </h3>
+                            <button type="reset"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                data-modal-hide="addMenuModal">
+                                <i class='bx bx-x text-xl'></i>
+                            </button>
+                        </div>
+                        <div class="p-4 md:p-5">
+                            <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data"
+                                class="space-y-4">
+                                @csrf
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#5f4d40] mb-1">Nama
+                                            Menu <span class="text-red-400">*</span></label>
+                                        <input type="text" name="nama_menu"
+                                            class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                            placeholder="contoh: Nasi Goreng">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#5f4d40] mb-1">Kategori</label>
+                                        <select
+                                            class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                            name="kategori_id">
+                                            <option value="">Pilih Kategori</option>
+                                            @foreach ($kategori as $k)
+                                                <option value="{{ $k->id }}">
+                                                    {{ $k->nama_kategori }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-[#5f4d40] mb-1">Deskripsi</label>
+                                    <textarea rows="2" name="deskripsi"
+                                        class="w-full px-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                        placeholder="Deskripsi menu..."></textarea>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#5f4d40] mb-1">Harga
+                                            <span class="text-red-400">*</span></label>
+                                        <div class="relative">
+                                            <span class="absolute left-3 top-3 text-gray-500">Rp</span>
+                                            <input type="number" name="harga"
+                                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                                placeholder="35000" step="0.01">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#5f4d40] mb-1">Stock
+                                            <span class="text-red-400">*</span></label>
+                                        <div class="relative">
+                                            <span class="absolute left-3 top-3 text-gray-500">Qty</span>
+                                            <input type="number" name="stok"
+                                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#ddd0c4] bg-white focus:ring-2 focus:ring-[#7aa57a]/30"
+                                                placeholder="100" step="1">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-[#5f4d40] mb-1">Upload
+                                        Foto Menu</label>
+
+                                    <div class="flex items-center justify-center w-full">
+                                        <label
+                                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#ddd0c4] rounded-xl bg-[#f8f5f2] cursor-pointer hover:bg-gray-100 overflow-hidden">
+
+                                            <img id="previewImage" class="hidden w-full h-full object-cover rounded-xl" />
+
+                                            <div id="uploadText"
+                                                class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <i class='bx bx-cloud-upload text-3xl text-[#7aa57a]'></i>
+                                                <p class="mb-2 text-sm text-gray-500">
+                                                    <span class="font-semibold">Klik untuk
+                                                        upload</span> atau drag & drop
+                                                </p>
+                                                <p class="text-xs text-gray-400">PNG, JPG, WEBP
+                                                    (max. 2MB)</p>
+                                            </div>
+
+                                            <input type="file" id="fotoInput" name="foto" class="hidden"
+                                                accept="image/*" />
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-6">
+                                    <button type="button" data-modal-hide="addMenuModal"
+                                        class="px-5 py-2 rounded-full border border-[#ddd0c4] text-[#5f4d40] hover:bg-gray-50 transition">Batal</button>
+                                    <button type="submit"
+                                        class="px-5 py-2 rounded-full bg-[#7aa57a] text-white hover:bg-[#689268] transition flex items-center gap-2">
+                                        <i class='bx bx-check-circle'></i> Simpan Menu
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Pagination -->
             <div
                 class="mt-4 flex justify-between items-center px-6 py-4 bg-[#f8f5f2] border-t border-[#e5d9d0] text-sm text-[#8b7a6b]">
@@ -499,8 +477,6 @@
                     item.style.display = (matchSearch && matchFilter) ? 'block' : 'none';
                 });
             }
-
-            // 🔥 jalan pertama kali
             document.addEventListener('DOMContentLoaded', applyFilter);
         </script>
     @endpush
