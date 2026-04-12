@@ -5,11 +5,14 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Kasir\DashboardController as KasirDashboardController;
+use App\Http\Controllers\Kasir\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/login', [AuthController::class, 'showlogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+// admin
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 Route::get('/users', [AuthController::class, 'index'])->name('users.index');
 Route::post('/users', [AuthController::class, 'store'])->name('users.store');
@@ -24,3 +27,7 @@ Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
 Route::put('/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
 Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
 Route::get('laporan',[LaporanController::class, 'index'])->name('laporan.index');
+
+// kasir
+Route::get('/kasir/dashboard', [KasirDashboardController::class, 'index'])->name('kasir.dashboard');
+Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');

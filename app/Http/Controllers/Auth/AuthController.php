@@ -5,10 +5,37 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function showlogin()
+    {
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            if ($user->role == 'admin') {
+                return redirect()->route('dashboard.index')->with('succes', 'Selamat datang Admin');
+            } else {
+                return redirect()->route('kasir.dashboard')->with('succes', 'Selamat datang Kasir');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Pastikan Email dan Password benar');
+        }
+    }
     /**
      * Display a listing of the resource.
      */

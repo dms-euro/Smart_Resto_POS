@@ -1,0 +1,408 @@
+@extends('layouts.app')
+@section('title', 'Dashboard|Kasir')
+@section('content')
+    <div>
+        <div class="flex-1 overflow-y-auto p-6 md:p-8 bg-[#f8f5f2]">
+            <!-- HEADER KASIR -->
+            <div class="flex flex-wrap items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-[#3d332b] flex items-center gap-3">
+                        <i class='bx bxs-dashboard text-[#7aa57a]'></i> Dashboard Kasir
+                    </h1>
+                    <p class="text-[#8b7a6b] mt-1 flex items-center gap-2">
+                        <i class='bx bx-calendar-check text-[#7aa57a]'></i> Selamat datang, Dewi! · 17 Maret 2026
+                    </p>
+                </div>
+                <!-- Status Shift / Jam -->
+                <div
+                    class="bg-white rounded-full px-6 py-3 shadow-sm border border-[#e5d9d0] flex items-center gap-4 mt-4 sm:mt-0">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <span class="text-sm font-medium text-[#3d332b]">Shift Aktif</span>
+                    </div>
+                    <div class="h-4 w-px bg-[#ddd0c4]"></div>
+                    <div class="flex items-center gap-2">
+                        <i class='bx bx-time text-[#7aa57a]'></i>
+                        <span class="text-sm font-medium text-[#3d332b]">08:00 - 17:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATISTIK RINGKASAN PENJUALAN HARI INI -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                <!-- Total Transaksi Hari Ini -->
+                <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 hover:shadow-md transition">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Transaksi Hari Ini</p>
+                            <p class="text-3xl font-bold text-[#3d332b] mt-1">43</p>
+                            <p class="text-xs text-green-600 mt-2 flex items-center gap-1">
+                                <i class='bx bx-trending-up'></i> +5 dari kemarin
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-[#e9f0e9] rounded-full flex items-center justify-center text-[#6f9e6f]">
+                            <i class='bx bx-receipt text-2xl'></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pendapatan Hari Ini -->
+                <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 hover:shadow-md transition">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Pendapatan Hari Ini</p>
+                            <p class="text-3xl font-bold text-[#3d332b] mt-1">Rp 3.850.000</p>
+                            <p class="text-xs text-green-600 mt-2 flex items-center gap-1">
+                                <i class='bx bx-trending-up'></i> +12% dari target
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-[#f7ede2] rounded-full flex items-center justify-center text-[#b48b5a]">
+                            <i class='bx bx-money text-2xl'></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rata-rata per Transaksi -->
+                <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 hover:shadow-md transition">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Rata-rata per Trx</p>
+                            <p class="text-3xl font-bold text-[#3d332b] mt-1">Rp 89.500</p>
+                            <p class="text-xs text-amber-600 mt-2 flex items-center gap-1">
+                                <i class='bx bx-minus-circle'></i> -2% dari kemarin
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-[#e0d6cc] rounded-full flex items-center justify-center text-[#8b7a6b]">
+                            <i class='bx bx-calculator text-2xl'></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jumlah Menu Terjual -->
+                <div class="bg-white rounded-2xl border border-[#e5d9d0] shadow-sm p-5 hover:shadow-md transition">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Menu Terjual</p>
+                            <p class="text-3xl font-bold text-[#3d332b] mt-1">187</p>
+                            <p class="text-xs text-green-600 mt-2 flex items-center gap-1">
+                                <i class='bx bx-trending-up'></i> +23 item
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-[#e9f0e9] rounded-full flex items-center justify-center text-[#6f9e6f]">
+                            <i class='bx bx-food-menu text-2xl'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRAFIK PENJUALAN PER JAM (SEDERHANA) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] p-5 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-[#3d332b] flex items-center gap-2">
+                        <i class='bx bx-line-chart text-[#7aa57a]'></i> Grafik Penjualan Per Jam (Hari Ini)
+                    </h2>
+                    <div class="flex items-center gap-2 text-sm text-[#8b7a6b]">
+                        <i class='bx bx-time'></i>
+                        <span>Update real-time</span>
+                    </div>
+                </div>
+
+                <!-- Bar chart sederhana dengan CSS (data statis) -->
+                <div class="h-40 flex items-end gap-2 md:gap-3 mt-4">
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#7aa57a] rounded-t-md" style="height: 60px"></div>
+                        <span class="text-xs text-gray-600">08</span>
+                        <span class="text-xs font-medium text-[#3d332b]">1,2jt</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#7aa57a] rounded-t-md" style="height: 45px"></div>
+                        <span class="text-xs text-gray-600">09</span>
+                        <span class="text-xs font-medium">890k</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#7aa57a] rounded-t-md" style="height: 70px"></div>
+                        <span class="text-xs text-gray-600">10</span>
+                        <span class="text-xs font-medium">1,4jt</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#7aa57a] rounded-t-md" style="height: 85px"></div>
+                        <span class="text-xs text-gray-600">11</span>
+                        <span class="text-xs font-medium">1,7jt</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#b48b5a] rounded-t-md" style="height: 55px"></div>
+                        <span class="text-xs text-gray-600">12</span>
+                        <span class="text-xs font-medium">1,1jt</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#b48b5a] rounded-t-md" style="height: 40px"></div>
+                        <span class="text-xs text-gray-600">13</span>
+                        <span class="text-xs font-medium">780k</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#b48b5a] rounded-t-md" style="height: 35px"></div>
+                        <span class="text-xs text-gray-600">14</span>
+                        <span class="text-xs font-medium">650k</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-[#7aa57a] rounded-t-md" style="height: 50px"></div>
+                        <span class="text-xs text-gray-600">15</span>
+                        <span class="text-xs font-medium">980k</span>
+                    </div>
+                </div>
+                <p class="text-right text-xs text-gray-400 mt-4">* Warna hijau: sebelum jam 12, coklat: setelah jam 12</p>
+            </div>
+
+            <!-- TRANSAKSI TERBARU DAN MENU TERLARIS -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
+                <!-- Transaksi Terbaru -->
+                <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-[#e5d9d0] p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-[#3d332b] flex items-center gap-2">
+                            <i class='bx bx-history text-[#7aa57a]'></i> Transaksi Terbaru
+                        </h2>
+                        <a href="#" class="text-sm text-[#7aa57a] hover:underline flex items-center gap-1">
+                            Lihat Semua <i class='bx bx-chevron-right'></i>
+                        </a>
+                    </div>
+                    <div class="space-y-3">
+                        <!-- Item 1 -->
+                        <div
+                            class="flex items-center justify-between p-3 bg-[#f8f5f2] rounded-xl hover:bg-[#f0e9e2] transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#7aa57a]">
+                                    <i class='bx bx-receipt'></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-[#3d332b]">#TRX-782</p>
+                                    <p class="text-xs text-gray-500">11:20 · Budi (dine in)</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-[#3d332b]">Rp 185.000</p>
+                                <p class="text-xs text-green-600">Selesai</p>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div
+                            class="flex items-center justify-between p-3 bg-[#f8f5f2] rounded-xl hover:bg-[#f0e9e2] transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#7aa57a]">
+                                    <i class='bx bx-receipt'></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-[#3d332b]">#TRX-781</p>
+                                    <p class="text-xs text-gray-500">10:45 · Anita</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-[#3d332b]">Rp 94.500</p>
+                                <p class="text-xs text-green-600">Selesai</p>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div
+                            class="flex items-center justify-between p-3 bg-[#f8f5f2] rounded-xl hover:bg-[#f0e9e2] transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#7aa57a]">
+                                    <i class='bx bx-receipt'></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-[#3d332b]">#TRX-780</p>
+                                    <p class="text-xs text-gray-500">09:30 · Kelompok 4</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-[#3d332b]">Rp 424.000</p>
+                                <p class="text-xs text-yellow-600">Pending</p>
+                            </div>
+                        </div>
+                        <!-- Item 4 -->
+                        <div
+                            class="flex items-center justify-between p-3 bg-[#f8f5f2] rounded-xl hover:bg-[#f0e9e2] transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#7aa57a]">
+                                    <i class='bx bx-receipt'></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-[#3d332b]">#TRX-779</p>
+                                    <p class="text-xs text-gray-500">08:15 · Pak RT</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-[#3d332b]">Rp 650.000</p>
+                                <p class="text-xs text-green-600">Selesai</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Terlaris Hari Ini -->
+                <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] p-5">
+                    <h2 class="text-lg font-semibold text-[#3d332b] mb-4 flex items-center gap-2">
+                        <i class='bx bx-trophy text-[#7aa57a]'></i> Menu Terlaris Hari Ini
+                    </h2>
+                    <div class="space-y-4">
+                        <!-- Item 1 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-[#3d332b]">Nasi Goreng</span>
+                                <span class="text-sm font-bold text-[#3d332b]">32x</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2">
+                                <div class="bg-[#7aa57a] h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-[#3d332b]">Es Teh Manis</span>
+                                <span class="text-sm font-bold text-[#3d332b]">28x</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2">
+                                <div class="bg-[#7aa57a] h-2 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-[#3d332b]">Sate Ayam</span>
+                                <span class="text-sm font-bold text-[#3d332b]">21x</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2">
+                                <div class="bg-[#7aa57a] h-2 rounded-full" style="width: 66%"></div>
+                            </div>
+                        </div>
+                        <!-- Item 4 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-[#3d332b]">Pisang Goreng</span>
+                                <span class="text-sm font-bold text-[#3d332b]">18x</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2">
+                                <div class="bg-[#b48b5a] h-2 rounded-full" style="width: 56%"></div>
+                            </div>
+                        </div>
+                        <!-- Item 5 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-[#3d332b]">Es Cendol</span>
+                                <span class="text-sm font-bold text-[#3d332b]">15x</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2">
+                                <div class="bg-[#b48b5a] h-2 rounded-full" style="width: 47%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Menu Terjual -->
+                    <div class="mt-6 pt-4 border-t border-[#e5d9d0]">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Total Menu Terjual</span>
+                            <span class="text-xl font-bold text-[#3d332b]">187</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METODE PEMBAYARAN DAN INFO SHIFT -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                <!-- Metode Pembayaran Hari Ini -->
+                <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] p-5">
+                    <h2 class="text-lg font-semibold text-[#3d332b] mb-4 flex items-center gap-2">
+                        <i class='bx bx-credit-card text-[#7aa57a]'></i> Metode Pembayaran
+                    </h2>
+                    <div class="space-y-3">
+                        <!-- Tunai -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Tunai</span>
+                                <span class="text-sm font-medium text-[#3d332b]">Rp 1.850.000 (48%)</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2.5">
+                                <div class="bg-[#7aa57a] h-2.5 rounded-full" style="width: 48%"></div>
+                            </div>
+                        </div>
+                        <!-- QRIS -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">QRIS</span>
+                                <span class="text-sm font-medium text-[#3d332b]">Rp 1.250.000 (32%)</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2.5">
+                                <div class="bg-[#7aa57a] h-2.5 rounded-full" style="width: 32%"></div>
+                            </div>
+                        </div>
+                        <!-- Kartu -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Kartu</span>
+                                <span class="text-sm font-medium text-[#3d332b]">Rp 550.000 (14%)</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2.5">
+                                <div class="bg-[#b48b5a] h-2.5 rounded-full" style="width: 14%"></div>
+                            </div>
+                        </div>
+                        <!-- Online -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Online</span>
+                                <span class="text-sm font-medium text-[#3d332b]">Rp 200.000 (6%)</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2.5">
+                                <div class="bg-[#b48b5a] h-2.5 rounded-full" style="width: 6%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Shift dan Target -->
+                <div class="bg-white rounded-2xl shadow-sm border border-[#e5d9d0] p-5">
+                    <h2 class="text-lg font-semibold text-[#3d332b] mb-4 flex items-center gap-2">
+                        <i class='bx bx-time-five text-[#7aa57a]'></i> Info Shift
+                    </h2>
+
+                    <div class="space-y-4">
+                        <!-- Progress Shift -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Durasi Shift</span>
+                                <span class="text-sm font-medium text-[#3d332b]">5 jam 30 menit tersisa</span>
+                            </div>
+                            <div class="w-full bg-[#f0e7df] rounded-full h-2.5">
+                                <div class="bg-[#7aa57a] h-2.5 rounded-full" style="width: 65%"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Dimulai 08:00 · Berakhir 17:00</p>
+                        </div>
+
+                        <!-- Target Hari Ini -->
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <div class="bg-[#f8f5f2] p-3 rounded-xl">
+                                <p class="text-xs text-gray-500">Target Transaksi</p>
+                                <p class="text-lg font-bold text-[#3d332b]">43/50</p>
+                                <p class="text-xs text-green-600">86% tercapai</p>
+                            </div>
+                            <div class="bg-[#f8f5f2] p-3 rounded-xl">
+                                <p class="text-xs text-gray-500">Target Pendapatan</p>
+                                <p class="text-lg font-bold text-[#3d332b]">Rp 3,85jt/5jt</p>
+                                <p class="text-xs text-green-600">77% tercapai</p>
+                            </div>
+                        </div>
+
+                        <!-- Tombol Cepat -->
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <button
+                                class="bg-[#7aa57a] text-white py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 hover:bg-[#689268] transition">
+                                <i class='bx bx-cart'></i> Transaksi Baru
+                            </button>
+                            <button
+                                class="border border-[#7aa57a] text-[#7aa57a] py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 hover:bg-[#f0f7f0] transition">
+                                <i class='bx bx-printer'></i> Cetak Laporan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
