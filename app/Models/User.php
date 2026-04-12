@@ -29,6 +29,10 @@ class User extends Authenticatable
         return $this->hasMany(Transaksi::class);
     }
 
+    public function isOnline()
+    {
+        return $this->last_login_at && $this->last_login_at->diffInMinutes(now()) < 5;
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
